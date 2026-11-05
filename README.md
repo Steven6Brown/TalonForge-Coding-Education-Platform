@@ -8,7 +8,7 @@ A free, local-first learning platform for coding, scripting, servers and ethical
 
 | Area | What it does |
 | --- | --- |
-| **6 tracks / 27 lessons** | Linux & Shell, Python for Security, Web & JavaScript, Networking, Systems & Servers, Ethical Hacking |
+| **8 tracks / 40 lessons** | Linux & Shell, Python for Security, Web & JavaScript, Automation, Building AI, Networking, Systems & Servers, Ethical Hacking |
 | **Labs** | Simulated Linux shell (flag hunting), Python (Pyodide/WASM), JavaScript (Web Worker, network blocked), quizzes |
 | **Language Atlas** | Pick a goal, see which language fits, when to avoid it, and its security angle |
 | **Playground** | Free JS / Python / shell sandboxes |

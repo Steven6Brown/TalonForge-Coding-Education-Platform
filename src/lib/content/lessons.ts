@@ -1,6 +1,7 @@
 import type { Lesson, Track } from "./types";
 import { authLog, CTF_FLAGS, rot13 } from "./filesystems";
 import { EXTRA_LESSONS } from "./lessons-extra";
+import { BATCH3_LESSONS } from "./lessons-batch3";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -36,6 +37,32 @@ export const TRACKS: Track[] = [
     description:
       "Understand HTTP, the browser, and the classic web bugs. Write JavaScript that defends instead of exposes.",
     lessons: ["js-basics", "http-anatomy", "xss-escape", "sql-injection"],
+  },
+  {
+    id: "automation",
+    title: "Automation & Scripting",
+    tagline: "Make the computer do the boring work",
+    icon: "auto",
+    description:
+      "Turn repetitive tasks into reliable scripts: organize files, build reports, call APIs, retry safely and schedule jobs.",
+    lessons: ["automation-mindset", "py-file-organizer", "py-csv-json", "js-api-pagination", "py-retry-logging", "cron-scheduling"],
+  },
+  {
+    id: "ai-engineering",
+    title: "Building AI",
+    tagline: "From gradient descent to LLM apps",
+    icon: "ai",
+    description:
+      "Understand how machine learning and LLMs work, then build with them safely: embeddings, retrieval, validated outputs and AI security.",
+    lessons: [
+      "ai-fundamentals",
+      "ml-from-scratch",
+      "embeddings-similarity",
+      "prompt-engineering",
+      "llm-output-validation",
+      "rag-basics",
+      "ai-security",
+    ],
   },
   {
     id: "networking",
@@ -649,7 +676,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);

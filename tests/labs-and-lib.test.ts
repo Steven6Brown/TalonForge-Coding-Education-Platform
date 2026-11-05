@@ -40,7 +40,8 @@ describe("content integrity", () => {
   it("JavaScript lab starters do NOT already pass", async () => {
     for (const l of LESSONS) {
       if (l.lab.kind !== "code" || l.lab.language !== "javascript") continue;
-      const stdout = await runJs(`${l.lab.starter}\n${l.lab.harness ?? ""}`);
+      // A starter may throw (e.g. naive JSON.parse). Throwing also means "not passing".
+      const stdout = await runJs(`${l.lab.starter}\n${l.lab.harness ?? ""}`).catch(() => "");
       expect(checkOutput(stdout, l.lab.expected), l.id).toBe(false);
     }
   });

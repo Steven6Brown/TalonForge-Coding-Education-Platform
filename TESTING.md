@@ -19,4 +19,4 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`.
 - All auth flows (needs a live Supabase project); RLS policies; recovery-code actions.
 - Playwright end-to-end suite (not written).
 - Lighthouse / Core Web Vitals measurements.
-- py-regex-iocs lab expected output was checked with an equivalent JS regex, NOT in Pyodide. New quizzes/lessons (batch 2) were not browser-tested.
+- Batch 2/3 verification (2026-11-05): `tsc`, `next lint`/`build` (64 pages) and 22 tests pass. All Python labs added in batches 2-3 (regex IOCs, file organizer, CSV, retry, ML from scratch) were run in real Pyodide and produce the expected output. New quizzes and lesson pages were not individually reviewed in the browser.
