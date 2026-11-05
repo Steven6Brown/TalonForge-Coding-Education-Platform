@@ -1,0 +1,184 @@
+"use client";
+import { useState } from "react";
+import type { Lab } from "@/lib/content/types";
+import { checkOutput, normalizeAnswer } from "@/lib/runner";
+import { CodeRunner } from "./CodeRunner";
+import { Terminal } from "./Terminal";
+
+type Props = { lab: Lab; lessonId: string; done: boolean; onPass: () => void };
+
+/** Progressive hints (revealed one at a time) shared by code and shell labs. */
+function Hints({ hints, solution }: { hints: string[]; solution?: string }) {
+  const [shown, setShown] = useState(0);
+  const [showSol, setShowSol] = useState(false);
+  return (
+    <div className="hints">
+      {hints.slice(0, shown).map((h, i) => (
+        <p key={i} className="hint">
+          💡 {h}
+        </p>
+      ))}
+      <div className="row">
+        {shown < hints.length && (
+          <button className="btn small" onClick={() => setShown(shown + 1)}>
+            Show hint ({shown + 1}/{hints.length})
+          </button>
+        )}
+        {solution && shown >= hints.length && !showSol && (
+          <button className="btn small" onClick={() => setShowSol(true)}>
+            Reveal solution
+          </button>
+        )}
+      </div>
+      {showSol && solution && (
+        <pre className="solution" tabIndex={0}>
+          <code>{solution}</code>
+        </pre>
+      )}
+    </div>
+  );
+}
+
+function PassBanner({ done }: { done: boolean }) {
+  return done ? (
+    <p className="pass" role="status">
+      ✅ Lab complete. Progress saved.
+    </p>
+  ) : null;
+}
+
+export function LabPanel({ lab, lessonId, done, onPass }: Props) {
+  if (lab.kind === "code") return <CodeLab lab={lab} done={done} onPass={onPass} />;
+  if (lab.kind === "shell") return <ShellLab lab={lab} lessonId={lessonId} done={done} onPass={onPass} />;
+  return <QuizLab lab={lab} done={done} onPass={onPass} />;
+}
+
+function CodeLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "code" }>; done: boolean; onPass: () => void }) {
+  const [msg, setMsg] = useState<string | null>(null);
+  return (
+    <section className="lab" aria-labelledby="lab-h">
+      <h2 id="lab-h">Lab</h2>
+      <p>{lab.prompt}</p>
+      <CodeRunner
+        language={lab.language}
+        starter={lab.starter}
+        harness={lab.harness}
+        onResult={(res) => {
+          if (res.ok && checkOutput(res.stdout, lab.expected)) {
+            setMsg(null);
+            onPass();
+          } else if (res.ok) setMsg("Not quite yet. Check the output and try again.");
+          else setMsg(null);
+        }}
+      />
+      {msg && !done && <p className="warn">{msg}</p>}
+      <PassBanner done={done} />
+      <Hints hints={lab.hints} solution={lab.solution} />
+    </section>
+  );
+}
+
+function ShellLab({
+  lab,
+  lessonId,
+  done,
+  onPass,
+}: {
+  lab: Extract<Lab, { kind: "shell" }>;
+  lessonId: string;
+  done: boolean;
+  onPass: () => void;
+}) {
+  const [found, setFound] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const n = normalizeAnswer(input);
+    const hit = lab.answers.find((a) => normalizeAnswer(a) === n);
+    if (!hit) setMsg("Not correct. Keep digging.");
+    else if (found.includes(hit)) setMsg("You already submitted that one.");
+    else {
+      const next = [...found, hit];
+      setFound(next);
+      setMsg(`Correct! ${next.length}/${lab.answers.length} found.`);
+      if (next.length === lab.answers.length) onPass();
+    }
+    setInput("");
+  }
+
+  return (
+    <section className="lab" aria-labelledby="lab-h">
+      <h2 id="lab-h">Lab</h2>
+      <p>{lab.prompt}</p>
+      <Terminal key={lessonId} fs={lab.fs} />
+      <form onSubmit={submit} className="answer-form">
+        <label htmlFor="answer">Submit answer / flag ({found.length}/{lab.answers.length})</label>
+        <div className="row">
+          <input id="answer" value={input} onChange={(e) => setInput(e.target.value)} maxLength={200} autoComplete="off" spellCheck={false} placeholder="FLAG{...} or answer" />
+          <button className="btn primary" type="submit" disabled={!input.trim()}>
+            Submit
+          </button>
+        </div>
+      </form>
+      {msg && <p role="status" className={msg.startsWith("Correct") ? "pass" : "warn"}>{msg}</p>}
+      <PassBanner done={done} />
+      <Hints hints={lab.hints} />
+    </section>
+  );
+}
+
+function QuizLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "quiz" }>; done: boolean; onPass: () => void }) {
+  const [picked, setPicked] = useState<Record<number, number>>({});
+  const [checked, setChecked] = useState(false);
+  const allAnswered = lab.questions.every((_, i) => picked[i] !== undefined);
+  const correct = lab.questions.filter((q, i) => picked[i] === q.answer).length;
+
+  function check() {
+    setChecked(true);
+    if (correct === lab.questions.length) onPass();
+  }
+
+  return (
+    <section className="lab" aria-labelledby="lab-h">
+      <h2 id="lab-h">Quiz</h2>
+      {lab.questions.map((q, qi) => (
+        <fieldset key={qi} className="quiz-q">
+          <legend>
+            {qi + 1}. {q.q}
+          </legend>
+          {q.options.map((o, oi) => (
+            <label key={oi} className="opt">
+              <input
+                type="radio"
+                name={`q${qi}`}
+                checked={picked[qi] === oi}
+                onChange={() => {
+                  setPicked({ ...picked, [qi]: oi });
+                  setChecked(false);
+                }}
+              />
+              <span>{o}</span>
+            </label>
+          ))}
+          {checked && (
+            <p className={picked[qi] === q.answer ? "pass" : "warn"} role="status">
+              {picked[qi] === q.answer ? "Correct. " : "Not quite. "}
+              {q.why}
+            </p>
+          )}
+        </fieldset>
+      ))}
+      <button className="btn primary" onClick={check} disabled={!allAnswered}>
+        Check answers
+      </button>
+      {checked && correct < lab.questions.length && (
+        <p className="warn" role="status">
+          {correct}/{lab.questions.length} correct. Fix the misses and check again.
+        </p>
+      )}
+      <PassBanner done={done} />
+    </section>
+  );
+}
