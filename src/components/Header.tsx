@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
+import { NavLinks } from "./NavLinks";
 import { AuthNav } from "./auth/AuthNav";
-
-const NAV = [
-  { href: "/", label: "Learn" },
-  { href: "/atlas", label: "Language Atlas" },
-  { href: "/playground", label: "Playground" },
-  { href: "/progress", label: "Progress" },
-];
 
 export function Header() {
   return (
@@ -16,16 +10,10 @@ export function Header() {
         Skip to content
       </a>
       <div className="wrap header-in">
-        <Link href="/" aria-label="Home" className="logo-link">
+        <Link href="/" aria-label="TalonForge home" className="logo-link">
           <Logo />
         </Link>
-        <nav aria-label="Main" className="main-nav">
-          {NAV.map((n) => (
-            <Link key={n.href} href={n.href}>
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        <NavLinks />
         <AuthNav />
       </div>
     </header>
