@@ -165,9 +165,6 @@ body { font-feature-settings: "cv11", "ss01"; letter-spacing: -0.003em; }
 
 /* Hero */
 .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-block: 40px 28px; position: relative; }
-.hero::before { content: ""; position: absolute; inset: -40px -16px auto; height: 420px; z-index: -1; pointer-events: none;
-  background: radial-gradient(600px 260px at 15% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
-              radial-gradient(500px 260px at 90% 10%, color-mix(in srgb, var(--accent2) 12%, transparent), transparent 70%); }
 .eyebrow { color: var(--accent2); font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .14em; margin: 0 0 8px; }
 .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: -0.025em; margin: 0 0 12px; }
 .hero p.lead { margin-top: 0; }
@@ -212,4 +209,14 @@ body { font-feature-settings: "cv11", "ss01"; letter-spacing: -0.003em; }
   .pillar:last-child { border-bottom: 0; }
   .footer-grid { grid-template-columns: 1fr; }
   .main-nav { margin-left: 0; width: 100%; order: 3; overflow-x: auto; }
+}
+
+/* Full-bleed ambient glow behind the whole page top (not clipped to the content column) */
+body { position: relative; }
+body::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 760px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(1100px 420px at 12% -40px, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%),
+    radial-gradient(1000px 420px at 88% -20px, color-mix(in srgb, var(--accent2) 14%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 55%, transparent), transparent 90%);
 }
