@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { exportProgress, importProgress, resetProgress, useProgress } from "@/lib/progress";
 import { LESSONS } from "@/lib/content/lessons";
 import { StatsBar } from "./Dashboard";
+import { ShareCard } from "./ShareCard";
 
 /** Progress overview + backup (export/import) + reset. All data stays in this browser unless accounts are enabled. */
 export function ProgressManager() {
@@ -33,6 +34,7 @@ export function ProgressManager() {
   return (
     <>
       <StatsBar />
+      <ShareCard />
       <h2>Completed labs</h2>
       <ul>
         {LESSONS.filter((l) => p.completed[l.id]).map((l) => (

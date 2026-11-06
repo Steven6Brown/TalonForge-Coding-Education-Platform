@@ -69,3 +69,43 @@ describe("shell labs are solvable", () => {
     expect(run(s, "grep -o 'FLAG{[a-z_]*}' ctf/access.log").trim()).toBe(CTF_FLAGS[2]);
   });
 });
+
+describe("editor, sed/awk/tee and sudo", () => {
+  it("nano opens an edit session and saveFile writes it", () => {
+    const s = sh("sandbox");
+    run(s, "touch test.txt");
+    expect(run(s, "cat test.txt")).toBe(""); // touch makes an EMPTY file
+    const res = s.run("nano test.txt");
+    expect(res.edit?.path).toBe("/home/student/test.txt");
+    expect(s.saveFile(res.edit!.path, "hello\n")).toBeNull();
+    expect(run(s, "cat test.txt")).toBe("hello\n");
+  });
+  it("sed, awk, tee, printf work", () => {
+    const s = sh("sandbox");
+    expect(run(s, "echo 'a:b:c' | awk -F: '{print $1, $3}'")).toBe("a c\n");
+    expect(run(s, "echo hello | sed 's/l/L/g'")).toBe("heLLo\n");
+    expect(run(s, "echo hi | tee out.txt")).toBe("hi\n");
+    expect(run(s, "cat out.txt")).toBe("hi\n");
+    expect(run(s, "printf '%s-%s\n' a b")).toBe("a-b\n");
+  });
+  it("sudo bypasses permission checks", () => {
+    const s = sh("perms");
+    expect(run(s, "cat /etc/shadow")).toContain("Permission denied");
+    expect(run(s, "sudo cat /etc/shadow")).toContain("root:");
+  });
+});
+
+describe("new labs are solvable", () => {
+  it("wargame: dash file, spaces, find -size", () => {
+    const s = sh("wargame");
+    expect(run(s, "cat inhere/./-file00").trim()).toBe("FLAG{dash_file}");
+    expect(run(s, "cat 'spaced/spaces in this filename'").trim()).toBe("FLAG{spaces_need_quotes}");
+    const found = run(s, "find maybehere -size 19c").trim();
+    expect(run(s, `cat ${found}`).trim()).toBe("FLAG{find_by_size}");
+  });
+  it("dfir: evidence is in a hidden file", () => {
+    const s = sh("dfir");
+    expect(run(s, "ls -a evidence")).toContain(".bash_history");
+    expect(run(s, "grep wget evidence/.bash_history")).toContain("203.0.113.66/x.sh");
+  });
+});

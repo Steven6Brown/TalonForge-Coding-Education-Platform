@@ -1,19 +1,39 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Shell } from "@/lib/shell/shell";
+import { makeKaliCommands } from "@/lib/shell/kali";
 import { FILESYSTEMS } from "@/lib/content/filesystems";
+import { PROFILES } from "@/lib/content/filesystems-kali";
 
 type Line = { kind: "cmd" | "out"; text: string };
+type Editing = { path: string; display: string; text: string };
+
+function createShell(fs: string): Shell {
+  const def = FILESYSTEMS[fs] ?? FILESYSTEMS.sandbox;
+  const profile = PROFILES[fs];
+  if (profile?.net) {
+    const k = makeKaliCommands(profile.net);
+    return new Shell(def, { extra: k.commands, extraHelp: k.help, host: profile.host });
+  }
+  return new Shell(def, { host: profile?.host });
+}
 
 /** Accessible in-browser terminal backed by the Shell simulator (no real command execution). */
 export function Terminal({ fs }: { fs: string }) {
   // Lazy init keeps one Shell per mounted terminal; remounting (key change) resets the lab.
-  const [shell] = useState(() => new Shell(FILESYSTEMS[fs] ?? FILESYSTEMS.sandbox));
+  const [shell] = useState(() => createShell(fs));
+  const isKali = !!PROFILES[fs]?.net;
   const [lines, setLines] = useState<Line[]>([
-    { kind: "out", text: "TalonForge training shell (simulated). Type 'help' to see commands.\n" },
+    {
+      kind: "out",
+      text: isKali
+        ? "TalonForge Kali-style lab (SIMULATED tools, fictional network 10.10.10.0/29). Type 'help' to see tools.\nNot real Kali: install Kali in an isolated VM for real practice.\n"
+        : "TalonForge training shell (simulated). Type 'help' to see commands.\nTip: 'touch f' makes an EMPTY file. Use 'nano f' to edit it, or: echo hello > f\n",
+    },
   ]);
   const [value, setValue] = useState("");
   const [prompt, setPrompt] = useState(shell.prompt());
+  const [editing, setEditing] = useState<Editing | null>(null);
   const histIdx = useRef<number | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,6 +42,10 @@ export function Terminal({ fs }: { fs: string }) {
     const el = logRef.current;
     if (el) el.scrollTop = el.scrollHeight;
   }, [lines]);
+
+  function print(text: string) {
+    setLines((prev) => [...prev, { kind: "out" as const, text }].slice(-300));
+  }
 
   function submit() {
     const cmd = value;
@@ -34,6 +58,24 @@ export function Terminal({ fs }: { fs: string }) {
     setValue("");
     setPrompt(shell.prompt());
     histIdx.current = null;
+    if (res.edit) setEditing({ path: res.edit.path, display: res.edit.display, text: res.edit.content });
+  }
+
+  function closeEditor(message: string) {
+    setEditing(null);
+    print(message + "\n");
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }
+
+  function saveEditor() {
+    if (!editing) return;
+    const err = shell.saveFile(editing.path, editing.text);
+    if (err) {
+      print(`nano: ${err}\n`);
+      return;
+    }
+    const n = editing.text === "" ? 0 : editing.text.split("\n").length - (editing.text.endsWith("\n") ? 1 : 0);
+    closeEditor(`[ Wrote ${n} line${n === 1 ? "" : "s"} to ${editing.display} ]`);
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -65,7 +107,7 @@ export function Terminal({ fs }: { fs: string }) {
   }
 
   return (
-    <div className="terminal" onClick={() => inputRef.current?.focus()}>
+    <div className="terminal" onClick={() => !editing && inputRef.current?.focus()}>
       <div ref={logRef} className="term-log" role="log" aria-live="polite" aria-label="Terminal output" tabIndex={0}>
         {lines.map((l, i) => (
           <pre key={i} className={l.kind === "cmd" ? "term-cmd" : "term-out"}>
@@ -73,6 +115,36 @@ export function Terminal({ fs }: { fs: string }) {
           </pre>
         ))}
       </div>
+      {editing && (
+        <div className="term-editor" role="group" aria-label={`Editing ${editing.display}`}>
+          <div className="term-editor-bar">
+            <strong>nano · {editing.display}</strong>
+            <span className="muted small">Ctrl+S save &amp; close · Esc close without saving</span>
+          </div>
+          <textarea
+            autoFocus
+            value={editing.text}
+            onChange={(e) => setEditing({ ...editing, text: e.target.value })}
+            onKeyDown={(e) => {
+              if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+                e.preventDefault();
+                saveEditor();
+              } else if (e.key === "Escape") {
+                e.preventDefault();
+                closeEditor("[ Cancelled ]");
+              }
+            }}
+            spellCheck={false}
+            rows={10}
+            maxLength={20000}
+            aria-label={`Contents of ${editing.display}`}
+          />
+          <div className="row">
+            <button className="btn small primary" onClick={saveEditor}>Save &amp; close</button>
+            <button className="btn small" onClick={() => closeEditor("[ Cancelled ]")}>Close without saving</button>
+          </div>
+        </div>
+      )}
       <label className="term-input">
         <span className="term-prompt" aria-hidden="true">
           {prompt}
@@ -88,6 +160,7 @@ export function Terminal({ fs }: { fs: string }) {
           autoCorrect="off"
           autoComplete="off"
           maxLength={500}
+          disabled={!!editing}
         />
       </label>
     </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CodeRunner } from "./CodeRunner";
 import { Terminal } from "./Terminal";
 
-type Mode = "bash" | "python" | "javascript";
+type Mode = "bash" | "kali" | "python" | "javascript";
 
 const STARTERS: Record<"python" | "javascript", string> = {
   python: `# Python playground\nimport hashlib\n\nfor word in ["hello", "world"]:\n    print(word, hashlib.sha256(word.encode()).hexdigest()[:16])\n`,
@@ -15,13 +15,13 @@ export function Playground() {
   return (
     <>
       <div className="chips" role="tablist" aria-label="Sandbox type">
-        {(["bash", "python", "javascript"] as Mode[]).map((m) => (
+        {(["bash", "kali", "python", "javascript"] as Mode[]).map((m) => (
           <button key={m} role="tab" aria-selected={mode === m} className="chip" onClick={() => setMode(m)}>
-            {m === "bash" ? "Linux shell (simulated)" : m === "python" ? "Python" : "JavaScript"}
+            {m === "bash" ? "Linux shell (simulated)" : m === "kali" ? "Kali lab (simulated)" : m === "python" ? "Python" : "JavaScript"}
           </button>
         ))}
       </div>
-      {mode === "bash" ? <Terminal key="bash" fs="sandbox" /> : <CodeRunner key={mode} language={mode} starter={STARTERS[mode]} label={`pg-${mode}`} />}
+      {mode === "bash" ? <Terminal key="bash" fs="sandbox" /> : mode === "kali" ? <Terminal key="kali" fs="kali" /> : <CodeRunner key={mode} language={mode} starter={STARTERS[mode]} label={`pg-${mode}`} />}
     </>
   );
 }

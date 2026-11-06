@@ -2,6 +2,7 @@ import type { Lesson, Track } from "./types";
 import { authLog, CTF_FLAGS, rot13 } from "./filesystems";
 import { EXTRA_LESSONS } from "./lessons-extra";
 import { BATCH3_LESSONS } from "./lessons-batch3";
+import { BATCH4_LESSONS } from "./lessons-batch4";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -18,7 +19,7 @@ export const TRACKS: Track[] = [
     icon: ">_",
     description:
       "Every server, every pentest box, every incident response starts in a terminal. Learn to navigate, search, filter and secure a Linux system.",
-    lessons: ["shell-navigation", "shell-pipes", "shell-permissions", "bash-scripting"],
+    lessons: ["shell-navigation", "shell-pipes", "shell-permissions", "bash-scripting", "wargame-find-files"],
   },
   {
     id: "python-security",
@@ -37,6 +38,24 @@ export const TRACKS: Track[] = [
     description:
       "Understand HTTP, the browser, and the classic web bugs. Write JavaScript that defends instead of exposes.",
     lessons: ["js-basics", "http-anatomy", "xss-escape", "sql-injection"],
+  },
+  {
+    id: "kali-pentest",
+    title: "Kali Pentest Lab",
+    tagline: "Scan, enumerate, crack, report",
+    icon: "kali",
+    description:
+      "A simulated Kali-style toolkit against a fictional network: nmap, gobuster, curl, John the Ripper and searchsploit, finishing with how to write a report that gets fixed.",
+    lessons: ["kali-intro", "pentest-report"],
+  },
+  {
+    id: "security-foundations",
+    title: "Security Foundations",
+    tagline: "The theory behind the tools",
+    icon: "sec",
+    description:
+      "Risk assessment, cryptography, OSINT, Windows and Active Directory, and digital forensics: the knowledge that turns tool users into analysts.",
+    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics"],
   },
   {
     id: "automation",
@@ -676,7 +695,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);

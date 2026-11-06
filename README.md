@@ -8,10 +8,12 @@ A free, local-first learning platform for coding, scripting, servers and ethical
 
 | Area | What it does |
 | --- | --- |
-| **8 tracks / 40 lessons** | Linux & Shell, Python for Security, Web & JavaScript, Automation, Building AI, Networking, Systems & Servers, Ethical Hacking |
+| **10 tracks / 47 lessons** | Linux & Shell, Python, Web & JS, Automation, Building AI, Networking, Systems, Ethical Hacking, Kali Pentest Lab (simulated), Security Foundations |
 | **Labs** | Simulated Linux shell (flag hunting), Python (Pyodide/WASM), JavaScript (Web Worker, network blocked), quizzes |
 | **Language Atlas** | Pick a goal, see which language fits, when to avoid it, and its security angle |
-| **Playground** | Free JS / Python / shell sandboxes |
+| **Playground** | JS, Python, shell (with a nano-style editor) and a simulated Kali toolset |
+| **Share** | LinkedIn share link, copyable post text and GitHub README badge (user-initiated, aggregate stats only) |
+| **Resources** | Curated links to well-known free practice platforms |
 | **Progress** | XP, ranks, streaks, export/import backup, all stored locally (no PII) |
 | **Accounts (built, switched off)** | Supabase auth: signup, email verify, login/logout, password reset, TOTP MFA + recovery codes, social login, roles, audit log, cloud sync. See [docs/AUTH.md](docs/AUTH.md) |
 | **White-label** | One brand config file re-skins name, colors, ranks and footer. See `src/brands` |

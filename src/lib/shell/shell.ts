@@ -40,8 +40,18 @@ export const COMMAND_HELP: Record<string, string> = {
   help: "help [command] - list commands",
 };
 
-type Ctx = { vfs: VFS; shell: Shell; stdin: string | null; err: (m: string) => void };
-type Cmd = (c: Ctx, a: string[]) => string;
+export type Ctx = { vfs: VFS; shell: Shell; stdin: string | null; err: (m: string) => void };
+export type Cmd = (c: Ctx, a: string[]) => string;
+
+export const EXTRA_HELP: Record<string, string> = {
+  nano: "nano FILE - open the text editor (also vi, vim). Save with Ctrl+S, close with Esc",
+  tee: "tee [-a] FILE - write stdin to a file and to the screen",
+  printf: "printf FORMAT [args] - formatted output (%s and \\n)",
+  sed: "sed 's/old/new/[g]' [file] - find and replace in text",
+  awk: "awk [-F DELIM] '{print $1, $3}' [file] - print selected fields",
+  sudo: "sudo COMMAND - run a command as root (simulated)",
+  which: "which COMMAND - show whether a command exists",
+};
 
 const asLines = (s: string): string[] => {
   if (s === "") return [];
@@ -99,6 +109,8 @@ function modeString(type: "dir" | "file", mode: number): string {
   const r = "rwxrwxrwx";
   let s = type === "dir" ? "d" : "-";
   for (let i = 0; i < 9; i++) s += mode & (1 << (8 - i)) ? r[i] : "-";
+  // setuid bit shows as 's' in the owner-execute position
+  if (mode & 0o4000) s = s.slice(0, 3) + (mode & 0o100 ? "s" : "S") + s.slice(4);
   return s;
 }
 
@@ -128,12 +140,13 @@ const commands: Record<string, Cmd> = {
   clear: () => "",
   env: (c) => toOut(Object.entries(c.shell.env).map(([k, v]) => `${k}=${v}`)),
   history: (c) => toOut(c.shell.history.map((h, i) => `${String(i + 1).padStart(4)}  ${h}`)),
-  help: (_c, a) => {
-    if (a[0]) return COMMAND_HELP[a[0]] ? `${a[0]}: ${COMMAND_HELP[a[0]]}\n` : `help: no help for '${a[0]}'\n`;
+  help: (c, a) => {
+    const all = { ...COMMAND_HELP, ...EXTRA_HELP, ...c.shell.extraHelp };
+    if (a[0]) return all[a[0]] ? `${a[0]}: ${all[a[0]]}\n` : `help: no help for '${a[0]}'\n`;
     return (
       "Available commands:\n" +
-      Object.keys(COMMAND_HELP)
-        .map((k) => `  ${k.padEnd(9)} ${COMMAND_HELP[k]}`)
+      Object.keys(all)
+        .map((k) => `  ${k.padEnd(9)} ${all[k]}`)
         .join("\n") +
       "\nTips: pipes (|), redirects (>), globs (*) and Tab completion work. Use ↑/↓ for history.\n"
     );
@@ -327,6 +340,72 @@ const commands: Record<string, Cmd> = {
         .flatMap((i) => asLines(i.text))
         .map((l) => [...l].reverse().join("")),
     ),
+  nano: (c, a) => {
+    const f = a.find((x) => !x.startsWith("-"));
+    if (!f) throw new ShellError("nano: usage: nano FILE");
+    const abs = normalize(f, c.shell.cwd);
+    const n = c.vfs.get(abs);
+    if (n?.type === "dir") throw new ShellError(`nano: ${f}: Is a directory`);
+    if (n && !c.vfs.can(n, 4)) throw new ShellError(`nano: ${f}: Permission denied`);
+    if (!n && !c.vfs.get(parentOf(abs))) throw new ShellError(`nano: ${f}: No such file or directory`);
+    c.shell.pendingEdit = { path: abs, display: f, content: n?.type === "file" ? n.content : "" };
+    return "";
+  },
+  tee: (c, a) => {
+    const { flags, rest } = parseOpts(a);
+    const text = c.stdin ?? "";
+    for (const f of rest) c.vfs.write(normalize(f, c.shell.cwd), text, flags.has("a"));
+    return text;
+  },
+  printf: (_c, a) => {
+    const [fmt = "", ...args] = a;
+    let i = 0;
+    const filled = fmt.replace(/%[sd]/g, () => args[i++] ?? "");
+    return filled.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\\\/g, "\\");
+  },
+  sed: (c, a) => {
+    const { rest } = parseOpts(a);
+    const expr = rest.shift() ?? "";
+    const m = /^s(.)(.*?)\1(.*?)\1([gi]*)$/.exec(expr);
+    if (!m) throw new ShellError("sed: only s/old/new/[gi] is supported in this simulator");
+    let re: RegExp;
+    try {
+      re = new RegExp(m[2], (m[4].includes("g") ? "g" : "") + (m[4].includes("i") ? "i" : ""));
+    } catch {
+      throw new ShellError("sed: invalid regular expression");
+    }
+    return toOut(
+      inputs(c, rest, "sed")
+        .flatMap((i) => asLines(i.text))
+        .map((l) => l.replace(re, m[3])),
+    );
+  },
+  awk: (c, a) => {
+    const { vals, rest } = parseOpts(a, ["F"]);
+    const prog = rest.shift() ?? "";
+    const m = /^\{\s*print\s*(.*?)\s*;?\s*\}$/.exec(prog);
+    if (!m) throw new ShellError("awk: only '{print $1, $2 ...}' is supported in this simulator");
+    const parts = m[1] ? m[1].split(/\s*,\s*/) : ["$0"];
+    const d = vals.F;
+    return toOut(
+      inputs(c, rest, "awk")
+        .flatMap((i) => asLines(i.text))
+        .map((line) => {
+          const f = d ? line.split(d) : line.trim().split(/\s+/);
+          return parts
+            .map((p) => {
+              if (p === "$0") return line;
+              if (p === "$NF") return f[f.length - 1] ?? "";
+              const idx = /^\$(\d+)$/.exec(p);
+              if (idx) return f[Number(idx[1]) - 1] ?? "";
+              const lit = /^"(.*)"$/.exec(p);
+              return lit ? lit[1] : p;
+            })
+            .join(" ");
+        }),
+    );
+  },
+  which: (c, a) => a.map((n) => (commands[n] || c.shell.extra[n] ? `/usr/bin/${n}\n` : "")).join(""),
   base64: (c, a) => {
     const { flags, rest } = parseOpts(a, []);
     const text = inputs(c, rest, "base64").map((i) => i.text).join("");
@@ -461,6 +540,18 @@ const commands: Record<string, Cmd> = {
         const atLeast = val.startsWith("-");
         const want = parseInt(val.replace(/^[-/]/, ""), 8);
         conds.push((_p, n) => (atLeast ? (n.mode & want) === want : (n.mode & 0o777) === want));
+      } else if (flag === "-size") {
+        // N (512-byte blocks), Nc (bytes), Nk (KiB), like GNU find
+        const m = /^(\d+)([ck]?)$/.exec(val);
+        if (!m) throw new ShellError(`find: invalid argument '${val}' to '-size'`);
+        const want = Number(m[1]);
+        conds.push((_p, n) => {
+          if (n.type !== "file") return false;
+          const len = n.content.length;
+          return m[2] === "c" ? len === want : Math.ceil(len / (m[2] === "k" ? 1024 : 512)) === want;
+        });
+      } else if (flag === "-user") {
+        conds.push((_p, n) => n.owner === val);
       } else throw new ShellError(`find: unknown predicate '${flag}'`);
     }
     const out: string[] = [];
@@ -482,19 +573,46 @@ const commands: Record<string, Cmd> = {
   },
 };
 
+// Aliases for familiar names
+commands.vi = commands.nano;
+commands.vim = commands.nano;
+commands.less = commands.cat;
+commands.more = commands.cat;
+commands.man = (c, a) => commands.help(c, a);
+
 export class Shell {
   vfs: VFS;
   cwd = HOME;
   history: string[] = [];
   env: Record<string, string> = { HOME, USER, SHELL: "/bin/bash", PWD: HOME, PATH: "/usr/local/bin:/usr/bin:/bin" };
 
-  constructor(def: FsDef) {
+  /** Extra commands for themed labs (e.g. the simulated Kali toolset). */
+  extra: Record<string, Cmd>;
+  extraHelp: Record<string, string> = {};
+  host: string;
+  /** Set by `nano`/`vi`; the Terminal UI opens its editor panel when this is present after a run. */
+  pendingEdit: { path: string; display: string; content: string } | null = null;
+
+  constructor(def: FsDef, opts: { extra?: Record<string, Cmd>; extraHelp?: Record<string, string>; host?: string } = {}) {
     this.vfs = new VFS(def);
+    this.extra = opts.extra ?? {};
+    this.extraHelp = opts.extraHelp ?? {};
+    this.host = opts.host ?? "forge";
+  }
+
+  /** Saves text from the editor panel into the virtual filesystem. Returns an error message or null. */
+  saveFile(path: string, content: string): string | null {
+    try {
+      this.vfs.write(path, content, false);
+      return null;
+    } catch (e) {
+      return e instanceof ShellError ? e.message : "Could not save file";
+    }
   }
 
   prompt(): string {
     const d = this.cwd === HOME ? "~" : this.cwd.startsWith(HOME + "/") ? "~" + this.cwd.slice(HOME.length) : this.cwd;
-    return `${USER}@forge:${d}$`;
+    return `${USER}@${this.host}:${d}$`;
   }
 
   private tokenize(line: string): Tok[] {
@@ -612,7 +730,13 @@ export class Shell {
     return m.length ? m : [word];
   }
 
-  run(line: string): { output: string; clear: boolean } {
+  run(line: string): { output: string; clear: boolean; edit: { path: string; display: string; content: string } | null } {
+    this.pendingEdit = null;
+    const res = this.runInner(line);
+    return { ...res, edit: this.pendingEdit };
+  }
+
+  private runInner(line: string): { output: string; clear: boolean } {
     const trimmed = line.trim();
     if (!trimmed) return { output: "", clear: false };
     this.history.push(trimmed);
@@ -685,17 +809,30 @@ export class Shell {
         if (st.length === 0) throw new ShellError("bash: syntax error near unexpected token `|'");
         continue;
       }
-      const [name, ...args] = words;
+      let [name, ...args] = words;
       const stageErr = discardErr ? () => {} : err;
       let out = "";
+      // `sudo cmd ...` runs cmd with permission checks bypassed (simulated root)
+      let asRoot = false;
+      if (name === "sudo") {
+        if (args.length === 0) {
+          stageErr("usage: sudo COMMAND");
+          continue;
+        }
+        asRoot = true;
+        [name, ...args] = args;
+      }
       if (name === "clear") clear = true;
-      const fn = commands[name];
+      const fn = commands[name] ?? this.extra[name];
       if (fn) {
+        this.vfs.root = asRoot;
         try {
           out = fn({ vfs: this.vfs, shell: this, stdin: data, err: stageErr }, args);
         } catch (e) {
           if (e instanceof ShellError) stageErr(e.message);
           else throw e;
+        } finally {
+          this.vfs.root = false;
         }
       } else if (name.startsWith("./") || name.startsWith("/")) {
         const abs = normalize(name, this.cwd);

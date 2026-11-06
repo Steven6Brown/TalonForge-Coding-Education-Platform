@@ -42,6 +42,8 @@ const hsts = { key: "Strict-Transport-Security", value: "max-age=63072000; inclu
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Lets verification builds use a separate folder so they never clobber a running `next dev` (.next).
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   poweredByHeader: false,
   async headers() {
     return [

@@ -35,6 +35,8 @@ export function baseName(p: string): string {
 
 export class VFS {
   nodes = new Map<string, VNode>();
+  /** True while a `sudo` command runs: permission checks are bypassed (simulated root). */
+  root = false;
 
   constructor(def: FsDef) {
     this.nodes.set("/", { type: "dir", mode: 0o755, owner: "root" });
@@ -74,6 +76,7 @@ export class VFS {
 
   /** Permission check against the simulated "student" user. */
   can(node: VNode, bit: 4 | 2 | 1): boolean {
+    if (this.root) return true;
     const shift = node.owner === USER ? 6 : 0; // owner bits vs. "other" bits
     return ((node.mode >> shift) & bit) !== 0;
   }
