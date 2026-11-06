@@ -27,3 +27,14 @@ describe("beginner audit", () => {
     }
   });
 });
+
+import { TRACK_PREREQS } from "@/lib/content/track-paths";
+describe("track ordering", () => {
+  it("every track has a defined path and prerequisites exist and are not circular", () => {
+    for (const t of TRACKS) expect(TRACK_PREREQS[t.id], "no path for " + t.id).toBeDefined();
+    for (const [id, pre] of Object.entries(TRACK_PREREQS)) for (const p of pre) {
+      expect(TRACKS.find((x) => x.id === p), `${id} -> ${p}`).toBeDefined();
+      expect(TRACK_PREREQS[p] ?? [], `circular ${id}<->${p}`).not.toContain(id);
+    }
+  });
+});

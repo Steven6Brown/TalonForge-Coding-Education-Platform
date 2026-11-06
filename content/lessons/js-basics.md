@@ -1,3 +1,21 @@
+## Start here
+
+If JavaScript is new to you, do the **JavaScript Foundations** track first (it starts with "Your First Program"). This lesson assumes you have met variables, arrays, objects and functions. The scaffolding in the lab below explains `filter`, `map`, `sort` and `join` step by step.
+
+## What the task looks like
+
+The data is a list of scan results. A **port scan** checks which network doors ("ports") on a computer are open. Each result says one port and whether it is `open` or `closed`:
+
+```js
+const scan = [{ port: 22, state: "open" }, { port: 23, state: "closed" }];
+```
+
+Your job is a small pipeline: **keep** the open ones, **extract** just the port numbers, **sort** them smallest to largest, and **join** them into one comma-separated line. Reading the example chain aloud as a sentence helps: "from the scan, keep the open results, then take each port, then sort, then join".
+
+## Why the sort is tricky
+
+JavaScript's plain `.sort()` compares values as **text**, so `10` comes before `9` (the same way "10" comes before "9" in a dictionary). Numbers need a **comparison function**: `.sort((a, b) => a - b)`. The lab's hidden checks include a case that catches the mistake.
+
 ## Why JavaScript?
 
 JavaScript is the language of the browser, and increasingly of servers (Node.js). To understand web security you must read it fluently: every XSS bug, every client-side check, every API call is JavaScript.

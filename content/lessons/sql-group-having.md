@@ -1,3 +1,29 @@
+## Start here
+
+**Before this lesson:** complete the JOIN and aggregates lesson (`COUNT`, `GROUP BY`). This lesson answers a new question type: "which *groups* meet a condition?"
+
+## A tiny example to picture it
+
+Say the employees table holds these rows (only the department is shown):
+
+```
+Engineering, Engineering, Engineering, Sales, Sales, HR
+```
+
+`GROUP BY department` puts matching rows into piles: Engineering (3), Sales (2), HR (1). `COUNT(*)` counts each pile.
+
+Now: "only show departments with MORE than 2 people." You cannot use `WHERE`, because `WHERE` looks at **individual rows** and runs before the piles exist. The head count only exists after grouping, so you need **HAVING**, which filters the piles. Here only Engineering (3) remains.
+
+## Step by step
+
+1. Write the grouped count and run it: `... GROUP BY d.name;` You should see every department with its count.
+2. Add `HAVING COUNT(*) > 2` and run again. Smaller departments disappear.
+3. Give the count the name `n` with `AS n`.
+
+## Why you will care
+
+"Which users have more than 5 failed logins?" is exactly this pattern on a log table, one of the most common queries a security analyst writes.
+
 ## WHERE vs HAVING
 
 Both filter, but at different times:
