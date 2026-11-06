@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LessonList } from "@/components/Dashboard";
 import { lessonsOfTrack, trackById, TRACKS } from "@/lib/content/lessons";
@@ -19,6 +20,7 @@ export default async function TrackPage({ params }: Params) {
   const lessons = lessonsOfTrack(track.id).map(({ id, title, summary, minutes, xp, level }) => ({ id, title, summary, minutes, xp, level }));
   return (
     <>
+      <Link href="/" className="back-link"><span aria-hidden="true">←</span> All tracks</Link>
       <h1>{track.title}</h1>
       <p className="muted lead">{track.description}</p>
       <LessonList trackId={track.id} lessons={lessons} />

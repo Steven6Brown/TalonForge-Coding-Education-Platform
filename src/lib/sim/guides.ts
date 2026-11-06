@@ -50,6 +50,7 @@ export const GUIDES: Record<string, Guide> = {
 };
 
 import { GUIDES3 } from "./helpdesk3";
-Object.assign(GUIDES, GUIDES3);
+import { GUIDES_HANDSON } from "./handson";
+Object.assign(GUIDES, GUIDES3, GUIDES_HANDSON);
 
 export const guideFor = (id: string): Guide | undefined => GUIDES[id];

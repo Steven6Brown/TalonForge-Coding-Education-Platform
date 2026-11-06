@@ -5,6 +5,7 @@ import { TAG_LABEL, maxScore, type Scenario, type Tag } from "@/lib/sim/types";
 import type { Role } from "@/lib/sim/roles";
 import { completeLesson, useProgress } from "@/lib/progress";
 import { SiemConsole } from "@/components/SiemConsole";
+import { HandsTask } from "./Hands";
 
 type Level = Scenario["difficulty"];
 const LEVELS: { id: Level; label: string; help: string }[] = [
@@ -57,7 +58,7 @@ export function CareerRole({ role }: { role: Role }) {
             const d = progress.completed["sim:" + s.id];
             return (
               <button key={s.id} className="card sim-card" onClick={() => setActive(s)}>
-                <span className="chips"><span className={"chip lvl-" + s.difficulty}>{s.difficulty}</span><span className="chip prio">{s.priority}</span><span className="chip xp">+{simXp(s)} XP</span></span>
+                <span className="chips"><span className={"chip lvl-" + s.difficulty}>{s.difficulty}</span><span className="chip prio">{s.priority}</span><span className="chip xp">+{simXp(s)} XP</span>{Object.values(s.steps).some((x) => x.hands) && <span className="chip hands-chip">Hands-on</span>}</span>
                 <strong>{s.title}</strong>
                 <span>{s.summary}</span>
                 <span className="muted small">Skills: {s.skills.join(", ")}</span>
@@ -93,6 +94,13 @@ function Runner({ scenario, onExit }: { scenario: Scenario; onExit: () => void }
   const score = log.reduce((a, l) => a + l.points, 0);
   const hintsAllowed = scenario.difficulty !== "advanced";
   const hint = guide?.coach?.[stepId];
+
+  function handsDone(points: 0 | 1 | 2 | 3, feedback: string) {
+    if (!step.hands) return;
+    const choice = { label: "Hands-on task", feedback, points, tag: step.hands.tag };
+    setPicked({ choice, next: step.hands.next });
+    setLog((l) => [...l, choice]);
+  }
 
   function choose(i: number) {
     if (picked || !step.choices) return;
@@ -134,7 +142,7 @@ function Runner({ scenario, onExit }: { scenario: Scenario; onExit: () => void }
         {step.evidence && <pre className="out-box">{step.evidence}</pre>}
       </div>
 
-      {hintsAllowed && hint && !picked && (
+      {hintsAllowed && hint && !picked && !step.hands && (
         <div>
           <button className="btn small" onClick={() => setHintFor(hintFor === stepId ? null : stepId)} aria-expanded={hintFor === stepId}>
             {hintFor === stepId ? "Hide hint" : "Need a hint?"}
@@ -143,6 +151,7 @@ function Runner({ scenario, onExit }: { scenario: Scenario; onExit: () => void }
         </div>
       )}
 
+      {step.hands && <HandsTask key={step.id} hands={step.hands} onDone={handsDone} disabled={!!picked} />}
       {step.choices && (
         <div className="choices" role="group" aria-label="Your options">
           {step.choices.map((ch, i) => (

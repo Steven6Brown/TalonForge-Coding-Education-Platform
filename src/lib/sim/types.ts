@@ -18,6 +18,33 @@ export type Choice = {
   next: string;
 };
 
+/** A hands-on task the learner performs instead of picking from choices. Worth 0-3 points like a choice. */
+export type Hands = {
+  tag: Tag;
+  next: string;
+  /** What you are trying to achieve, in plain words. */
+  goal: string;
+  /** Shown when the learner asks for help (using it costs 1 point). */
+  hint: string;
+  task:
+    | {
+        kind: "terminal";
+        os: "windows" | "linux";
+        prompt: string;
+        /** Commands the learner can run. A command with an id counts toward completion. */
+        /** `after`: only applies once the command with that id has been run (lets output change after a fix). */
+        commands: { pattern: string; output: string; id?: string; after?: string; example: string; does: string }[];
+        required: string[];
+      }
+    | {
+        kind: "console";
+        title: string;
+        fields: { id: string; label: string; type: "check" | "select"; options?: string[]; correct: string | boolean; why: string }[];
+      }
+    | { kind: "ticket"; fields: string[]; must: { label: string; keywords: string[] }[] }
+    | { kind: "siem"; question: string; answers: string[]; samples: string[] };
+};
+
 export type Step = {
   id: string;
   /** Who is speaking, e.g. "Maria (caller)" or "SIEM alert". */
@@ -26,6 +53,7 @@ export type Step = {
   /** Optional evidence block (log lines, ticket fields, etc.). */
   evidence?: string;
   choices?: Choice[];
+  hands?: Hands;
   end?: { title: string; summary: string };
 };
 
@@ -48,7 +76,7 @@ export type Scenario = {
 export function maxScore(s: Scenario, stepId = s.start, memo: Record<string, number> = {}): number {
   if (memo[stepId] !== undefined) return memo[stepId];
   const step = s.steps[stepId];
-  const best = step?.choices?.length ? Math.max(...step.choices.map((c) => c.points + maxScore(s, c.next, memo))) : 0;
+  const best = step?.hands ? 3 + maxScore(s, step.hands.next, memo) : step?.choices?.length ? Math.max(...step.choices.map((c) => c.points + maxScore(s, c.next, memo))) : 0;
   memo[stepId] = best;
   return best;
 }

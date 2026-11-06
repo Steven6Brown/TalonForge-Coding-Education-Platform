@@ -8,8 +8,21 @@ type Msg = { role: "you" | "helper"; text: string; source?: HelperAnswer["source
 type Ctx = { code?: string; output?: string; language?: "javascript" | "python" | "sql" };
 
 const AI_KEY = "tf:helper:ai";
+const STARTERS = ["What does slice do?", "What is a for loop?", "What is port 443?", "Difference between hashing and encryption", "What is a SIEM?", "What does SyntaxError mean?"];
 
-/** Floating "Ask" helper. Built-in answers work offline; optional AI answers need a server key and the learner's opt-in. */
+/** Small talon mark used as the helper's avatar. */
+function Avatar({ size = 36 }: { size?: number }) {
+  return (
+    <span className="helper-avatar" style={{ width: size, height: size }} aria-hidden="true">
+      <svg viewBox="0 0 24 24" width={size * 0.62} height={size * 0.62} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 5c5 0 9 3 10 8 1-2 3-3 6-3-1 5-5 8-10 8-3 0-5-2-6-5" />
+        <path d="M9 14l-2 5" />
+      </svg>
+    </span>
+  );
+}
+
+/** Floating helper. Built-in answers work offline; optional AI answers need a server key and the learner's opt-in. */
 export function HelperWidget() {
   const path = usePathname() ?? "";
   const [open, setOpen] = useState(false);
@@ -19,6 +32,7 @@ export function HelperWidget() {
   const [aiAvailable, setAiAvailable] = useState(false);
   const [useAi, setUseAi] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [how, setHow] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -49,8 +63,8 @@ export function HelperWidget() {
     try { window.localStorage.setItem(AI_KEY, v ? "1" : "0"); } catch { /* ignore */ }
   }
 
-  async function ask() {
-    const question = q.trim();
+  async function ask(text?: string) {
+    const question = (text ?? q).trim();
     if (!question && !ctx.code) return;
     setMsgs((m) => [...m, { role: "you", text: question || "(explain my code)" }]);
     setQ("");
@@ -76,38 +90,64 @@ export function HelperWidget() {
 
   return (
     <>
-      <button className="helper-fab" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="helper-panel">
-        {open ? "Close helper" : "Ask the helper"}
+      <button className={"helper-fab" + (open ? " open" : "")} onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="helper-panel">
+        <Avatar size={30} />
+        <span>{open ? "Close" : "Ask the helper"}</span>
       </button>
       {open && (
         <section id="helper-panel" className="helper-panel" role="dialog" aria-label="Ask the helper">
-          <h2 className="helper-h">Ask a question</h2>
-          <p className="muted small">
-            Ask about a word, an error or a concept. {ctx.code ? "Your lab code and last output are attached." : "Open a lab and press “Ask the helper about this” to attach your code."}
-          </p>
+          <header className="helper-top">
+            <Avatar size={42} />
+            <div>
+              <h2 className="helper-h">Talon, your study helper</h2>
+              <p className="helper-status small">
+                <span className={"dot" + (useAi && aiAvailable ? " ai" : "")} aria-hidden="true" />
+                {useAi && aiAvailable ? "AI answers on" : "Built-in answers, works offline"}
+              </p>
+            </div>
+            <button className="btn small" onClick={() => setHow(!how)} aria-expanded={how}>{how ? "Hide" : "How I work"}</button>
+          </header>
+
+          {how && (
+            <div className="helper-how small">
+              <p><strong>Built-in mode (default).</strong> I match the words in your question against a library of about 50 explained terms and your lesson list, and I translate error messages in your output into plain English. Everything runs in your browser; nothing is sent anywhere. I am a keyword lookup, not a mind-reader, so use the exact name of the thing (for example <em>slice</em> or <em>port 443</em>).</p>
+              <p><strong>Attaching your code.</strong> Inside a lab, press &ldquo;Ask the helper about this&rdquo; and I will see your code and last output.</p>
+            </div>
+          )}
+
           <div ref={logRef} className="helper-log" role="log" aria-live="polite">
-            {msgs.length === 0 && <p className="muted small">Try: “what does slice do?”, “why is my code a SyntaxError?”, “what is port 443?”</p>}
+            {msgs.length === 0 && (
+              <div className="helper-welcome">
+                <p>Hi! Ask me about a word, an error or a concept. {ctx.code ? "Your lab code and last output are attached." : "Inside a lab you can attach your code too."}</p>
+                <div className="helper-chips">
+                  {STARTERS.map((s) => (<button key={s} className="helper-chip" onClick={() => void ask(s)}>{s}</button>))}
+                </div>
+              </div>
+            )}
             {msgs.map((m, i) => (
               <div key={i} className={`helper-msg ${m.role}`}>
-                <strong>{m.role === "you" ? "You" : m.source === "ai" ? "Helper (AI)" : "Helper"}</strong>
-                {m.role === "helper" ? <Markdown source={m.text} /> : <p>{m.text}</p>}
+                <span className="helper-who">{m.role === "you" ? "You" : m.source === "ai" ? "Talon · AI" : "Talon"}</span>
+                <div className="helper-bubble">{m.role === "helper" ? <Markdown source={m.text} /> : <p>{m.text}</p>}</div>
               </div>
             ))}
-            {busy && <p className="muted" role="status">Thinking…</p>}
+            {busy && <p className="helper-typing" role="status"><span /><span /><span /></p>}
           </div>
+
           <label className="sr-only" htmlFor="helper-q">Your question</label>
-          <textarea
-            id="helper-q"
-            ref={inputRef}
-            rows={2}
-            value={q}
-            maxLength={1000}
-            onChange={(e) => setQ(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void ask(); } }}
-            placeholder="Type your question and press Enter"
-          />
+          <div className="helper-input">
+            <textarea
+              id="helper-q"
+              ref={inputRef}
+              rows={2}
+              value={q}
+              maxLength={1000}
+              onChange={(e) => setQ(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void ask(); } }}
+              placeholder="Type your question and press Enter"
+            />
+            <button className="btn primary" onClick={() => void ask()} disabled={busy} aria-label="Send question">Send</button>
+          </div>
           <div className="row">
-            <button className="btn primary small" onClick={() => void ask()} disabled={busy}>Ask</button>
             {ctx.code && <button className="btn small" onClick={() => setCtx({})}>Detach my code</button>}
             {aiAvailable && (
               <label className="check small">
@@ -116,7 +156,6 @@ export function HelperWidget() {
               </label>
             )}
           </div>
-          {!aiAvailable && <p className="muted small">Built-in helper only. AI answers can be enabled by the site owner.</p>}
         </section>
       )}
     </>
