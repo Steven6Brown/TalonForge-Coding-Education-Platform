@@ -23,3 +23,47 @@ Security rests on the difficulty of **factoring** `n` back into `p` and `q`. Toy
 ## Your task
 
 Implement `modPow` with BigInt. Hidden tests run the toy encryption and decryption above.
+
+## Walk-through: toy RSA with tiny numbers
+
+Real RSA uses numbers hundreds of digits long, but the steps are the same. Use these small ones so you can check the arithmetic.
+
+1. **Pick two primes:** `p = 3`, `q = 11`.
+2. **Modulus:** `n = p x q = 33`.
+3. **Totient:** `(p - 1) x (q - 1) = 2 x 10 = 20`.
+4. **Public exponent** `e` with no common factor with 20: `e = 3`.
+5. **Private exponent** `d`, the inverse of `e` mod 20: `d = 7`, because `3 x 7 = 21` and 21 mod 20 = 1.
+
+Public key: `(n = 33, e = 3)`. Private key: `d = 7`.
+
+**Encrypt** a message `m = 4`: `c = m^e mod n = 4^3 mod 33 = 64 mod 33 = 31`.
+
+**Decrypt:** `m = c^d mod n = 31^7 mod 33 = 4`. We got the message back.
+
+Anyone can encrypt with the public numbers. Only the person who knows `d` can decrypt. Computing `d` needs the totient, which needs the secret factors `p` and `q`; for real key sizes, factoring `n` is far too slow.
+
+## The problem the lab solves: `modPow`
+
+`31^7` is small here, but real RSA needs numbers like `m^65537 mod n` with enormous `n`. You cannot compute the huge power first and then take the remainder. The trick is **square and multiply**, reducing `mod n` at every step so numbers stay small:
+
+```
+result = 1
+while exp > 0:
+    if exp is odd: result = result * base mod n
+    base = base * base mod n
+    exp = exp halved
+```
+
+Test it by hand: `modPow(4, 13, 497)` should give `445` (a standard textbook example).
+
+## In JavaScript
+
+Use **BigInt** (numbers written like `4n`). Odd test: `exp & 1n`. Halving: `exp >>= 1n`. Keep every number a BigInt or you will get a `TypeError` about mixing types.
+
+## Why not use this for real
+
+Toy RSA has tiny keys and no padding, so it is trivial to break. Real systems use vetted libraries with 2048-bit or larger keys and secure padding (OAEP).
+
+## Check yourself
+
+With `n = 33, e = 3`, what does `m = 2` encrypt to? (2^3 = 8, so 8.)

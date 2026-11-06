@@ -30,3 +30,34 @@ An untested backup is a hope, not a plan.
 ## Your task
 
 Implement `backupsNeeded` for the three strategies.
+
+## Walk-through: how many backups must you restore?
+
+Suppose a **full backup** runs every Sunday, and smaller backups run on the other days. A disaster hits on **Wednesday evening**, after Wednesday's backup has run. Three days have passed since the full (Monday, Tuesday and Wednesday), so `daysSinceFull = 3`.
+
+**Full only:** each backup holds everything. Restore the **1** latest full. Simple, but slow and heavy to take every day.
+
+**Differential:** each day's backup holds everything that changed **since the last full**. To restore: the last full + **only the newest differential**, so **2** sets (or 1 if no days have passed). Each differential grows through the week.
+
+**Incremental:** each day's backup holds only what changed **since the previous backup of any kind**. To restore: the last full + **every incremental since**. With 3 days passed that is `1 + 3 = 4` sets. Backups are small and fast, but restoring takes longer and one damaged set breaks the chain.
+
+| Type | Backup size | Restore needs (3 days since full) |
+| --- | --- | --- |
+| Full | big | 1 |
+| Differential | grows | 2 |
+| Incremental | small | 4 |
+
+## RTO and RPO: the two promises
+
+- **RPO (recovery point objective):** how much data you can afford to lose, measured as time. If backups run nightly your RPO is up to a day.
+- **RTO (recovery time objective):** how long you can afford to be down. If restoring takes 6 hours but the business can only tolerate 2, the plan fails.
+
+Pick the backup type that meets both, then **test the restore**: a backup you have never restored is only a hope.
+
+## In the lab
+
+`backupsNeeded(strategy, daysSinceFull)` uses a `switch` on the strategy. Full is always 1. Differential is 1 when `daysSinceFull` is 0 and 2 otherwise. Incremental is `1 + daysSinceFull`. Unknown strategies return `null`.
+
+## Check yourself
+
+Which type restores fastest but costs the most space? (Full.) Which risks a broken chain? (Incremental.)
