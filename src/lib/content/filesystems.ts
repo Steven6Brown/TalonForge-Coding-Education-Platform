@@ -3,6 +3,7 @@ import { authLog, makeAuthLog } from "./authlog";
 import { forensics, net } from "./filesystems-extra";
 import { dfir, kali, privesc, wargame } from "./filesystems-kali";
 import { dfir2, hostsec, range } from "./filesystems-range";
+import { pcap } from "./filesystems-pcap";
 
 /* Fictional lab data. All hosts use documentation-reserved IP ranges (RFC 5737 / RFC 1918). */
 
@@ -119,7 +120,7 @@ const sandbox: FsDef = {
   "/var/log/auth.log": { c: authLog.text },
 };
 
-export const FILESYSTEMS: Record<string, FsDef> = { hostsec, range, dfir2, kali, wargame, privesc, dfir, net, forensics, basics, logs, perms, recon, ssh, ctf, sandbox };
+export const FILESYSTEMS: Record<string, FsDef> = { pcap, hostsec, range, dfir2, kali, wargame, privesc, dfir, net, forensics, basics, logs, perms, recon, ssh, ctf, sandbox };
 export type FsId = keyof typeof FILESYSTEMS;
 
 export const CTF_FLAGS = [flag1, flag2, flag3];

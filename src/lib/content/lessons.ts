@@ -6,6 +6,7 @@ import { BATCH4_LESSONS } from "./lessons-batch4";
 import { BATCH5_LESSONS } from "./lessons-batch5";
 import { BATCH6A_LESSONS } from "./lessons-batch6a";
 import { BATCH6B_LESSONS } from "./lessons-batch6b";
+import { BATCH7_LESSONS } from "./lessons-batch7";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -94,7 +95,7 @@ export const TRACKS: Track[] = [
     icon: "sec",
     description:
       "Risk assessment, cryptography, OSINT, Windows and Active Directory, and digital forensics: the knowledge that turns tool users into analysts.",
-    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics", "malware-landscape", "security-governance", "tech-law-basics", "ach-analysis", "threat-vulnerability-analysis", "stats-for-security"],
+    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics", "malware-landscape", "security-governance", "tech-law-basics", "ach-analysis", "threat-vulnerability-analysis", "stats-for-security", "z-scores-normal", "levels-of-measurement", "backups-rto-rpo", "incident-response-planning", "security-writing-bluf", "technology-and-conflict"],
   },
   {
     id: "automation",
@@ -128,7 +129,7 @@ export const TRACKS: Track[] = [
     icon: "net",
     description:
       "IPs, ports, DNS, subnets and packet captures: the language every attacker, defender and sysadmin must speak.",
-    lessons: ["net-fundamentals", "subnetting", "packet-reading", "service-identification", "vpn-firewall-concepts", "wireless-bluetooth-security"],
+    lessons: ["net-fundamentals", "subnetting", "packet-reading", "service-identification", "vpn-firewall-concepts", "wireless-bluetooth-security", "packet-analysis-http-dns-arp", "network-design-subnets"],
   },
   {
     id: "systems-servers",
@@ -733,7 +734,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);
