@@ -34,3 +34,20 @@ grep ':0:0:' /etc/passwd
 ## Your task
 
 Inspect `/etc/passwd` in the terminal and find the backdoor account. Submit its username.
+
+## Commands you will use in this lab (with examples)
+
+On Linux every account is a line in the file `/etc/passwd`, with fields separated by colons:
+
+```
+name:x:UID:GID:comment:home:shell
+root:x:0:0:root:/root:/bin/bash
+```
+
+The third field is the **UID** (user ID). The special value **0** means "superuser". Normally only `root` has UID 0, so a second account with UID 0 is a classic sign of a **backdoor** an attacker created.
+
+- `cat /etc/passwd` lists every account. Read the third field of each line.
+- `cut -d: -f1,3 /etc/passwd` prints just the name and UID. (`-d:` means "fields are separated by colons", `-f1,3` means "keep fields 1 and 3".)
+- `grep ':0:0:' /etc/passwd` shows lines with UID 0 and GID 0. One of them will be `root`; you want the **other**.
+
+This is a real incident-response check: after a suspected break-in, list accounts, look for ones with UID 0, odd login shells and recently added users.

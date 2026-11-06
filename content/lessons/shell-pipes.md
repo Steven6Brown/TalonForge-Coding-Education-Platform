@@ -38,3 +38,14 @@ A server was brute-forced overnight. In `/var/log/auth.log`, find which IP addre
 ```
 
 This is exactly what incident responders do. Later you'll automate it in Python.
+
+## Commands you will use in this lab (with examples)
+
+You are hunting through a log file for the address that keeps failing to sign in. Work in small steps and look at the output after each one.
+
+1. **See what a failure line looks like.** `grep 'Failed password' /var/log/auth.log` prints only the lines containing that phrase. Read one line: the address comes after the word `from`.
+2. **Pull out just the address.** `grep -o 'from [0-9.]*'` prints only the matching part (the word `from` and the digits and dots after it). Then `cut -d' ' -f2` splits each line at spaces and keeps the second piece, which is the address.
+3. **Count each address.** `sort` puts identical lines together, then `uniq -c` collapses them and puts a **count** in front: `14 203.0.113.9`.
+4. **Show the biggest first.** `sort -rn` sorts by number, largest first (`r` reverse, `n` numeric), and `head -n 1` keeps just the top line.
+
+The pipe `|` hands the output of one command to the next, so the whole thing reads left to right: *find failures, get addresses, sort, count, sort by count, take the top*. If the output looks wrong, remove commands from the **right** one at a time until it looks right, then add them back.

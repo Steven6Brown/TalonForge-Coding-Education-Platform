@@ -124,6 +124,24 @@ function CodeLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "code" }>; d
   );
 }
 
+/** Orientation for people who have never used a terminal. Collapsed by default so it doesn't nag experts. */
+function TerminalBasics() {
+  return (
+    <details className="scaffold">
+      <summary>New to the terminal? How this works</summary>
+      <ul>
+        <li><strong>It is a text conversation.</strong> You type a command, press <kbd>Enter</kbd>, and the computer prints the result. Nothing happens until you press Enter.</li>
+        <li><strong>Read the prompt.</strong> Something like <code>student@forge:~$</code> means: user <em>student</em> on computer <em>forge</em>, currently in <code>~</code> (your home folder). The <code>$</code> means it is waiting for you.</li>
+        <li><strong>The first word is the command, the rest are options and targets.</strong> In <code>ls -a mission</code>, <code>ls</code> lists files, <code>-a</code> is an option (include hidden files) and <code>mission</code> is the folder to list.</li>
+        <li><strong>Handy keys:</strong> <kbd>↑</kbd> brings back your previous command, <kbd>Tab</kbd> completes a file name you started typing.</li>
+        <li><strong>The big five to start:</strong> <code>pwd</code> (where am I?), <code>ls</code> (what is here?), <code>cd folder</code> (go into a folder; <code>cd ..</code> goes back), <code>cat file</code> (show a file), <code>grep word file</code> (show only lines containing a word).</li>
+        <li><strong>Lost?</strong> Type <code>help</code> to list the available commands, and <code>pwd</code> to see where you are. Use the Hints below the lab one at a time. You cannot break anything: this is a safe practice computer.</li>
+        <li><strong>Names with spaces</strong> need quotes: <code>cat &quot;my file.txt&quot;</code>. A name starting with a dash needs <code>./</code> in front.</li>
+      </ul>
+    </details>
+  );
+}
+
 function ShellLab({
   lab,
   lessonId,
@@ -158,6 +176,7 @@ function ShellLab({
     <section className="lab" aria-labelledby="lab-h">
       <h2 id="lab-h">Lab</h2>
       <p>{lab.prompt}</p>
+      <TerminalBasics />
       <Terminal key={lessonId} fs={lab.fs} />
       <form onSubmit={submit} className="answer-form">
         <label htmlFor="answer">Submit answer / flag ({found.length}/{lab.answers.length})</label>

@@ -29,3 +29,15 @@ Pipe to `cut -d: -f1` to print only the usernames.
 ## Your task
 
 Use sudo to audit `/etc/shadow` and submit the two non-root accounts with usable passwords. This mirrors a standard Linux host-security lab exercise.
+
+## Commands you will use in this lab (with examples)
+
+- **`/etc/passwd`** lists accounts and each account's login **shell** (the last field). A shell of `/usr/sbin/nologin` means the account cannot sign in interactively (typical for service accounts). `grep -v nologin /etc/passwd` shows every line that does **not** contain `nologin` (`-v` means "invert": show the non-matches).
+- **`/etc/shadow`** stores the password hashes, so only the administrator may read it. A normal user is refused. **`sudo`** means "run this command as the administrator": `sudo cat /etc/shadow`. (Here, practicing is safe.)
+- In `/etc/shadow` each line is `name:hash:...`. The second field tells you the account's password status:
+  - `!` means the password is **locked** (nobody can sign in with a password).
+  - `*` means **no password login** is possible.
+  - A long string starting with `$` is a real **hash**: the account can be used with a password.
+- `sudo grep -Ev '!|\*' /etc/shadow` shows lines that contain neither `!` nor `*` (`-E` allows the `|` meaning "or", `-v` inverts). The accounts left are the ones with a usable password. Ignore `root` as the task says.
+
+An audit like this is routine: unused accounts with passwords are an easy way in.

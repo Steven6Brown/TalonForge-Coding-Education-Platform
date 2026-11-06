@@ -33,3 +33,13 @@ The log lab earlier showed hundreds of password guesses against `root`. Any inte
 ## Your task
 
 Read the (training) `sshd_config` in the terminal and find the setting that permits direct root login. Submit the setting's name.
+
+## Commands you will use in this lab (with examples)
+
+**SSH** lets you log in to a server over the network. Its behaviour is set by the file `/etc/ssh/sshd_config`, a list of `Setting value` lines. Lines starting with `#` are comments (ignored).
+
+- `cat /etc/ssh/sshd_config` prints the file. Read it top to bottom; it is short.
+- `grep -i root /etc/ssh/sshd_config` shows only lines mentioning `root` (`-i` ignores upper/lower case). One of them is a setting that decides whether someone can log in directly **as root**.
+- A setting name is a single word like `PasswordAuthentication`. The value after it is `yes` or `no`. Submit the **setting name** (the first word on the line), not the value.
+
+**Why it matters:** attackers always try the username `root` first. Safe servers set this to `no` (or `prohibit-password`), use SSH **keys** instead of passwords, and log in as a normal user who uses `sudo` when needed.
