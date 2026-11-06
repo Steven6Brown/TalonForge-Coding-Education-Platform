@@ -23,3 +23,32 @@ SOC analyst postings ask for log analysis, alert triage, ticket writing and know
 ## Key facts this lesson's quiz checks
 
 - **Failures then a success.** Many failed logins from one IP followed by a **success** suggests a **brute-force attack that worked**. The success is the moment the attacker gains access, which is why that pattern is treated as serious even though each failure alone looks harmless.
+
+## Worked example: one alert, start to finish
+
+A SIEM rule fires: **"10 failed logins then a success, same source, within 5 minutes."** Walk through what an analyst does.
+
+1. **Read the alert.** Source IP `203.0.113.45`, account `admin`, host `web-01`.
+2. **Ask: is this real?** Search the logs: how many failures, from where, how fast? Is this IP known to the company? Does `admin` normally log in from there?
+3. **Classify.** Unknown external IP, a success right after many failures: a **true positive**. (If it had been the monthly vulnerability scan, it would be a *benign true positive*. If the rule had miscounted, a *false positive*.)
+4. **Act proportionately.** Block the IP, disable or reset the account, end sessions, keep the logs.
+5. **Document.** Timeline, indicators, actions, who was told.
+
+## What the SIEM did for you
+
+- **Collected** logs from the server and firewall.
+- **Normalized** them so `src_ip` means the same field in both.
+- **Correlated** events from different moments into one alert.
+- **Searched** them in seconds when you asked questions.
+
+Without a SIEM you would have logged in to each machine and read raw files.
+
+## Why the success matters
+
+Failures alone look like noise (people mistype). The **success after failures** is the moment the attacker gets in, so rules treat that sequence as high priority.
+
+## Self-check
+
+1. What is a false positive? (An alert that fired when nothing malicious happened.)
+2. Name the SIEM stages. (Collect, normalize, store/search, correlate, alert.)
+3. Best first step on an alert? (Validate it with evidence before closing or escalating.)

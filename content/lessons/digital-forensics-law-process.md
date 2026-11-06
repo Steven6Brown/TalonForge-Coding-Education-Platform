@@ -28,3 +28,29 @@ Preserve evidence, keep a chain of custody, work on copies and document everythi
 ## Check yourself
 
 Take the quiz below.
+
+## Worked example: a case from allegation to evidence
+
+*(This is an educational outline, not legal advice, and details vary by jurisdiction.)*
+
+**1. Allegation.** A company says an employee copied confidential designs and sold them.
+
+**2. Authority to collect.** An employer can often examine **its own** equipment under its policies. In a **criminal** investigation by the government, the **Fourth Amendment** protects against unreasonable search and seizure, so investigators typically show a judge probable cause in an **affidavit** and obtain a **search warrant** before collecting.
+
+**3. Secure the scene.** A **Digital Evidence First Responder** photographs and documents the devices, keeps them powered or off according to procedure (volatile data first, when appropriate), and starts the **chain of custody** form: who handled each item, when and why.
+
+**4. Acquire.** Make a **forensic image** (an exact copy) of the drive using a **write blocker** (hardware that prevents changes). Compute the **hash** of the original and the image; they must match.
+
+**5. Analyze the copy.** Examine files, deleted data, logs, registry, browser history and build a **timeline**. Never work on the original.
+
+**6. Report.** Separate facts from conclusions, explain method and limits, and keep the findings traceable.
+
+## Forensics versus data recovery
+
+In **data recovery** you know what was lost and want it back. In **forensics** you do not know what you will find, and the goal is **legally usable evidence** with integrity preserved.
+
+## Self-check
+
+1. What protects against unreasonable search and seizure? (The Fourth Amendment.)
+2. What proves the image equals the original? (Matching hash values.)
+3. Why record chain of custody? (To show the evidence was handled properly and not tampered with.)

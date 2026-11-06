@@ -24,3 +24,44 @@ Least-privilege database accounts, parameterized queries (see the SQL injection 
 ## Check yourself
 
 Take the quiz below. The next lessons use a real in-browser SQLite database.
+
+## Worked example: designing a small ticket database
+
+**Step 1: list the things you track (entities).** A help desk tracks `employees`, `departments` and `tickets`.
+
+**Step 2: give each a primary key** (a unique id).
+
+**Step 3: link them with foreign keys.**
+
+```
+departments(id PK, name)
+employees(id PK, name, dept_id FK -> departments.id)
+tickets(id PK, title, status, opened_by FK -> employees.id)
+```
+
+**Relationships:**
+
+- One department has many employees (one-to-many): `employees.dept_id` points at `departments.id`.
+- One employee opens many tickets (one-to-many): `tickets.opened_by` points at `employees.id`.
+
+**Many-to-many example:** a ticket can involve many employees and an employee can work many tickets. A database cannot hold that directly, so add a **junction table**:
+
+```
+ticket_assignees(ticket_id FK, employee_id FK)
+```
+
+Each row says "this employee is assigned to this ticket".
+
+## Why not one big table?
+
+If every ticket row repeated the employee's name and department, a rename would need hundreds of edits, and typos would create "different" departments. **Normalization** means storing each fact **once** and pointing to it. The foreign key also lets the database refuse a ticket for an employee who does not exist.
+
+## Security angle
+
+A clear design makes it easy to give each application only the access it needs (least privilege) and to protect sensitive columns (hash or encrypt them).
+
+## Self-check
+
+1. What uniquely identifies a row? (The primary key.)
+2. What column points at another table's key? (A foreign key.)
+3. How do you model many-to-many? (A junction table.)

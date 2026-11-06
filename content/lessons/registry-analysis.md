@@ -34,3 +34,33 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **Work on a copy.** Opening or booting the original system changes timestamps and data, which destroys the **original evidence** and weakens its value in court. Examiners **image first** (make an exact copy, then verify it with a hash) and analyze the copy of the registry hives.
+
+## Worked example: investigating persistence and USB use
+
+**Question 1: how does this malware survive a reboot?** Look at the autostart (**Run**) keys in the software and user hives. A key such as `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` holds programs that start at logon. Finding `updater = C:\Users\jsmith\AppData\Roaming\svc.exe` there is suspicious: legitimate updaters rarely live in a user's roaming folder under a vague name. That is a **persistence** mechanism.
+
+**Question 2: was a USB drive connected?** The SYSTEM hive keeps a history of attached USB devices (vendor, product, serial number, and times). Match the serial to a specific drive to show *that device* was connected, and when.
+
+**Question 3: what did this user open recently?** The user's `NTUSER.DAT` records recent documents, typed paths and other activity for that account.
+
+## The method
+
+1. Work from a **forensic image** or exported copies of the hives. Opening the live system alters timestamps and data.
+2. Load hives in a viewer such as Registry Explorer.
+3. Go to each artifact location and **note the key path and its last-written time**.
+4. Record everything in your report with the tool and location so someone else can repeat it.
+
+## Hive cheat sheet
+
+| Hive | Holds |
+| --- | --- |
+| SAM | Local accounts and password hashes |
+| SYSTEM | Hardware, services, time zone, USB history |
+| SOFTWARE | Installed programs, system settings |
+| SECURITY | Security policy |
+| NTUSER.DAT | One user's settings and recent activity |
+
+## Self-check
+
+1. Where do you look for programs that start at logon? (Run keys.)
+2. Why use a copy of the hives? (To preserve the original evidence.)

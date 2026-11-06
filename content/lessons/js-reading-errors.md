@@ -32,3 +32,46 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **Extra output lines are fine.** A lab passes when the **last non-empty line** of your output equals the expected answer. That means you can leave `console.log` debug lines earlier in your output while you work. Just make sure the final line printed is the answer.
+
+## Worked examples: read the message, find the line, fix it
+
+Every error message has the same shape: **the kind of error**, **what went wrong**, and often **where**.
+
+**1. SyntaxError: the code is not valid JavaScript.**
+
+```js
+console.log("hello);
+```
+
+Error: `SyntaxError: Invalid or unexpected token`. A quote was opened and never closed. Fix: `console.log("hello");`. Typical causes: missing quote, bracket or parenthesis, or pasting text that is not JavaScript at all (like a terminal command).
+
+**2. ReferenceError: you used a name that does not exist.**
+
+```js
+console.log(usr);
+```
+
+Error: `ReferenceError: usr is not defined`. You meant `user`, or you never created the variable. Check spelling and capitals.
+
+**3. TypeError: you used a value the wrong way.**
+
+```js
+const n = 5;
+n.toUpperCase();
+```
+
+Error: `TypeError: n.toUpperCase is not a function`. Numbers have no `toUpperCase`. Check what type you really have: `console.log(typeof n)`.
+
+**4. Your answer is right but the lab says it failed.** The lab compares the **last non-empty line** of output. Extra debug lines before it are fine, but anything printed *after* the answer breaks the match. Remove stray prints at the end.
+
+## A repeatable debugging habit
+
+1. Read the message out loud.
+2. Look at the line number and the line before it.
+3. Print the values you are unsure about with `console.log`.
+4. Change one thing, run again.
+
+## Self-check
+
+1. What kind of error is a missing closing quote? (SyntaxError.)
+2. If extra lines print before the correct answer, does the lab still pass? (Yes: only the last non-empty line is checked.)

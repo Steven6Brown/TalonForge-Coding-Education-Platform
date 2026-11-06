@@ -26,3 +26,30 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **Two ethics frameworks.** **Utilitarian** reasoning judges an action by its **consequences** (the greatest good for the most people). **Deontological** reasoning judges it by **duty and intent**: was the action right in itself, such as keeping a promise, regardless of the outcome? Both show up in security decisions, for example whether to disclose a vulnerability or access private data to stop an attack.
+
+## Worked scenario: using ethics frameworks on a real dilemma
+
+**Dilemma.** You are a security analyst. You discover a colleague emailing customer records to a personal address. Reporting them may get them fired. Staying quiet protects them but exposes customers.
+
+- **Utilitarian view** (judge by consequences): count who is harmed and helped. Customers' data exposure harms many people. One person's job is at stake. The greater good favors reporting.
+- **Deontological view** (judge by duty and intent): you have a duty to protect the data you were trusted with, whatever the consequences. Reporting is the right action in itself.
+
+In this case the two agree, but they can differ. Naming which framework you are using makes your reasoning clear and easier to defend.
+
+## How governance connects the pieces
+
+A short chain to remember:
+
+1. **Policy** says what must happen ("customer data must not be sent to personal accounts").
+2. **Standards and procedures** say how.
+3. **Controls** enforce it (email filtering, data-loss prevention).
+4. **Awareness and training** make people follow it.
+5. **Audit and review** check that it works.
+
+**Planning in layers:** strategic plans (years, leadership), tactical plans (months, projects) and operational plans (daily tasks). Security plans must support the business goals above them, which is why security leaders report to executives.
+
+## Self-check
+
+1. Which ethics view judges mainly by consequences? (Utilitarian.)
+2. Which looks at duties and intent? (Deontological.)
+3. Why does a policy need training and audit? (People must know it, and you need proof that it is followed.)

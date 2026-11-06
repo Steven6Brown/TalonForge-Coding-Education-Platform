@@ -42,3 +42,28 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **TLS versions.** **SSL 2.0 and 3.0 are obsolete** and insecure. **TLS 1.0 through 1.3** followed. **TLS 1.0 and 1.1 are deprecated**, so the versions in current use are **TLS 1.2 and 1.3**. **TLS 1.3** (2018) simplifies the handshake and removes weak options.
+
+## Worked example: what happens when you open an HTTPS site
+
+Follow a (simplified) TLS 1.3 connection to `shop.example`:
+
+1. **Hello.** Your browser says: "Here are the encryption methods I support, and a random number." It also sends its half of a key exchange.
+2. **Server hello and certificate.** The server picks a method, sends its own random number and key share, and presents its **certificate**.
+3. **Check the certificate.** Your browser verifies: does the name match `shop.example`? Was it signed by a **certificate authority** the browser trusts? Is it within its dates and not revoked? If any check fails you see a warning.
+4. **Agree on keys.** Both sides combine their key shares (a **Diffie-Hellman** exchange) into the same shared secret without ever sending it. Session keys are derived from it.
+5. **Finished.** Each side proves it holds the same keys. From here on, everything is encrypted and tamper-evident.
+
+An eavesdropper sees the certificate and the public values but cannot compute the shared secret.
+
+## Why a certificate matters
+
+Encryption alone does not tell you **who** you are talking to. The certificate ties the server's public key to its name, signed by someone you trust. Without that check, an attacker in the middle could pose as the server.
+
+## Version cheat sheet
+
+SSL 2.0 and 3.0: obsolete. TLS 1.0 and 1.1: deprecated. **TLS 1.2 and 1.3: current.** TLS 1.3 shortens the handshake and removes weak options.
+
+## Self-check
+
+1. What does the certificate prove? (That this public key belongs to this site, as vouched for by a trusted authority.)
+2. Which versions should you still use? (TLS 1.2 and 1.3.)

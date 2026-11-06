@@ -33,3 +33,38 @@ This lab uses ideas from the **JavaScript Foundations** track: strings (`split`,
 ## Your task
 
 Implement `parseHeaders(raw)` so it returns an object of lowercase names to values. Hidden tests check it.
+
+## Worked example: reading a raw request
+
+This is exactly what a browser sends when you visit a page:
+
+```
+GET /login?next=/home HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Cookie: session=abc123
+
+```
+
+**Line by line:**
+
+1. **Request line:** the **method** (`GET`: fetch something), the **path** (`/login?next=/home`) and the protocol version.
+2. **Headers:** each line is `Name: value`. `Host` says which site, `User-Agent` says which browser, `Cookie` carries the session.
+3. **A blank line** marks the end of the headers. Anything after it is the **body** (used by methods like POST when submitting a form).
+
+In code the lines are separated by `\r\n`, so you split on that. Line 0 is the request line. The headers are the lines **from 1 until the first empty line**.
+
+**Why security cares.** Each part is attacker-controlled: the path can carry injected text, the headers can be forged, and the cookie is the login. Reading raw requests is how you spot attacks in logs.
+
+## The shape of the lab, in plain steps
+
+1. Split the text into lines.
+2. Skip line 0.
+3. Loop; **stop at the first empty line**.
+4. For every other line, cut it at the **first** colon into a name and a value (values can contain colons, like `Host: example.com:8080`).
+
+## Self-check
+
+1. Which line has the method and path? (The first one.)
+2. What marks the end of the headers? (An empty line.)
+3. Why split on the first colon only? (Values may contain more colons.)

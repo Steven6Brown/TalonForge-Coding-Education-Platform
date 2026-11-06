@@ -29,3 +29,25 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **After recovery, find and fix the root cause.** Restoring files without removing the way the attackers got in (the phishing hole, an exposed service, stolen credentials) means **reinfection is likely**. Identify the **initial access**, close it, then **document lessons learned** and improve the plan, training and detections.
+
+## Worked example: a ransomware response, in order
+
+**Detection.** A user reports files renamed with a strange extension and a ransom note.
+
+1. **Contain first.** Disconnect the affected machine from the network (cable out, Wi-Fi off) but **keep it powered on** so memory evidence survives. Isolate shared drives that it can reach. Ransomware spreads quickly through network shares.
+2. **Declare an incident.** Escalate to the incident commander. Start a log with timestamps.
+3. **Scope.** Which machines show encrypted files? Which accounts were used? Check the SIEM and endpoint tools for the same file extension and the same ransom note elsewhere.
+4. **Preserve evidence.** Keep the ransom note and sample files. Capture memory and logs before wiping anything.
+5. **Do not pay by reflex.** Payment is a leadership, legal and law-enforcement decision. It does not guarantee recovery.
+6. **Eradicate and recover.** Rebuild affected systems from clean images and restore data from **backups you have verified are clean and offline**.
+7. **Fix the cause.** Find the initial access (a phishing email? an exposed remote desktop port? an unpatched server?) and close it. Without this, **reinfection is likely**.
+8. **Lessons learned.** Document what happened, what worked, and what to change.
+
+## Why backups decide the outcome
+
+Ransomware often targets backups too. Keep at least one copy **offline or immutable**, and practice restoring. A backup that has never been restored is only a hope.
+
+## Self-check
+
+1. Do you power off an infected machine? (No: disconnect it from the network but keep it on.)
+2. What must happen before declaring recovery finished? (Root cause found and fixed; lessons documented.)

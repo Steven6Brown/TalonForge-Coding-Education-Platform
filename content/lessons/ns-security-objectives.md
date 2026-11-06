@@ -24,3 +24,28 @@ Together, confidentiality, integrity and availability form the **CIA triad**, a 
 ## Check yourself
 
 Take the quiz below.
+
+## Worked examples: which objective was broken?
+
+For each incident, name the objective that failed: **confidentiality** (only authorized readers), **integrity** (only authorized changes), **availability** (accessible when needed), **authenticity** (genuine, from who it claims) or **accountability** (actions traceable to a person).
+
+| Incident | Objective |
+| --- | --- |
+| A stolen laptop exposes customer records | Confidentiality |
+| An attacker changes an account balance | Integrity |
+| A DDoS attack takes a website offline | Availability |
+| A forged email appears to come from the CEO | Authenticity |
+| Two admins share one login, so nobody can tell who deleted a file | Accountability |
+| A file's permissions were set wrong and it became editable by everyone | Integrity (a configuration error, not an attacker) |
+| The same transaction is processed twice because of a programming bug | Integrity (an error, not an attacker) |
+
+**Attackers are not the only cause.** Misconfiguration, mistakes and failures break these objectives too.
+
+## Start with assets and risks
+
+Before choosing protections, ask: *What are we protecting? From whom (insiders, outsiders or both)? What would a loss cost? How much protection is enough, and what is our budget?* Security is a process of answering these questions repeatedly, not a product you buy once.
+
+## Self-check
+
+1. Which objective does encryption mainly support? (Confidentiality.)
+2. What does "accountability" need? (Individual accounts and logs so actions can be traced.)

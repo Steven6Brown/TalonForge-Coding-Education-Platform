@@ -34,3 +34,31 @@ Don't use personal information, dictionary words, words spelled backward, sequen
 ## Check yourself
 
 Take the quiz below.
+
+## Worked examples: the four ideas in one login
+
+You walk up to a bank's online site:
+
+1. **Identification:** you type your username, `ana`. (You claimed an identity.)
+2. **Authentication:** you type your password and approve a code on your phone. The bank **verifies** the claim.
+3. **Authorization:** the bank decides what `ana` may do: view her own accounts, but not other customers'.
+4. **Access control:** the system actually **enforces** it: a request for someone else's account is refused.
+
+## Which factor is it?
+
+| Method | Factor |
+| --- | --- |
+| Password, PIN, security question | Something you **know** |
+| Smart card, phone authenticator, hardware key | Something you **have** |
+| Fingerprint, iris, face | Something you **are** (static biometric) |
+| Typing rhythm, voice pattern, handwriting | Something you **do** (dynamic biometric) |
+
+**MFA means different categories.** A password plus a PIN is **two things you know**: that is one factor used twice, not true MFA. A password plus a phone code is two different factors.
+
+**Authentication is not only for people.** Devices (a laptop proving it is company-owned), applications and services (an API using a key) and even organizations (federation between companies) authenticate too.
+
+## Self-check
+
+1. Is a fingerprint "something you know"? (No: something you are.)
+2. Password and security question: MFA? (No: both are knowledge factors.)
+3. Which step decides what you may do after logging in? (Authorization.)

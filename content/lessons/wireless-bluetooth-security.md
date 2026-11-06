@@ -27,3 +27,26 @@ Take the quiz below.
 ## Key facts this lesson's quiz checks
 
 - **Why public Wi-Fi is riskier.** On an open or shared network, other people on the same network may **observe or tamper with unencrypted traffic**, and attackers can set up lookalike hotspots. Use **HTTPS everywhere** (it encrypts the connection to the site) and a **VPN** when you cannot trust the network.
+
+## Worked examples: wireless risks and the fix
+
+**Scenario 1: coffee-shop Wi-Fi.** You connect to "CafeFreeWiFi". Two risks:
+
+- Anyone on the same network may be able to **watch or tamper with unencrypted traffic**.
+- An attacker can run a fake hotspot with a convincing name (an **evil twin**), so all your traffic passes through them.
+
+**What protects you:** **HTTPS** everywhere (the padlock: the connection to the site is encrypted even if the Wi-Fi is not) and a **VPN** that wraps all your traffic in an encrypted tunnel.
+
+**Scenario 2: home Wi-Fi settings.** A safe setup: **WPA2 or WPA3** with a long unique passphrase, a changed default router admin password, firmware updates, and WPS (the push-button setup feature) turned off. Old **WEP** and open networks are insecure.
+
+**Scenario 3: Bluetooth.** Devices that are **discoverable** and accept pairing from anyone can be abused. Keep Bluetooth off when you do not need it, set devices to non-discoverable, accept only pairings you started, and update the firmware.
+
+## Why wireless is different
+
+The signal travels through the air, so anyone nearby can try to listen or connect without touching a cable. Security therefore depends on **encryption and strong authentication**, not on physical access.
+
+## Self-check
+
+1. Which setting is safest for Wi-Fi? (WPA3, or WPA2 with a strong passphrase.)
+2. What does a VPN protect on public Wi-Fi? (Your traffic in transit, with an encrypted tunnel.)
+3. Why disable WPS? (It has known weaknesses that make the network easier to break into.)
