@@ -4,6 +4,7 @@ import { brand } from "@/brands";
 import { AuthEffects } from "@/components/auth/AuthEffects";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { HelperWidget } from "@/components/HelperWidget";
 import { AUTH_ENABLED } from "@/lib/auth/config";
 import "./globals.css";
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="main" className="wrap">{children}</main>
         <Footer />
+        <HelperWidget />
         {AUTH_ENABLED && <AuthEffects />}
       </body>
     </html>

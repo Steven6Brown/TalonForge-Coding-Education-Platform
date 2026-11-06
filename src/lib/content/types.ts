@@ -39,6 +39,16 @@ export type Lab =
       answers: string[];
       hints: string[];
     }
+  | {
+      kind: "siem";
+      prompt: string;
+      /** Accepted answers (all must be found). Compared case-insensitively. */
+      answers: string[];
+      hints: string[];
+      samples?: string[];
+      concepts?: { title: string; body: string }[];
+      plan?: string[];
+    }
   | { kind: "quiz"; questions: QuizQuestion[] };
 
 export type Lesson = {

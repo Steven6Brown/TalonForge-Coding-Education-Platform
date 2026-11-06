@@ -4,6 +4,7 @@ import type { Lab } from "@/lib/content/types";
 import { checkOutput, normalizeAnswer } from "@/lib/runner";
 import { CodeRunner } from "./CodeRunner";
 import { Terminal } from "./Terminal";
+import { SiemConsole } from "./SiemConsole";
 import { Markdown, renderInline } from "@/lib/markdown";
 
 type Props = { lab: Lab; lessonId: string; done: boolean; onPass: () => void };
@@ -51,6 +52,7 @@ function PassBanner({ done }: { done: boolean }) {
 export function LabPanel({ lab, lessonId, done, onPass }: Props) {
   if (lab.kind === "code") return <CodeLab lab={lab} done={done} onPass={onPass} />;
   if (lab.kind === "shell") return <ShellLab lab={lab} lessonId={lessonId} done={done} onPass={onPass} />;
+  if (lab.kind === "siem") return <SiemLab lab={lab} done={done} onPass={onPass} />;
   return <QuizLab lab={lab} done={done} onPass={onPass} />;
 }
 
@@ -223,6 +225,66 @@ function QuizLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "quiz" }>; d
         </p>
       )}
       <PassBanner done={done} />
+    </section>
+  );
+}
+
+function SiemLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "siem" }>; done: boolean; onPass: () => void }) {
+  const [found, setFound] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const n = normalizeAnswer(input);
+    const hit = lab.answers.find((a) => normalizeAnswer(a) === n);
+    if (!hit) setMsg("Not correct. Check your search results again.");
+    else if (found.includes(hit)) setMsg("You already submitted that one.");
+    else {
+      const next = [...found, hit];
+      setFound(next);
+      setMsg(`Correct! ${next.length}/${lab.answers.length} found.`);
+      if (next.length === lab.answers.length) onPass();
+    }
+    setInput("");
+  }
+
+  return (
+    <section className="lab" aria-labelledby="lab-h">
+      <h2 id="lab-h">Lab: Mini-SIEM</h2>
+      <p>{lab.prompt}</p>
+      {(lab.concepts?.length || lab.plan?.length) && (
+        <div className="scaffold">
+          {lab.concepts && lab.concepts.length > 0 && (
+            <details open>
+              <summary>Before you start: the ideas you'll use</summary>
+              {lab.concepts.map((c) => (
+                <div key={c.title} className="concept">
+                  <h3>{c.title}</h3>
+                  <Markdown source={c.body} />
+                </div>
+              ))}
+            </details>
+          )}
+          {lab.plan && lab.plan.length > 0 && (
+            <details open>
+              <summary>Your step-by-step plan</summary>
+              <ol className="plan">{lab.plan.map((st, i) => <li key={i}>{renderInline(st)}</li>)}</ol>
+            </details>
+          )}
+        </div>
+      )}
+      <SiemConsole samples={lab.samples} />
+      <form onSubmit={submit} className="answer-form">
+        <label htmlFor="siem-answer">Submit your answer ({found.length}/{lab.answers.length})</label>
+        <div className="row">
+          <input id="siem-answer" value={input} onChange={(e) => setInput(e.target.value)} maxLength={200} autoComplete="off" spellCheck={false} />
+          <button className="btn primary" type="submit" disabled={!input.trim()}>Submit</button>
+        </div>
+      </form>
+      {msg && <p role="status" className={msg.startsWith("Correct") ? "pass" : "warn"}>{msg}</p>}
+      <PassBanner done={done} />
+      <Hints hints={lab.hints} />
     </section>
   );
 }

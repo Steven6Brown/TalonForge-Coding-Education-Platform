@@ -247,3 +247,26 @@ textarea.mono { font-family: ui-monospace, Consolas, monospace; }
 .out-box { background: #070a10; border: 1px solid var(--border); border-radius: 10px; padding: 12px; white-space: pre-wrap; word-break: break-all; margin: 0; }
 code.wrap { word-break: break-all; }
 select { width: auto; }
+
+/* Ask helper */
+.helper-fab { position: fixed; right: 16px; bottom: 16px; z-index: 30; min-height: 44px; padding: 8px 18px; border-radius: 99px; border: 1px solid var(--accent2); background: var(--surface2); color: var(--text); font: inherit; font-weight: 700; cursor: pointer; box-shadow: 0 10px 30px -10px #000; }
+.helper-fab:hover { background: var(--surface); }
+.helper-panel { position: fixed; right: 16px; bottom: 70px; z-index: 30; width: min(420px, calc(100vw - 32px)); max-height: min(640px, calc(100vh - 100px)); display: flex; flex-direction: column; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; box-shadow: 0 20px 50px -20px #000; overflow: hidden; }
+.helper-h { margin: 0; font-size: 1.05rem; }
+.helper-log { overflow-y: auto; min-height: 120px; flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--bg); }
+.helper-msg { margin: 8px 0; }
+.helper-msg.you { color: var(--accent); }
+.helper-msg .prose { max-width: none; font-size: .92rem; }
+.helper-panel textarea { width: 100%; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit; resize: vertical; }
+
+/* Simulators */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; border-bottom: 1px solid var(--border); }
+.tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; color: var(--muted); font: inherit; cursor: pointer; }
+.tab.on { color: var(--text); border-bottom-color: var(--accent, currentColor); font-weight: 600; }
+.sim-card { text-align: left; display: flex; flex-direction: column; gap: 6px; cursor: pointer; font: inherit; color: inherit; }
+.sim-card:hover, .sim-card:focus-visible { border-color: var(--accent, currentColor); }
+.sim-run { display: grid; gap: 14px; max-width: 760px; }
+.choices { display: grid; gap: 10px; }
+.btn.choice { text-align: left; white-space: normal; height: auto; padding: 12px 14px; }
+.card.pass { border-color: var(--ok); }
+.card.warn { border-color: #d9a441; }
