@@ -3,6 +3,7 @@ import { authLog, CTF_FLAGS, rot13 } from "./filesystems";
 import { EXTRA_LESSONS } from "./lessons-extra";
 import { BATCH3_LESSONS } from "./lessons-batch3";
 import { BATCH4_LESSONS } from "./lessons-batch4";
+import { BATCH5_LESSONS } from "./lessons-batch5";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -40,6 +41,15 @@ export const TRACKS: Track[] = [
     lessons: ["js-basics", "http-anatomy", "xss-escape", "sql-injection"],
   },
   {
+    id: "math-crypto",
+    title: "Math for Security",
+    tagline: "The discrete math under crypto and ML",
+    icon: "math",
+    description:
+      "Number bases, the Euclidean algorithm, modular inverses, toy RSA, logic and proofs, and Bayes' theorem: the math behind cryptography and security analytics.",
+    lessons: ["number-bases", "euclid-gcd", "modular-inverse", "rsa-from-scratch", "logic-and-proofs", "probability-bayes"],
+  },
+  {
     id: "kali-pentest",
     title: "Kali Pentest Lab",
     tagline: "Scan, enumerate, crack, report",
@@ -55,7 +65,7 @@ export const TRACKS: Track[] = [
     icon: "sec",
     description:
       "Risk assessment, cryptography, OSINT, Windows and Active Directory, and digital forensics: the knowledge that turns tool users into analysts.",
-    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics"],
+    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics", "malware-landscape", "security-governance", "tech-law-basics"],
   },
   {
     id: "automation",
@@ -80,6 +90,7 @@ export const TRACKS: Track[] = [
       "prompt-engineering",
       "llm-output-validation",
       "rag-basics",
+      "ml-spam-classifier",
       "ai-security",
     ],
   },
@@ -695,7 +706,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);
