@@ -34,3 +34,30 @@ Complete the quiz to finish.
 
 - **Out-of-scope findings.** A penetration test has a written **scope**: the systems you may test. If you stumble on a weakness outside it, **stop, document it, and report it to the client**. Do not test it further. Scope protects both sides: the client has not agreed to risk on those systems, and you are only legally covered inside the agreement.
 - **Where is it safe to practice password cracking?** Only on **your own data** (hashes you generated yourself) or purpose-built **labs and CTFs**. Cracking real people's credentials, even "just to see", causes real harm and can be a crime.
+
+## Worked scenarios: what would you do?
+
+**Scenario 1: scope.** Your agreement lets you test `app.client.com`. While testing you notice `payroll.client.com`, which looks vulnerable.
+- Right action: **do not test it.** Stop, write down what you observed without exploiting it, and tell the client so they can add it to scope or fix it.
+
+**Scenario 2: you found real customer data.** A test exposes a table of customer records.
+- Right action: stop at proof (a screenshot with the sensitive fields blurred), report it immediately, and do not copy or keep the data.
+
+**Scenario 3: a friend asks you to "check" their ex's account.**
+- Right action: refuse. Without authorization from the account owner this is unauthorized access, which is illegal however it is described.
+
+## What makes testing legal and ethical
+
+- **Written authorization** from someone who has the right to give it.
+- A defined **scope**: which systems, which dates, which techniques.
+- **Rules of engagement** (for example, no denial-of-service, no social engineering of staff).
+- A promise to **report findings** and protect any data you touch.
+
+## Where to practice legally
+
+Your own virtual machines, intentionally vulnerable apps (DVWA, Juice Shop), CTF competitions, and bug bounty programs that publish a scope and rules. Hashes you generated yourself are fine for learning password cracking; real people's leaked credentials are not.
+
+## Self-check
+
+1. Who can authorize a test of a company's systems? (A person with the authority to do so, in writing: not you, a friend or a rival.)
+2. What do you do with an out-of-scope finding? (Stop, document, report.)

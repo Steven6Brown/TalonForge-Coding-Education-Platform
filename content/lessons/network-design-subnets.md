@@ -32,3 +32,35 @@ Larger organizations connect sites through hubs; links between nearby buildings 
 ## Your task
 
 Implement `prefixForHosts(n)` to find the smallest subnet that fits `n` hosts.
+
+## Walk-through: choosing a subnet size
+
+You are planning a network and each department needs room for its devices. Remember: a `/p` network has `2^(32-p)` addresses, and **usable hosts = that number minus 2** (the network address and the broadcast address cannot be given to devices).
+
+**Example: 30 devices.**
+
+| Prefix | Addresses | Usable hosts | Fits 30? |
+| --- | --- | --- | --- |
+| /30 | 4 | 2 | no |
+| /29 | 8 | 6 | no |
+| /28 | 16 | 14 | no |
+| /27 | 32 | 30 | **yes (exactly)** |
+
+The answer is `/27`: the **smallest** network (largest prefix number) that still holds 30 hosts.
+
+**Example: 50 devices.** `/27` holds only 30, but `/26` holds `64 - 2 = 62`, so the answer is `/26`.
+
+**Leave growth room.** Real designs add 25 to 50 percent spare capacity and plan separate subnets for servers, staff, guests and cameras, so a problem in one cannot easily reach another.
+
+## How the loop searches
+
+Start at `/30` (the smallest useful network) and work **down** to `/1`, computing `2 ** (32 - p) - 2`. The first prefix whose usable hosts are at least `n` is the answer, so `return p` immediately. If nothing fits, return 0.
+
+## If something goes wrong
+
+- Off by one prefix: you forgot to subtract 2.
+- Returns 30 for everything: you started the loop at the wrong end or did not return early.
+
+## Check yourself
+
+How many hosts can a `/28` hold? (16 - 2 = 14.) What prefix do you need for 100 hosts? (`/25` holds 126.)

@@ -27,3 +27,40 @@ A **session** ties an authenticated user to the roles currently active. Each rol
 ## Your task
 
 Implement `effectivePermissions` over a role hierarchy.
+
+## Walk-through: collecting inherited permissions
+
+Roles from the lab:
+
+```
+engineer:           own permissions [read]
+productionEngineer: own [deploy],  inherits engineer
+qualityEngineer:    own [test],    inherits engineer
+projectLead:        own [approve], inherits productionEngineer AND qualityEngineer
+```
+
+What can a `projectLead` do? Follow the chain:
+
+1. Own permission: `approve`.
+2. Inherits `productionEngineer`: `deploy`, and that role inherits `engineer`: `read`.
+3. Inherits `qualityEngineer`: `test`, and that role also inherits `engineer`: `read` again.
+
+Collect everything and remove duplicates: `approve, deploy, read, test`. Sorted: `["approve", "deploy", "read", "test"]`. Notice `read` appears twice on the way but only once in the answer: that is why a `Set` is used.
+
+## The recursion
+
+Write a helper `visit(name)`:
+
+1. Look up the role: `const r = roles[name]`. If it does not exist, stop.
+2. Add each of its own permissions to the set.
+3. Call `visit` for each name in `inherits`.
+
+Because a role can inherit from a role that inherits from another, the function follows the chain by calling itself. At the end, `[...out].sort()` turns the set into a sorted list.
+
+## Why RBAC is popular
+
+You give permissions to **roles** and people get roles, so when someone changes jobs you swap their role instead of editing dozens of individual permissions. Hierarchies avoid repeating permissions.
+
+## Check yourself
+
+What are `qualityEngineer`'s effective permissions? (`["read", "test"]`.)

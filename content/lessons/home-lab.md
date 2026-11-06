@@ -38,3 +38,35 @@ Finish with the short quiz.
 ## Key facts this lesson's quiz checks
 
 - **Snapshots.** A **snapshot** saves the exact state of a virtual machine at one moment: its disk, settings and optionally memory. If an experiment goes wrong (malware, a broken configuration, a deleted system file) you **roll back** to the snapshot in seconds. That makes destructive learning cheap and repeatable. Take a snapshot of a clean machine before every risky experiment, and revert afterwards.
+
+## Worked example: a starter home lab you can build in an evening
+
+**Goal:** a safe place to practice that cannot hurt your real network.
+
+1. **Install a hypervisor** (VirtualBox or VMware Workstation Player). It runs virtual machines.
+2. **Create an isolated network.** In the VM settings choose **Host-only** or **Internal** networking so the VMs can talk to each other but not to your home network or the internet.
+3. **Build three machines:**
+
+| VM | Role | Purpose |
+| --- | --- | --- |
+| Kali Linux | Attacker/toolbox | Run the tools |
+| An intentionally vulnerable target (for example Metasploitable or OWASP Juice Shop) | Target | Something legal to test |
+| A Windows or Ubuntu server | Defender practice | Harden it, read its logs |
+
+4. **Snapshot each machine** right after setup. Name it "clean".
+5. **Practice a loop:** experiment, then **revert to the snapshot**. Breaking things stops being scary.
+
+## Safety rules
+
+- Never attach the vulnerable VM to your real network. It is built to be hacked.
+- Keep your host system patched and avoid running malware samples on it.
+- Only test machines you own or built for the purpose.
+
+## What to practice first
+
+Scan the target and read the results, then harden the server (firewall rules, disable unused services) and watch what changes in the logs.
+
+## Self-check
+
+1. Why take a snapshot? (To roll back to a known-good state after a risky experiment.)
+2. Which network mode keeps the lab off your home network? (Host-only or internal.)

@@ -26,3 +26,35 @@ From least to most precise:
 ## Check yourself
 
 Take the quiz below.
+
+## Worked examples: pick the level and the statistic
+
+Ask two questions of any variable: *are the values just labels?* and *is there a true zero?*
+
+| Variable | Level | Why |
+| --- | --- | --- |
+| Country where an attack started | Nominal | Labels only, no order |
+| Severity: low, medium, high | Ordinal | Ordered, but the gaps are not equal |
+| Temperature in Celsius | Interval | Equal gaps, but 0 degrees is not "no temperature" |
+| Number of attacks per week | Ratio | Equal gaps and a true zero (0 attacks means none) |
+
+**Which statistic fits?**
+
+- Nominal: only the **mode** (most common label).
+- Ordinal: **median** or mode.
+- Interval and ratio: **mean** too.
+
+**Why median beats mean sometimes.** Weekly attack counts `[3, 4, 4, 5, 90]`. The mean is `106 / 5 = 21.2`, pulled up by the one huge week. The median is the middle value, `4`, which describes a typical week better. **Outliers** drag the mean but barely move the median.
+
+## Spread, by hand
+
+For `[2, 4, 6]` the mean is 4. The deviations are `-2, 0, 2`: they always add to zero, which is why we square them: `4, 0, 4`. For a **sample**, divide the sum (8) by `n - 1 = 2` to get the **variance** 4; the **standard deviation** is its square root, 2 (in the original units). **Range** is highest minus lowest: `6 - 2 = 4`.
+
+## Variables in a study
+
+If you ask "does training reduce phishing clicks?", training is the **independent variable** (the cause you change) and the click rate is the **dependent variable** (the effect you measure).
+
+## Self-check
+
+1. Is a 1-to-5 satisfaction rating nominal, ordinal or interval? (Ordinal: ordered, gaps not guaranteed equal.)
+2. Is response time in minutes ratio? (Yes: true zero.)

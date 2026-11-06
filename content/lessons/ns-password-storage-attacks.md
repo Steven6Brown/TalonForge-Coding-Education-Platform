@@ -22,3 +22,48 @@ Beyond passwords, hashes identify malware, support virus scanners, verify softwa
 ## Your task
 
 Implement `saltedSha256Hex` with the browser's Web Crypto API (`crypto.subtle`). It is asynchronous, so the function is `async` and you `await` the digest.
+
+## Walk-through: why a salt changes the hash
+
+Hash the password `abc` with SHA-256:
+
+```
+abc          -> ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+```
+
+Every user whose password is `abc` has this same hash, and an attacker can look it up in a precomputed table.
+
+Now add a **salt**: random text stored next to the hash, unique per user. Hash `salt + password`, for example `x1abc`:
+
+```
+x1abc        -> 3390244a5393185ea2284c008d574d71c0e2290aadc49d7384bea0e37eb67307
+```
+
+Same password, completely different hash. A table built for unsalted hashes is useless, and the attacker must attack each user's hash separately.
+
+## Writing it
+
+```js
+async function saltedSha256Hex(password, salt) {
+  const data = new TextEncoder().encode(salt + password);
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  // turn the bytes into hex
+}
+```
+
+Convert with `[...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("")`.
+
+Check your function: `saltedSha256Hex("abc", "x1")` should start with `3390244a`.
+
+## What the salt does and does not do
+
+A salt defeats **precomputed tables** and **spotting duplicates**. It does **not** make guessing a single weak password slow, because SHA-256 is fast. For that, real systems use deliberately slow hashes (Argon2id, bcrypt, scrypt) with a unique salt each.
+
+## If something goes wrong
+
+- A Promise instead of text: add `await` and make the function `async`.
+- Wrong hash: you put the salt after the password. The task says `salt + password`.
+
+## Check yourself
+
+Why store the salt in the database next to the hash? (It is not secret. It only has to be unique, and the server needs it to check a login.)

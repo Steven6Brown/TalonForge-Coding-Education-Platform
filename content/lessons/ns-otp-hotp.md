@@ -27,3 +27,41 @@ The RFC test secret is the ASCII string `12345678901234567890`; counters 0 to 4 
 ## Your task
 
 Implement HOTP with Web Crypto (`HMAC` with `SHA-1`) and match the official test vectors.
+
+## Walk-through: the four steps with a known answer
+
+The standard (RFC 4226) publishes test values. With the secret `12345678901234567890` and a 6-digit code, the codes for counters 0, 1 and 2 are:
+
+```
+counter 0 -> 755224
+counter 1 -> 287082
+counter 2 -> 359152
+```
+
+If your function returns these, it is correct.
+
+**Step 1: make the message.** The counter becomes **8 bytes**, big-endian (most significant byte first). `new DataView(buffer).setBigUint64(0, BigInt(counter))` writes it.
+
+**Step 2: HMAC it.** `crypto.subtle.importKey("raw", secretBytes, { name: "HMAC", hash: "SHA-1" }, false, ["sign"])`, then `await crypto.subtle.sign("HMAC", key, buffer)`. The result is 20 bytes.
+
+**Step 3: dynamic truncation.** Look at the **last byte** of those 20. Its lowest 4 bits (`& 0x0f`) give a number from 0 to 15, the **offset**. Take the 4 bytes starting at that offset and combine them into one 32-bit number, clearing the top bit (`& 0x7f` on the first of the four):
+
+```js
+const code = ((h[o] & 0x7f) << 24) | (h[o + 1] << 16) | (h[o + 2] << 8) | h[o + 3];
+```
+
+**Step 4: shorten.** `code % 10 ** digits` keeps the last 6 digits; `String(...).padStart(digits, "0")` restores leading zeros.
+
+## TOTP is just HOTP with a clock
+
+For an authenticator app, the counter is `Math.floor(currentTimeInSeconds / 30)`. Everyone with the secret computes the same code during the same 30 seconds.
+
+## If something goes wrong
+
+- All codes wrong: check the counter is 8 bytes and the hash is SHA-1.
+- Code has too few digits: you forgot `padStart`.
+- `TypeError` about BigInt: `setBigUint64` needs `BigInt(counter)`.
+
+## Check yourself
+
+Why does the code change every 30 seconds in an authenticator app? (The counter is derived from the time, and it increases every 30 seconds.)

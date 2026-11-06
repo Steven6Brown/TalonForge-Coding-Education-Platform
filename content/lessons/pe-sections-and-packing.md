@@ -36,3 +36,37 @@ Size ratios, string counts and import counts raise suspicion; none is proof. Com
 ## Your task
 
 Implement the raw-versus-virtual-size heuristic.
+
+## Walk-through: spotting a packed section
+
+A Windows program is split into **sections**. Two numbers describe each one:
+
+- **Raw size:** how many bytes it takes on **disk**.
+- **Virtual size:** how many bytes it takes **in memory** once loaded.
+
+Normally they are similar. Compare two sections:
+
+| Section | Raw size | Virtual size | Ratio |
+| --- | --- | --- | --- |
+| `.text` (code) | 4,096 | 4,500 | about 1.1 |
+| `.UPX0` | 512 | 20,000 | about 39 |
+
+The second section is tiny on disk but huge in memory. That pattern suggests the program is **packed**: the real code is compressed or encrypted on disk and unpacked into that big memory area when it runs. Packers hide the real code from simple scanners.
+
+## The rule you implement
+
+"Virtual size is more than **twice** the raw size." In code that single comparison is the whole function:
+
+```js
+return virtualSize > rawSize * 2;
+```
+
+For the table: `4500 > 4096 * 2`? No (8192), so false. `20000 > 512 * 2`? Yes (1024), so true.
+
+## A heuristic, not proof
+
+Some legitimate programs have large uninitialized data sections that grow in memory (such as `.bss`), so this rule can give **false positives**. Analysts combine it with other signs: unusual section names, very high **entropy** (randomness) in the data, and few imports.
+
+## Check yourself
+
+With raw 1000 and virtual 2000, is it flagged? (No: it must be *more than* twice, and 2000 is exactly twice.)

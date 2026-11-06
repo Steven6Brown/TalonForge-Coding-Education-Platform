@@ -22,3 +22,32 @@ Passive reconnaissance (public pages, DNS records, certificate logs, technology 
 ## Check yourself
 
 Take the quiz below.
+
+## Worked example: triaging a scanner finding
+
+Suppose a passive scan of **your own test site** reports:
+
+> **Missing Anti-clickjacking Header** (risk: Medium) on `/login`
+
+Follow the triage steps:
+
+1. **Read the alert.** The site does not send `X-Frame-Options` (or a CSP `frame-ancestors` rule), so another site could embed the login page invisibly in a frame and trick users into clicking (clickjacking).
+2. **Verify manually.** Open the browser developer tools, Network tab, and look at the response headers for `/login`. Confirm the header really is missing. (Scanners sometimes report false positives.)
+3. **Rate the risk.** Likelihood: moderate, since an attacker would need to lure users to a page. Impact: an unwanted action on a logged-in page. Medium is reasonable.
+4. **Fix.** Add `X-Frame-Options: DENY` (or `Content-Security-Policy: frame-ancestors 'none'`).
+5. **Re-scan** to confirm the alert is gone.
+
+## Passive versus active, by example
+
+- **Passive:** ZAP reads the traffic your browser already generated and points out missing headers and insecure cookies. It sends no attack payloads, so it is generally safe.
+- **Active:** ZAP sends test payloads such as `<script>` strings and SQL fragments to find injection and XSS. It can create or change data. Only run it against a test copy that you own or have **written permission** to test.
+
+## What a scanner cannot do
+
+It misses **business-logic** flaws, such as "a user can change the price in the cart". Humans find those by thinking like a user and an attacker.
+
+## Self-check
+
+1. Which scan needs authorization and a test environment? (Active.)
+2. What should you do before fixing a finding? (Verify it manually.)
+3. Name two apps built for legal practice. (OWASP Juice Shop and DVWA.)

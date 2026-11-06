@@ -28,3 +28,42 @@ On the command line: `strings filename` (Windows Sysinternals or Linux).
 ## Your task
 
 Implement the core of the `strings` utility: scan bytes and return the printable runs of a minimum length.
+
+## Walk-through: pulling text out of bytes
+
+A file is a sequence of numbers (bytes). **Printable ASCII** means the numbers 32 (space) to 126 (`~`), the ones that display as characters. Everything else (0, 1, 2... and 127 upward) is non-printable.
+
+Take these bytes and a minimum length of 3:
+
+```
+[72, 105, 0, 65, 66, 67, 68, 0, 10]
+```
+
+Walk through with a variable `cur` (the run being built):
+
+```
+72  H  printable -> cur = "H"
+105 i  printable -> cur = "Hi"
+0      not printable -> run ended. "Hi" has 2 characters, below 3: discard. cur = ""
+65  A  -> cur = "A"
+66  B  -> cur = "AB"
+67  C  -> cur = "ABC"
+68  D  -> cur = "ABCD"
+0      not printable -> run ended. "ABCD" has 4 characters: keep it. cur = ""
+10     not printable -> nothing to save
+```
+
+Result: `["ABCD"]`.
+
+## Two details that matter
+
+- Use `String.fromCharCode(b)` to turn a number into its character.
+- **After the loop**, check `cur` once more: a run can reach the very end of the data without a non-printable byte after it, and you would otherwise lose it.
+
+## Why analysts do this
+
+Running `strings` on an unknown file is one of the first triage steps. URLs, IP addresses, file names, registry keys and error messages inside the program often appear as readable strings and hint at what it does. (Packed or encrypted programs hide their strings, which is itself a clue.)
+
+## Check yourself
+
+With `minLen` 2, what would the example above return? (`["Hi", "ABCD"]`.)

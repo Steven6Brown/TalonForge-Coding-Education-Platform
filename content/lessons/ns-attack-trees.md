@@ -30,3 +30,37 @@ An analyst might model goals such as "learn the user's credentials" (via phishin
 ## Your task
 
 Write a recursive evaluator that returns the minimum cost to achieve the root goal.
+
+## Walk-through: costing a small attack tree
+
+Goal: **read a company's private file**. An attacker has two options (OR):
+
+- **Option 1:** buy stolen credentials. Cost 50.
+- **Option 2:** do **both** of the following (AND): trick an employee with a phishing email (cost 10) **and** install a keylogger (cost 15).
+
+```
+Read private file (OR)
+├── Buy credentials ............. 50
+└── Phish + keylogger (AND)
+    ├── Phishing email .......... 10
+    └── Install keylogger ....... 15
+```
+
+**Work from the leaves upward:**
+
+- The AND node needs **all** its children: `10 + 15 = 25`.
+- The OR node takes the **cheapest** option: `min(50, 25) = 25`.
+
+So the cheapest attack costs **25**. A defender can use this: raising the cost of the cheapest path (for example, MFA makes phished credentials useless) improves security more than hardening an expensive path nobody would take.
+
+## Recursion, step by step
+
+`cheapestAttack(node)` calls itself on each child:
+
+1. **Base case:** a leaf (`node.children` is missing) returns `node.cost`.
+2. Otherwise compute the cost of every child with `node.children.map(cheapestAttack)`.
+3. If the node is `"OR"`, return the smallest (`Math.min(...costs)`); otherwise (AND) return their sum.
+
+## Check yourself
+
+If the keylogger cost 40, what would the cheapest attack cost? (AND = 50, OR = min(50, 50) = 50.)

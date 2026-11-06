@@ -25,3 +25,28 @@ XSS runs the attacker's script *in* the site; CSRF makes the victim's browser se
 ## Check yourself
 
 Take the quiz below.
+
+## Worked example: a CSRF attack and how each defense stops it
+
+**Setup.** You are logged in to `bank.example`. Your browser holds a session cookie for it.
+
+**The attack.** You visit a malicious page that contains a hidden form pointing at `bank.example/transfer` with the attacker's account filled in, and the page submits it automatically. Your browser sends the request **and attaches your bank cookie** (browsers do this automatically). The bank sees a valid session and a valid request, and the money moves.
+
+**What stops it:**
+
+| Defense | How it works |
+| --- | --- |
+| **Anti-CSRF token** | The real transfer form contains a random, per-session token. The attacker's page cannot read it, so its forged request is missing the token and is rejected. |
+| **SameSite=Lax/Strict** | The browser does not send the cookie on most cross-site requests, so the forged request arrives without a session. |
+| **Checking Origin/Referer** | The server rejects requests that come from another site. |
+| **Re-authentication** | A sensitive action asks for the password or a code again. |
+
+**Cookie flags in one line each:** `HttpOnly` (scripts cannot read it, limiting XSS theft), `Secure` (HTTPS only), `SameSite` (limits CSRF).
+
+**Session fixation** is when an attacker gives you a session ID they already know. Fix: generate a **new** ID at login.
+
+## Self-check
+
+1. XSS or CSRF: the attacker's script runs inside the site? (XSS.)
+2. XSS or CSRF: the victim's browser is tricked into sending a request? (CSRF.)
+3. Which cookie flag limits theft by JavaScript? (`HttpOnly`.)
