@@ -21,7 +21,7 @@ export function CryptoWorkbench() {
       <p className="muted">All of this runs locally in your browser. Nothing you type is sent to a server. Do not use classical ciphers to protect real secrets: they exist to teach how encryption works.</p>
       <div className="chips" role="tablist" aria-label="Crypto tools">
         {TOOLS.map((t) => (
-          <button key={t.id} role="tab" aria-selected={tool === t.id} aria-pressed={tool === t.id} className="chip" onClick={() => setTool(t.id)}>{t.label}</button>
+          <button key={t.id} role="tab" aria-selected={tool === t.id} className="chip" onClick={() => setTool(t.id)}>{t.label}</button>
         ))}
       </div>
       {tool === "encoding" && <Encoding />}

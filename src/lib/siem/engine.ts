@@ -146,7 +146,7 @@ function colIndex(t: Table, f: string): number {
 export function runQuery(query: string, events: LogEvent[]): Table {
   const stages = splitPipes(query.trim());
   if (!stages[0] && stages.length === 1) throw new QueryError("Type a search, for example: action=failure");
-  let evs: LogEvent[] = events.filter(buildSearch(stages[0] ?? ""));
+  const evs: LogEvent[] = events.filter(buildSearch(stages[0] ?? ""));
   // Stages that need event fields work on events until the first transforming command.
   let table: Table | null = null;
   const getTable = () => (table ??= toTable(evs));

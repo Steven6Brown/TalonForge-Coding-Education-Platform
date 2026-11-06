@@ -79,7 +79,7 @@ function CodeLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "code" }>; d
           )}
           {lab.concepts && lab.concepts.length > 0 && (
             <details open>
-              <summary>Before you start: the ideas you'll use</summary>
+              <summary>Before you start: the ideas you&apos;ll use</summary>
               {lab.concepts.map((c) => (
                 <div key={c.title} className="concept">
                   <h3>{c.title}</h3>
@@ -276,7 +276,7 @@ function SiemLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "siem" }>; d
         <div className="scaffold">
           {lab.concepts && lab.concepts.length > 0 && (
             <details open>
-              <summary>Before you start: the ideas you'll use</summary>
+              <summary>Before you start: the ideas you&apos;ll use</summary>
               {lab.concepts.map((c) => (
                 <div key={c.title} className="concept">
                   <h3>{c.title}</h3>

@@ -23,7 +23,6 @@ export type KaliNet = {
 };
 
 const ipToInt = (ip: string) => ip.split(".").reduce((a, o) => (a << 8) + Number(o), 0) >>> 0;
-const isIp = (s: string) => /^\d{1,3}(\.\d{1,3}){3}$/.test(s);
 
 function findHost(net: KaliNet, t: string): KaliHost | undefined {
   const lower = t.toLowerCase();

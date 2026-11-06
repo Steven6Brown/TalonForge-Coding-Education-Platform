@@ -10,7 +10,6 @@ const JS_LOOPS = { id: "js-arrays-loops", track: "js-foundations", title: "Lists
 const JS_OBJECTS = { id: "js-objects", track: "js-foundations", title: "Objects" };
 const JS_FUNCS = { id: "js-functions-return", track: "js-foundations", title: "Functions" };
 const JS_COND = { id: "js-conditionals-comparison", track: "js-foundations", title: "Decisions" };
-const JS_ERR = { id: "js-reading-errors", track: "js-foundations", title: "Reading Error Messages" };
 const PY_START = { id: "py-first-program", track: "python-foundations", title: "Your First Python Program" };
 const PY_LOOPS = { id: "py-lists-loops-dicts", track: "python-foundations", title: "Lists, Loops and Dictionaries" };
 const PY_STRINGS = { id: "py-strings-functions", track: "python-foundations", title: "Strings and Functions" };

@@ -22,8 +22,8 @@ export function PortsReference() {
   return (
     <div>
       <div className="chips" role="tablist" aria-label="Ports mode">
-        <button role="tab" aria-selected={mode === "reference"} className="chip" aria-pressed={mode === "reference"} onClick={() => setMode("reference")}>Reference</button>
-        <button role="tab" aria-selected={mode === "quiz"} className="chip" aria-pressed={mode === "quiz"} onClick={() => setMode("quiz")}>Flashcard quiz</button>
+        <button role="tab" className="chip" aria-selected={mode === "reference"} onClick={() => setMode("reference")}>Reference</button>
+        <button role="tab" className="chip" aria-selected={mode === "quiz"} onClick={() => setMode("quiz")}>Flashcard quiz</button>
       </div>
       {mode === "quiz" ? <PortQuiz /> : (
         <>

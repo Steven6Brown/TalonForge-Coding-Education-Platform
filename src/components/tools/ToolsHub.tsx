@@ -16,7 +16,7 @@ export function ToolsHub({ initial = "converter" }: { initial?: (typeof TABS)[nu
     <>
       <div className="chips" role="tablist" aria-label="Tools">
         {TABS.map((t) => (
-          <button key={t.id} role="tab" aria-selected={tab === t.id} aria-pressed={tab === t.id} className="chip" onClick={() => setTab(t.id)}>{t.label}</button>
+          <button key={t.id} role="tab" aria-selected={tab === t.id} className="chip" onClick={() => setTab(t.id)}>{t.label}</button>
         ))}
       </div>
       {tab === "converter" && <NumberConverter />}
