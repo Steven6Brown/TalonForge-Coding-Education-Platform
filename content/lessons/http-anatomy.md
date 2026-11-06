@@ -24,7 +24,11 @@ Responses start with a status line, e.g. `200 OK`, `301 Moved`, `403 Forbidden`,
 
 ## Try it for real
 
-On your own machine, `curl -i https://example.com` prints a real response with headers. Your browser's DevTools → Network tab shows the same thing.
+On your own machine, open a **terminal** (not the code editor below) and run `curl -i https://example.com` to print a real response with headers. Your browser's DevTools → Network tab shows the same thing. Important: that `curl` line is a **terminal command**; pasting it into the JavaScript editor causes a `SyntaxError`, because it isn't JavaScript.
+
+## New to JavaScript?
+
+This lab uses ideas from the **JavaScript Foundations** track: strings (`split`, `indexOf`, `slice`, `trim`), loops with `break`, objects, and functions that `return`. The lab below explains each one step by step and has a plan and a runnable example. If anything is unfamiliar, do the foundations lessons first (they take about two hours in total).
 
 ## Your task
 

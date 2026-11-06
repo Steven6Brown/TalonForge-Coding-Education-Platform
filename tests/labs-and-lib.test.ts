@@ -97,3 +97,23 @@ describe("sha256", () => {
     expect(sha256Hex("")).toBe("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
   });
 });
+
+import { explainError } from "@/lib/explain-error";
+describe("beginner support", () => {
+  it("explains the common JavaScript errors in plain English", () => {
+    expect(explainError("javascript", "SyntaxError: Unexpected identifier 'https'")).toMatch(/isn't JavaScript|only accepts JavaScript/);
+    expect(explainError("javascript", "ReferenceError: total is not defined")).toMatch(/spelling/);
+    expect(explainError("python", "IndentationError: expected an indented block")).toMatch(/indent/i);
+    expect(explainError("sql", "no such table: x")).toMatch(/table/);
+    expect(explainError("javascript", "some unknown thing")).toBeNull();
+  });
+  it("every code lab with scaffolding has concepts and a plan", () => {
+    for (const l of LESSONS) {
+      if (l.lab.kind === "code" && (l.track === "js-foundations" || l.track === "python-foundations")) {
+        expect(l.lab.concepts?.length, l.id).toBeGreaterThan(1);
+        expect(l.lab.plan?.length, l.id).toBeGreaterThan(1);
+        expect(l.lab.example, l.id).toBeTruthy();
+      }
+    }
+  });
+});

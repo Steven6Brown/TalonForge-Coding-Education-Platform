@@ -12,6 +12,9 @@ import { BATCH8B_LESSONS } from "./lessons-batch8b";
 import { NS1_LESSONS } from "./lessons-ns1";
 import { NS2_LESSONS } from "./lessons-ns2";
 import { NS3_LESSONS } from "./lessons-ns3";
+import { JSF_LESSONS } from "./lessons-jsf";
+import { PYF_LESSONS } from "./lessons-pyf";
+import { SCAFFOLDS } from "./lab-scaffolds";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -21,6 +24,24 @@ const LAYERED_FLAG = "FLAG{layers_of_encoding}";
 const CAESAR_PLAIN = "MEET AT THE EAGLES NEST AT NOON";
 
 export const TRACKS: Track[] = [
+  {
+    id: "js-foundations",
+    title: "JavaScript Foundations",
+    tagline: "Never coded before? Start here",
+    icon: "js",
+    description:
+      "A ground-up JavaScript course: every lab explains the ideas it uses, gives a numbered plan, lets you load a runnable example, and translates errors into plain English.",
+    lessons: ["js-first-program", "js-variables-types", "js-string-methods", "js-arrays-loops", "js-objects", "js-functions-return", "js-conditionals-comparison", "js-reading-errors"],
+  },
+  {
+    id: "python-foundations",
+    title: "Python Foundations",
+    tagline: "Your first Python, step by step",
+    icon: "py",
+    description:
+      "A ground-up Python course with the same guided labs: concepts first, then a plan, an example and friendly error explanations.",
+    lessons: ["py-first-program", "py-lists-loops-dicts", "py-strings-functions"],
+  },
   {
     id: "linux-shell",
     title: "Linux & the Shell",
@@ -757,7 +778,12 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS, ...NS1_LESSONS, ...NS2_LESSONS, ...NS3_LESSONS];
+const ALL_LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS, ...NS1_LESSONS, ...NS2_LESSONS, ...NS3_LESSONS, ...JSF_LESSONS, ...PYF_LESSONS];
+
+/** Applies extra beginner scaffolding (concepts, plan, example) to existing code labs by lesson id. */
+export const LESSONS: Lesson[] = ALL_LESSONS.map((l) =>
+  l.lab.kind === "code" && SCAFFOLDS[l.id] ? { ...l, lab: { ...l.lab, ...SCAFFOLDS[l.id] } } : l,
+);
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);

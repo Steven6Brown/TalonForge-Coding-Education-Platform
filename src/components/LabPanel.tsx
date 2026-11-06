@@ -4,6 +4,7 @@ import type { Lab } from "@/lib/content/types";
 import { checkOutput, normalizeAnswer } from "@/lib/runner";
 import { CodeRunner } from "./CodeRunner";
 import { Terminal } from "./Terminal";
+import { Markdown, renderInline } from "@/lib/markdown";
 
 type Props = { lab: Lab; lessonId: string; done: boolean; onPass: () => void };
 
@@ -55,15 +56,57 @@ export function LabPanel({ lab, lessonId, done, onPass }: Props) {
 
 function CodeLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "code" }>; done: boolean; onPass: () => void }) {
   const [msg, setMsg] = useState<string | null>(null);
+  const hasScaffold = !!(lab.concepts?.length || lab.plan?.length || lab.prerequisites?.length);
   return (
     <section className="lab" aria-labelledby="lab-h">
       <h2 id="lab-h">Lab</h2>
       <p>{lab.prompt}</p>
+      {hasScaffold && (
+        <div className="scaffold">
+          {lab.prerequisites && lab.prerequisites.length > 0 && (
+            <p className="small">
+              New to this language? Start with:{" "}
+              {lab.prerequisites.map((p, i) => (
+                <span key={p.id}>
+                  {i > 0 && ", "}
+                  <a href={`/learn/${p.track}/${p.id}`}>{p.title}</a>
+                </span>
+              ))}
+              .
+            </p>
+          )}
+          {lab.concepts && lab.concepts.length > 0 && (
+            <details open>
+              <summary>Before you start: the ideas you'll use</summary>
+              {lab.concepts.map((c) => (
+                <div key={c.title} className="concept">
+                  <h3>{c.title}</h3>
+                  <Markdown source={c.body} />
+                </div>
+              ))}
+            </details>
+          )}
+          {lab.plan && lab.plan.length > 0 && (
+            <details open>
+              <summary>Your step-by-step plan</summary>
+              <ol className="plan">
+                {lab.plan.map((step, i) => (
+                  <li key={i}>{renderInline(step)}</li>
+                ))}
+              </ol>
+            </details>
+          )}
+        </div>
+      )}
       <CodeRunner
         language={lab.language}
         starter={lab.starter}
         harness={lab.harness}
         setup={lab.setup}
+        example={lab.example}
+        onAsk={(code, output) =>
+          window.dispatchEvent(new CustomEvent("tf-ask", { detail: { question: "", code, output, language: lab.language } }))
+        }
         onResult={(res) => {
           if (res.ok && checkOutput(res.stdout, lab.expected)) {
             setMsg(null);

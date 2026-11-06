@@ -13,6 +13,15 @@ export type Lab =
       language: "javascript" | "python" | "sql";
       prompt: string;
       starter: string;
+      /**
+       * Beginner scaffolding shown above the editor. Every lab should teach what it needs:
+       * `concepts` explain each language feature used (markdown), `plan` is a numbered step-by-step approach,
+       * `example` is a small runnable snippet the learner can load, and `prerequisites` links foundation lessons.
+       */
+      concepts?: { title: string; body: string }[];
+      plan?: string[];
+      example?: string;
+      prerequisites?: { id: string; track: string; title: string }[];
       /** Hidden setup run before the learner's code (SQL schema/data). */
       setup?: string;
       /** Appended after learner code (hidden tests). */

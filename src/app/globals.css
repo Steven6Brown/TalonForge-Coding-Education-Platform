@@ -227,3 +227,12 @@ body::before {
 .term-editor textarea { width: 100%; font-family: ui-monospace, Consolas, monospace; font-size: .9rem; background: #05080c; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; resize: vertical; }
 
 .share-preview { background: var(--bg); border: 1px dashed var(--border); border-radius: 10px; padding: 12px 14px; margin: 12px 0; }
+
+/* Lab scaffolding for beginners */
+.scaffold { border: 1px solid var(--border); border-radius: 12px; background: var(--bg); padding: 4px 16px; margin: 12px 0 18px; }
+.scaffold summary { cursor: pointer; font-weight: 700; padding: 10px 0; color: var(--accent2); }
+.scaffold .concept { border-top: 1px dashed var(--border); }
+.scaffold .concept h3 { margin: 12px 0 4px; font-size: 1rem; }
+.scaffold .plan { padding-left: 22px; }
+.scaffold .plan li { margin: 6px 0; }
+.explain { background: color-mix(in srgb, var(--accent2) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent2) 40%, transparent); border-radius: 10px; padding: 10px 14px; margin-top: 10px; }
