@@ -270,3 +270,8 @@ select { width: auto; }
 .btn.choice { text-align: left; white-space: normal; height: auto; padding: 12px 14px; }
 .card.pass { border-color: var(--ok); }
 .card.warn { border-color: #d9a441; }
+.badge.lvl-beginner { color: var(--ok); border-color: var(--ok); }
+.badge.lvl-intermediate { color: #d9a441; border-color: #d9a441; }
+.badge.lvl-advanced { color: #ff7a7a; border-color: #ff7a7a; }
+a.sim-card { text-decoration: none; }
+.scaffold dl { margin: 8px 0 0; } .scaffold dd { margin: 0 0 8px; }
