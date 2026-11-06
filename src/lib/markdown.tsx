@@ -42,6 +42,31 @@ export function Markdown({ source }: { source: string }) {
                 <code>{b.text}</code>
               </pre>
             );
+          case "table":
+            return (
+              <div key={i} className="table-wrap">
+                <table className="tbl">
+                  <thead>
+                    <tr>
+                      {b.head.map((c, j) => (
+                        <th key={j} scope="col">
+                          {renderInline(c)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {b.rows.map((r, j) => (
+                      <tr key={j}>
+                        {r.map((c, k) => (
+                          <td key={k}>{renderInline(c)}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
           case "ul":
             return (
               <ul key={i}>

@@ -5,7 +5,29 @@ export type Block =
   | { t: "p"; text: string }
   | { t: "ul" | "ol"; items: string[] }
   | { t: "quote"; text: string }
-  | { t: "code"; text: string };
+  | { t: "code"; text: string }
+  | { t: "table"; head: string[]; rows: string[][] };
+
+/** Splits a table row on pipes, ignoring pipes inside `inline code`. */
+function splitRow(line: string): string[] {
+  const cells: string[] = [];
+  let cur = "";
+  let inCode = false;
+  const t = line.trim().replace(/^\|/, "").replace(/\|$/, "");
+  for (const ch of t) {
+    if (ch === "`") inCode = !inCode;
+    if (ch === "|" && !inCode) {
+      cells.push(cur.trim());
+      cur = "";
+    } else cur += ch;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+/** A table starts with a pipe row followed by a separator row such as `| --- | --- |`. */
+const isTableStart = (lines: string[], i: number) =>
+  lines[i].trim().startsWith("|") && i + 1 < lines.length && /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(lines[i + 1]);
 
 export function parseBlocks(src: string): Block[] {
   const lines = src.replace(/\r\n/g, "\n").split("\n");
@@ -23,6 +45,14 @@ export function parseBlocks(src: string): Block[] {
       while (i < lines.length && !lines[i].startsWith("```")) buf.push(lines[i++]);
       i++;
       blocks.push({ t: "code", text: buf.join("\n") });
+      continue;
+    }
+    if (isTableStart(lines, i)) {
+      const head = splitRow(lines[i]);
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i].trim().startsWith("|")) rows.push(splitRow(lines[i++]));
+      blocks.push({ t: "table", head, rows });
       continue;
     }
     const h = /^(#{2,3})\s+(.*)$/.exec(line);
@@ -61,6 +91,7 @@ export function parseBlocks(src: string): Block[] {
       !lines[i].startsWith("```") &&
       !/^#{2,3}\s/.test(lines[i]) &&
       !lines[i].startsWith(">") &&
+      !isTableStart(lines, i) &&
       !/^\s*([-*]|\d+\.)\s+/.test(lines[i])
     )
       buf.push(lines[i++]);
