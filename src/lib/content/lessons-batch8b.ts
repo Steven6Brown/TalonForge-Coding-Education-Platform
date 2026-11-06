@@ -1,6 +1,6 @@
 import type { Lesson } from "./types";
 
-/** Batch 8b: two more malware-analytics lessons from the owner's Cyber 366 lecture PDFs (original text, defensive focus). */
+/** Batch 8b: two more malware-analytics lessons (original text, defensive focus). */
 export const BATCH8B_LESSONS: Lesson[] = [
   {
     id: "strings-and-initial-analysis",

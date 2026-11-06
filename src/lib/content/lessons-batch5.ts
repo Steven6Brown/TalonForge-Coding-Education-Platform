@@ -1,9 +1,6 @@
 import type { Lesson } from "./types";
 
-/**
- * Fifth batch, built from the owner's own Penn State notes (IST 230 discrete math, Cyber 362 ML for security,
- * IST 456 security management, IST 432 technology law). Text and labs are written from scratch.
- */
+/** Fifth batch: math for security, machine learning, security management and technology law. Original text and labs. */
 export const BATCH5_LESSONS: Lesson[] = [
   /* ---------------- Math for Security ---------------- */
   {

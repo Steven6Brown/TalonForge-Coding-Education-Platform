@@ -1,9 +1,6 @@
 import type { Lesson } from "./types";
 
-/**
- * Batch 8, built from the owner's PDF course materials (Cyber 366 malware analytics, IST 454 digital forensics,
- * Cyber 262 Linux log analysis). Defensive/analytical focus; all text and data are original and fictional.
- */
+/** Batch 8: malware analytics, digital forensics and Linux log analysis. Defensive focus; all text and data are original and fictional. */
 export const BATCH8_LESSONS: Lesson[] = [
   {
     id: "malware-types-taxonomy",

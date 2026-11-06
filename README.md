@@ -8,7 +8,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
 ![Local-first](https://img.shields.io/badge/local--first-no%20tracking-4ade80)
 ![Runs in browser](https://img.shields.io/badge/labs-run%20in%20your%20browser-3dd6f5)
-![Status](https://img.shields.io/badge/status-pre--launch-ff8a3d)
+![Status](https://img.shields.io/badge/status-portfolio%20project-ff8a3d)
 
 **[Aquila Digital](https://www.aquiladigital.net/)** · *Per Aspera Ad Astra*
 
@@ -146,4 +146,4 @@ For education only. Practice security techniques solely on systems you own or ha
 
 ## About
 
-Built by **[Aquila Digital](https://www.aquiladigital.net/)**. © Aquila Digital. All rights reserved; a license has not been chosen yet. The name "TalonForge" has not had a trademark or domain search.
+Built by **[Aquila Digital](https://www.aquiladigital.net/)** as a portfolio project. The code is published for **viewing**; see [LICENSE](LICENSE) (all rights reserved, no reuse without permission). The name "TalonForge" has not had a trademark or domain search.

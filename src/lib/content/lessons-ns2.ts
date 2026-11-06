@@ -1,6 +1,6 @@
 import type { Lesson } from "./types";
 
-/** Network Security series, part 2: IPsec/VPN, TLS, authentication. Based on the owner's IST 451 lecture PDFs; text and labs are original. */
+/** Network Security series, part 2: IPsec/VPN, TLS and authentication. Text and labs are original. */
 export const NS2_LESSONS: Lesson[] = [
   {
     id: "ns-ipsec-vpn",

@@ -1,6 +1,6 @@
 import type { Lesson } from "./types";
 
-/** Batch 6b: more lessons for existing tracks, following the owner's Penn State coursework (original text). */
+/** Batch 6b: more lessons for existing tracks (original text). */
 export const BATCH6B_LESSONS: Lesson[] = [
   /* ---------------- Networking ---------------- */
   {

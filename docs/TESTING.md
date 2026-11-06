@@ -34,7 +34,7 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT
 
 ## Deliberately not written
 
-Hands-on Kali walkthroughs (scanning, web enumeration, password cracking, exploit search) and a SUID privilege-escalation lesson, because earlier generation of those was stopped by a safety classifier. The simulated Kali tools remain in the Playground. Not covered from coursework: Java/IST 140, IST 261 app development, IST 389 teaching, SRA 111/211 intelligence/terrorism content, and PDF-only materials that could not be rendered.
+Hands-on offensive walkthroughs (scanning, web enumeration, password cracking, exploit search) and a SUID privilege-escalation lesson. TalonForge is defensive and educational: the simulated Kali tools remain in the Playground, and the lessons focus on understanding, detection and authorized testing.
 
 ## Known content gaps
 

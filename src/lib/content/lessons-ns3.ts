@@ -1,6 +1,6 @@
 import type { Lesson } from "./types";
 
-/** Network Security series, part 3: access control, device vulnerabilities, authentication protocols, database security. Original text and labs based on the owner's IST 451 lecture PDFs. */
+/** Network Security series, part 3: access control, device vulnerabilities, authentication protocols and database security. Text and labs are original. */
 export const NS3_LESSONS: Lesson[] = [
   {
     id: "ns-access-control",

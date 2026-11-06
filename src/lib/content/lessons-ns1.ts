@@ -1,9 +1,6 @@
 import type { Lesson } from "./types";
 
-/**
- * Network Security series, part 1 (security fundamentals and cryptographic tools).
- * Based on the owner's IST 451 Network Security lecture PDFs; all text, examples and labs are original.
- */
+/** Network Security series, part 1: security fundamentals and cryptographic tools. All text, examples and labs are original. */
 export const NS1_LESSONS: Lesson[] = [
   {
     id: "ns-security-objectives",

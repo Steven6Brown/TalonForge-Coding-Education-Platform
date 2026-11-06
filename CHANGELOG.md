@@ -3,6 +3,7 @@
 ## Unreleased (2026-11-06)
 
 ### Added
+- `LICENSE` (all rights reserved, published for viewing), generalized source comments that named specific courses, and a pre-publication audit (no secrets, keys or sensitive files in the tree or history).
 - **Repository presentation:** new README with banner, screenshots, learning-path diagram and track tables; ARCHITECTURE, TESTING and PRIVACY moved into `docs/` with an index in the README.
 - **Careers section** (`/careers`, replaces `/simulators`, which redirects): IT Help Desk (30 scenarios) and SOC Analyst (10) at beginner, intermediate and advanced levels, graded by security procedure, customer service, technical accuracy and documentation. Beginner scenarios open with a primer of key terms and offer hints; advanced ones have no hints.
 - **Hands-on scenario steps:** simulated Windows/Linux terminal (output changes after a fix), mock admin console, write-the-ticket scored against a checklist, and SIEM evidence searches. 11 hands-on scenarios.

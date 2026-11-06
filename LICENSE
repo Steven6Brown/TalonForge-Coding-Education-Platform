@@ -1,0 +1,20 @@
+Copyright (c) 2026 Aquila Digital. All rights reserved.
+
+This source code is published for viewing and as a portfolio sample.
+
+No permission is granted to copy, modify, distribute, sublicense, host, or
+otherwise use this software or its content (lessons, labs, scenarios, text,
+images and brand assets), in whole or in part, for any purpose, including
+commercial use, without prior written permission from Aquila Digital.
+
+You may view the source on GitHub and, as allowed by GitHub's Terms of Service,
+fork it within GitHub for the purpose of viewing and proposing changes.
+
+The software is provided "as is", without warranty of any kind. It is an
+educational project; the scenarios, networks, logs and people it contains are
+fictional.
+
+Third-party dependencies are used under their own licenses (see package.json
+and package-lock.json).
+
+To request permission, contact Aquila Digital: https://www.aquiladigital.net/

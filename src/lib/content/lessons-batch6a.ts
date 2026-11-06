@@ -1,10 +1,6 @@
 import type { Lesson } from "./types";
 
-/**
- * Batch 6a: Cyber Range (host security, ssh admin, detection rules, log analytics), Digital Forensics,
- * and SQL / databases. Topics follow the owner's Penn State coursework (Cyber 100/262, SRA 221, IST 210/454,
- * Cyber 440); all text and data are original and fictional.
- */
+/** Batch 6a: cyber range (host security, ssh administration, detection rules, log analytics), digital forensics and SQL. All text and data are original and fictional. */
 
 const SQL_SETUP = `CREATE TABLE departments (id INTEGER PRIMARY KEY, name TEXT NOT NULL);
 INSERT INTO departments VALUES (1,'Engineering'),(2,'Marketing'),(3,'Finance');

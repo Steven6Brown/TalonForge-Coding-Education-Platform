@@ -1,9 +1,6 @@
 import type { Lesson } from "./types";
 
-/**
- * Batch 7: networking analysis/design (IST 220), statistics (SRA 365), contingency and incident response planning,
- * professional writing (Cyber 342W), and technology & conflict (IST 402). Original text built from the owner's notes.
- */
+/** Batch 7: network analysis and design, statistics, contingency and incident response planning, professional writing, and technology and conflict. Original text. */
 export const BATCH7_LESSONS: Lesson[] = [
   {
     id: "packet-analysis-http-dns-arp",
