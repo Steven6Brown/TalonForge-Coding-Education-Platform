@@ -7,6 +7,8 @@ import { BATCH5_LESSONS } from "./lessons-batch5";
 import { BATCH6A_LESSONS } from "./lessons-batch6a";
 import { BATCH6B_LESSONS } from "./lessons-batch6b";
 import { BATCH7_LESSONS } from "./lessons-batch7";
+import { BATCH8_LESSONS } from "./lessons-batch8";
+import { BATCH8B_LESSONS } from "./lessons-batch8b";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -50,7 +52,7 @@ export const TRACKS: Track[] = [
     icon: "range",
     description:
       "Cloud-lab style practice: audit Linux accounts, harden a server (firewall, services, password aging), administer machines over SSH, write detection rules and analyze logs.",
-    lessons: ["host-accounts-audit", "linux-host-hardening", "ssh-remote-admin", "snort-rules", "log-analytics-regex"],
+    lessons: ["host-accounts-audit", "linux-host-hardening", "ssh-remote-admin", "snort-rules", "log-analytics-regex", "log-triage-sudo"],
   },
   {
     id: "digital-forensics",
@@ -59,7 +61,7 @@ export const TRACKS: Track[] = [
     icon: "dfir",
     description:
       "Evidence integrity, Windows registry artifacts, data carving, memory analysis, forensic reports and ransomware response, using fictional evidence.",
-    lessons: ["forensic-imaging-hashing", "registry-analysis", "data-carving", "memory-analysis", "forensic-report-writing", "ransomware-response"],
+    lessons: ["forensic-imaging-hashing", "registry-analysis", "data-carving", "memory-analysis", "forensic-report-writing", "ransomware-response", "digital-forensics-law-process"],
   },
   {
     id: "databases-sql",
@@ -69,6 +71,15 @@ export const TRACKS: Track[] = [
     description:
       "Database design, then hands-on SQL against a real in-browser database: SELECT, joins, aggregates, subqueries, GROUP BY / HAVING, and creating and updating data.",
     lessons: ["database-design-basics", "sql-select", "sql-joins-aggregates", "sql-subqueries", "sql-group-having", "sql-ddl-dml"],
+  },
+  {
+    id: "malware-analytics",
+    title: "Malware Analytics",
+    tagline: "Understand, triage and detect malicious software",
+    icon: "mal",
+    description:
+      "A defender's view of malware: the families and their countermeasures, hashing, reading a program's imports, monitoring behavior in an isolated lab and turning findings into indicators of compromise.",
+    lessons: ["malware-types-taxonomy", "hashing-and-malware-identification", "pe-imports-static-triage", "dynamic-analysis-filters", "strings-and-initial-analysis", "pe-sections-and-packing", "malware-triage-workflow"],
   },
   {
     id: "math-crypto",
@@ -734,7 +745,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);
