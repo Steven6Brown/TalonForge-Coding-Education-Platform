@@ -34,7 +34,7 @@ It is written for **complete beginners**. Each lab explains the ideas it uses, g
 | **Labs that run in your browser** | Simulated Linux shell, Python (WebAssembly), JavaScript (sandboxed worker), real SQL, a SIEM search console and quizzes |
 | **Job simulators** | Practice **IT help desk** and **SOC analyst** work: tickets, alerts, log searches, containment and write-ups. 40 scenarios at beginner, intermediate and advanced levels, 11 of them fully hands-on |
 | **Tools** | Number-base converter, crypto workbench (hashing, ciphers, AES-GCM) and a ports reference with flashcards |
-| **"Talon" the study helper** | Ask about a word or an error. Works offline; optional AI answers if the site owner enables them |
+| **"Talon" the study helper** | Ask about a word or an error and get a plain-English answer. Works offline; nothing leaves your browser |
 | **Private by default** | No accounts, no analytics, no cookies. Progress lives in your own browser |
 | **White-label ready** | One brand file re-skins the name, colors, ranks and footer |
 
@@ -97,14 +97,14 @@ npm run lint
 npm run build && npm start
 ```
 
-Requires Node 20+. Accounts and AI answers are **off by default**; no environment variables are needed to run. See [`.env.example`](.env.example) for the optional ones.
+Requires Node 20+. Accounts are **off by default**; no environment variables are needed to run. See [`.env.example`](.env.example) for the optional ones.
 
 ## How it is built
 
 - **Next.js 15 (App Router) + React 19 + TypeScript.** Lessons are Markdown files rendered by a small safe renderer (never raw HTML).
 - **Labs run in the browser.** JavaScript in a Web Worker with its own CSP (no network), Python via Pyodide, SQL via sql.js, and the shell, help desk terminals and SIEM are in-memory simulators. No learner code reaches a server.
 - **Local-first.** Progress is stored in the browser and can be exported and imported.
-- **Optional services, switched off:** Supabase accounts (MFA, recovery codes, roles) and an AI helper route. Both are feature-flagged.
+- **Optional service, switched off:** Supabase accounts (MFA, recovery codes, roles), feature-flagged.
 
 ```
 content/lessons/        Lesson text (Markdown)
@@ -122,6 +122,7 @@ docs/                   Guides (authoring, deploy, architecture, testing, privac
 | Doc | What it covers |
 | --- | --- |
 | [Authoring guide](docs/CONTENT.md) | How to add lessons, labs, scenarios and hands-on tasks |
+| [Development rules](docs/DEVELOPMENT.md) | Conventions for contributing to this repo |
 | [Architecture](docs/ARCHITECTURE.md) | Decisions, layers, what is deferred |
 | [Security model](SECURITY.md) | Sandboxing, hardening, known limitations |
 | [Privacy](docs/PRIVACY.md) | What is stored, what is sent, and when |
@@ -132,7 +133,7 @@ docs/                   Guides (authoring, deploy, architecture, testing, privac
 
 ## Project status
 
-TalonForge is **pre-launch**. It has not been deployed yet, and some things are deliberately unverified: the optional AI route against the live API, the accounts flow against a live Supabase project, mobile and screen-reader audits, and testing with real beginners. [docs/TESTING.md](docs/TESTING.md) lists them honestly.
+TalonForge is **pre-launch**. It has not been deployed yet, and some things are deliberately unverified: the accounts flow against a live Supabase project, mobile and screen-reader audits, and testing with real beginners. [docs/TESTING.md](docs/TESTING.md) lists them honestly.
 
 **Roadmap:** more advanced scenarios, Sysadmin / Network Technician / GRC roles, an "experience log" you can share, self-hosted Python and SQL engines, and nonce-based CSP.
 

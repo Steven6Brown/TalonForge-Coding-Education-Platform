@@ -297,7 +297,6 @@ a.sim-card { text-decoration: none; }
 .helper-h { margin: 0; font-size: 1.05rem; }
 .helper-status { margin: 2px 0 0; display: flex; align-items: center; gap: 6px; color: var(--muted); }
 .helper-status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
-.helper-status .dot.ai { background: #c084fc; }
 .helper-how { border: 1px dashed var(--border); border-radius: 12px; padding: 4px 12px; background: var(--bg); }
 .helper-log { overflow-y: auto; min-height: 140px; flex: 1; border: 1px solid var(--border); border-radius: 12px; padding: 10px; background: var(--bg); display: flex; flex-direction: column; gap: 10px; }
 .helper-welcome p { margin: 0 0 10px; }

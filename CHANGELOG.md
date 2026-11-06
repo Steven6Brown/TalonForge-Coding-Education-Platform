@@ -10,7 +10,7 @@
 - **Mini-SIEM** search engine and deterministic fictional logs; `SIEM & SOC Analyst` track (6 lessons).
 - **Tools page:** number converter, crypto workbench (hashes, classical ciphers, AES-GCM), ports reference with flashcards.
 - **Binary, Encryption, Hashing & Ports** track (9 lessons) and **JavaScript Foundations** (8) and **Python Foundations** (3) tracks for complete beginners.
-- **Helper "Talon":** redesigned floating helper with a "How I work" explanation; built-in glossary mode and an optional AI mode (server key + learner opt-in).
+- **Helper "Talon":** redesigned floating helper with a "How I work" explanation; built-in glossary and error explainer that run entirely in the browser.
 - **Beginner scaffolding:** every code lab now has concepts, a numbered plan, prerequisite links and (where useful) a loadable example; plain-English error explainer; terminal basics panel for shell labs.
 - **Lesson depth pass:** a primer, walk-through or worked example now in 142 of 151 lessons (the 9 longest Network Security, ports and incident-planning lessons were left as written); quiz lessons now teach every answer their quiz checks; terminal labs list the commands they expect; track pages show a "do these first" path (`track-paths.ts`).
 - Detail chips (level, time, XP) and back-arrow links across lesson, track and career pages.

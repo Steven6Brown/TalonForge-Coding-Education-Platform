@@ -12,16 +12,6 @@
 
 CSP, HSTS (prod), `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy, Permissions-Policy, COOP (see `next.config.mjs`). Lesson Markdown (including tables) is rendered to React elements, never raw HTML. Imports are zod-validated and size-capped. Lesson file loading is allowlisted by id (no path traversal).
 
-## Optional AI helper (`/api/helper`)
-
-
-- The key stays on the server and is never sent to the browser. The browser only learns whether AI is available (`GET` returns `{ ai: true|false }`).
-- Input is validated with zod and size-capped (question 1000, code 6000, output 2000 characters); same-origin check; 20 requests per hour per IP.
-- The model's reply is treated as untrusted text and rendered by the safe Markdown renderer. Learner code and output are wrapped in tags and the system prompt tells the model to treat them as data (a mitigation, not a guarantee against prompt injection).
-- The system prompt asks the model not to hand over full lab solutions and to decline offensive help outside authorized, defensive use. This is best-effort.
-
-Limits: the rate limiter is an in-memory map **per server instance**, so on serverless hosting (Vercel) it is a speed bump only. Use a shared store (for example Upstash Redis or Vercel KV) or edge rate limiting before enabling AI for the public. The route has not been tested against the live API (see docs/TESTING.md).
-
 ## Known issues / limitations
 
 | Item | Status |
@@ -33,7 +23,7 @@ Limits: the rate limiter is an in-memory map **per server instance**, so on serv
 | `npm audit` (dev): `minimatch` in the ESLint toolchain | Dev only |
 | Lab answers/solutions and career scenario answers ship in the client bundle | By design: a practice tool, not a graded exam. Do not use scores as proof of skill |
 | Auth code is untested against a live Supabase project | NOT VERIFIED |
-| No rate limiting on server actions beyond recovery-code attempts; helper rate limit is per instance | Add before enabling accounts or AI publicly |
+| No rate limiting on server actions beyond recovery-code attempts | Add before enabling accounts publicly |
 
 ## Reporting
 

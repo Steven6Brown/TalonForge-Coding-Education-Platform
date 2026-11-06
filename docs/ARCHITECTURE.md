@@ -13,14 +13,16 @@
 | Beginner support | Scaffolds (concepts/plan/prerequisites/example) merged into lab data; track prerequisite map; error explainer; terminal basics panel | Learners must be taught everything a lab expects; enforced by tests |
 | Career simulators | Scenarios as plain data graphs (`src/lib/sim`), one runner component, hands-on task widgets (terminal, console, ticket, SIEM) | Easy to add scenarios; all client-side; scoring by skill tag |
 | Mini-SIEM | In-browser query engine over deterministic fictional events; lab answers computed from the same data (`TRUTH`) | No backend; answers cannot drift from data |
+| Helper | Built-in glossary and error explainer, entirely client-side | Works offline, free, and sends nothing anywhere |
 
 ## Layers
 
-UI (`components/`, `app/`) → domain (`lib/content`, `lib/progress`, `lib/runner`, `lib/shell`, `lib/siem`, `lib/sim`, `lib/helper`) → providers (`lib/auth`). UI never imports Supabase directly; it uses `auth` from `lib/auth`. The only server-side feature besides auth is `/api/helper`.
+UI (`components/`, `app/`) → domain (`lib/content`, `lib/progress`, `lib/runner`, `lib/shell`, `lib/siem`, `lib/sim`, `lib/helper`) → providers (`lib/auth`). UI never imports Supabase directly; it uses `auth` from `lib/auth`. Auth is the only server-side feature.
 
 ## Deferred (documented, not built)
 
-Multi-tenant runtime branding (subdomain to brand), org/cohort dashboards and employer hiring views, real-VM labs, passkeys and SAML SSO, self-hosted Pyodide and sql.js, nonce-based CSP, i18n, certificates/badges, a shared-store rate limiter for the helper, a portfolio/"experience log" page, Sysadmin / Network Technician / GRC career roles, more advanced scenarios, mobile and accessibility audits.
+Multi-tenant runtime branding (subdomain to brand), org/cohort dashboards and employer hiring views, real-VM labs, passkeys and SAML SSO, self-hosted Pyodide and sql.js, nonce-based CSP, i18n, certificates/badges, a portfolio/"experience log" page, Sysadmin / Network Technician / GRC career roles, more advanced scenarios, mobile and accessibility audits.
 
 ## Trust boundaries
 
+Browser (untrusted) → Next.js server actions/route handlers (validate, re-authenticate) → Supabase (RLS). Secret keys exist only server-side.

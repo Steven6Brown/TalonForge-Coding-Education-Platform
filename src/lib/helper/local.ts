@@ -3,7 +3,7 @@ import { explainError } from "@/lib/explain-error";
 import { GLOSSARY, type Entry } from "./glossary";
 
 export type HelperQuery = { question: string; code?: string; output?: string; language?: "javascript" | "python" | "sql" };
-export type HelperAnswer = { text: string; source: "built-in" | "ai" };
+export type HelperAnswer = { text: string; source: "built-in" };
 
 const STOP = new Set(["what", "does", "do", "is", "the", "a", "an", "how", "why", "i", "to", "in", "of", "and", "me", "my", "it", "this", "that", "mean", "means", "work", "works", "use", "used", "using", "can", "you", "explain", "tell", "about", "when", "should", "for", "on", "with", "are", "get"]);
 
@@ -58,7 +58,7 @@ export function localAnswer(q: HelperQuery): HelperAnswer {
 
   if (!parts.length) {
     parts.push(
-      "I don't have a built-in answer for that yet. Try rephrasing with the name of the thing (for example *slice*, *for loop*, *hash*, *port 443*), or paste the exact error message. If AI mode is enabled you can switch it on for deeper explanations.",
+      "I don't have a built-in answer for that yet. Try rephrasing with the name of the thing (for example *slice*, *for loop*, *hash*, *port 443*), or paste the exact error message.",
     );
   }
   if (q.code && !hits.length && !err) {
