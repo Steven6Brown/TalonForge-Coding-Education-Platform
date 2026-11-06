@@ -32,3 +32,8 @@ A **predicate** `P(x)` is a statement whose truth depends on `x`. `∀x` means "
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Proof by contradiction.** Assume the statement is **false** and show that this leads to something impossible, so it must be true. Euclid's proof that there are infinitely many primes works this way: assume there is a largest prime, then build a number that breaks that assumption.
+- **De Morgan's law.** Negating an AND turns it into an OR of the negations: **not (p and q) is the same as (not p) or (not q)**. Likewise not (p or q) equals (not p) and (not q). Firewall and filter rules use this logic constantly when you flip a condition.

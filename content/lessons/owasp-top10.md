@@ -22,3 +22,8 @@ For every feature ask: *who is allowed, what input is untrusted, what happens if
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Fixing injection.** Injection happens when user input is glued into a command or query as text, so the input can change the meaning. The fix is to **separate code from data**: use **parameterized queries** or other safe APIs (the query shape and the values travel separately), plus **input validation**. Never build queries or shell commands by string concatenation.
+- **SSRF (server-side request forgery).** The attacker tricks the **server** into making requests for them, to internal addresses or any URL. Internal services and cloud **metadata endpoints** (which can hand out credentials) are common targets, because the server can reach places the attacker cannot. Defend with **allowlists** of permitted destinations for outbound requests.

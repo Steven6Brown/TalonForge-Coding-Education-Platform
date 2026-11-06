@@ -23,3 +23,7 @@ Wireless traffic travels through the air, so anyone nearby can try to listen. En
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Why public Wi-Fi is riskier.** On an open or shared network, other people on the same network may **observe or tamper with unencrypted traffic**, and attackers can set up lookalike hotspots. Use **HTTPS everywhere** (it encrypts the connection to the site) and a **VPN** when you cannot trust the network.

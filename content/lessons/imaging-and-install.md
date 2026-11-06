@@ -41,3 +41,8 @@ Use a **virtual machine** (VirtualBox, VMware Workstation Player, Proxmox) to re
 ## Check yourself
 
 Answer the quiz below to finish the lesson.
+
+## Key facts this lesson's quiz checks
+
+- **Why verify the checksum?** A **checksum** (hash) is a fingerprint of a file. If your download's SHA-256 matches the one the vendor publishes, the file was not corrupted or changed. It only proves much if the published hash comes from a **trusted source**: a hash sitting on the same hacked page as the file proves little. Where possible also verify the vendor's **digital signature**.
+- **Flashing erases the drive.** Writing an installer image to a USB drive overwrites the whole device, so any existing files are **lost**. Double-check you picked the right drive letter or device before pressing Start (or before running `dd`, which will happily overwrite your main disk if you choose it by mistake).

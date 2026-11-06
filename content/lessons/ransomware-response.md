@@ -25,3 +25,7 @@ Patch, use MFA, limit admin rights, segment networks, filter email, and train us
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **After recovery, find and fix the root cause.** Restoring files without removing the way the attackers got in (the phishing hole, an exposed service, stolen credentials) means **reinfection is likely**. Identify the **initial access**, close it, then **document lessons learned** and improve the plan, training and detections.

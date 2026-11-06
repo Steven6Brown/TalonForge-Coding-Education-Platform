@@ -28,3 +28,7 @@ The editor accepts only JavaScript. Terminal commands like `curl -i https://exam
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Extra output lines are fine.** A lab passes when the **last non-empty line** of your output equals the expected answer. That means you can leave `console.log` debug lines earlier in your output while you work. Just make sure the final line printed is the answer.

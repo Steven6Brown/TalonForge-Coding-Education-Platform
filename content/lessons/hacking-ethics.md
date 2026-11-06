@@ -29,3 +29,8 @@ Certifications such as CompTIA Security+, PenTest+, eJPT, OSCP and Blue-team opt
 ## Check yourself
 
 Complete the quiz to finish.
+
+## Key facts this lesson's quiz checks
+
+- **Out-of-scope findings.** A penetration test has a written **scope**: the systems you may test. If you stumble on a weakness outside it, **stop, document it, and report it to the client**. Do not test it further. Scope protects both sides: the client has not agreed to risk on those systems, and you are only legally covered inside the agreement.
+- **Where is it safe to practice password cracking?** Only on **your own data** (hashes you generated yourself) or purpose-built **labs and CTFs**. Cracking real people's credentials, even "just to see", causes real harm and can be a crime.

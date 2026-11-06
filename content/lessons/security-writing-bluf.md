@@ -29,3 +29,7 @@ Double-spaced, 1-inch margins, page numbers top right, a title page, and in-text
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Acronyms.** The first time you use one in a document, **write out the full term with the acronym in parentheses**: "Business Impact Analysis (BIA)". After that you may use the acronym alone. Readers from other teams should never have to guess what an abbreviation means.

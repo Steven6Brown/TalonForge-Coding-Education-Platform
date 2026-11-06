@@ -22,3 +22,7 @@ Layered controls designed to **detect, delay, mitigate or prevent** unauthorized
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Two ethics frameworks.** **Utilitarian** reasoning judges an action by its **consequences** (the greatest good for the most people). **Deontological** reasoning judges it by **duty and intent**: was the action right in itself, such as keeping a promise, regardless of the outcome? Both show up in security decisions, for example whether to disclose a vulnerability or access private data to stop an attack.

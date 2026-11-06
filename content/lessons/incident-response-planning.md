@@ -34,3 +34,9 @@ A faulty update to a kernel-level driver can crash machines at boot; weak change
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Business impact analysis (BIA).** The BIA identifies an organization's **critical functions** and **how long each can be down** before the damage becomes unacceptable. Its results are handed to the planning committees that build the incident response, disaster recovery and business continuity plans.
+- **RTO, RPO and MTD.** **Recovery Time Objective (RTO)** is how quickly a system must be **restored** after an outage. **Recovery Point Objective (RPO)** is the point in time to which data must be recoverable, meaning how much data loss is acceptable (an RPO of 1 hour means you can lose at most an hour of data). **Maximum Tolerable Downtime (MTD)** is the longest total downtime the owner will accept; RTO must be shorter than MTD.
+- **BCP versus DR.** **Business continuity planning (BCP)** keeps **critical functions running by alternate means** (a backup site, manual procedures) during a disruption. **Disaster recovery (DR)** focuses on **restoring normal operations at the primary site**. Both are driven by the BIA and tested with exercises and drills.

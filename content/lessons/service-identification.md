@@ -22,3 +22,8 @@ Scan only networks you own or are authorized in writing to test, ideally with ma
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Why identify service versions?** Software versions map to **known vulnerabilities and patch needs**. Learning that a server runs "Apache 2.4.49" lets you look up published advisories for exactly that version and decide whether it needs patching.
+- **Authorization before scanning.** Scanning a network you do not own **without permission can be illegal** and can disrupt fragile devices (printers, medical equipment). You need **written authorization that defines the scope** (which addresses, what times, what techniques) before any scan.

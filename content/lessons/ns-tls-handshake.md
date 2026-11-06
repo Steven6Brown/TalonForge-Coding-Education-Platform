@@ -38,3 +38,7 @@ TLS 1.2 remains widely deployed and has no known fundamental vulnerabilities whe
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **TLS versions.** **SSL 2.0 and 3.0 are obsolete** and insecure. **TLS 1.0 through 1.3** followed. **TLS 1.0 and 1.1 are deprecated**, so the versions in current use are **TLS 1.2 and 1.3**. **TLS 1.3** (2018) simplifies the handshake and removes weak options.

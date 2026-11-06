@@ -24,3 +24,8 @@ Build a small AD lab in virtual machines (Windows Server evaluation edition plus
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Active Directory (AD)** is Microsoft's **directory service**: a central database of users, computers, groups and policies for an organization. Most enterprises sign staff in through AD, which makes it a prime target for attackers.
+- **Group Policy (GPO)** pushes **security and configuration settings to many machines at once**: password rules, disabling risky features, deploying settings consistently. One policy change can protect thousands of computers.

@@ -26,3 +26,7 @@ Analysts look at **hardware** (connectivity, lethality, autonomy, sustainability
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Advantage and risk together.** Critical infrastructure and connectivity let **better information move faster**: the side that gets accurate information to decision makers quickly and securely gains an advantage. But that same dependence makes those networks a **target**: adversaries attack and disrupt them. The connectivity that creates the advantage is also the vulnerability.

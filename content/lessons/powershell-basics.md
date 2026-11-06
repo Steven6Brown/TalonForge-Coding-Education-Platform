@@ -33,3 +33,7 @@ Use a Windows VM or Windows Sandbox. Read scripts before you run them, and never
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Cmdlets are named Verb-Noun.** `Get-LocalUser` lists the local user accounts on a Windows machine. Its relatives are staples for audits and incident response: `Get-LocalGroupMember` (who is in a group, for example Administrators) and `Get-WinEvent` (read Windows event logs). To discover commands, use `Get-Command *User*` and `Get-Help Get-LocalUser`.

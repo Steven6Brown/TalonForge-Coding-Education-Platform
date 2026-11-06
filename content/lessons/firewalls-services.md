@@ -44,3 +44,7 @@ Disable unused services, bind internal ones to localhost, patch the rest, and mo
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Protecting SSH on the internet.** Anything exposed to the internet gets password-guessing attempts within minutes. The strongest fix is to use **SSH keys** (a long cryptographic key pair instead of a password) and **turn off password login** in the SSH settings. Tools like **fail2ban** (blocks addresses after repeated failures) and rate limiting add more protection. Better still, do not expose SSH to everyone at all: restrict it to your own address or put it behind a VPN.

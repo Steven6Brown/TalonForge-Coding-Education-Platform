@@ -32,3 +32,7 @@ Try on your own machine: `nslookup example.com`, `ping`, `tracert` (Windows) or 
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **The TCP three-way handshake** is how two computers open a reliable connection: the client sends **SYN** ("let's talk"), the server replies **SYN-ACK** ("OK, and I'm ready too"), and the client finishes with **ACK** ("got it"). A port scanner can send just the SYN and watch for a SYN-ACK to learn that a port is open, without completing the handshake (a "SYN scan").

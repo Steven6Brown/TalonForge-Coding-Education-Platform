@@ -38,3 +38,21 @@ describe("track ordering", () => {
     }
   });
 });
+
+import fs from "node:fs";
+const STOP = new Set("the a an of to in and or is are for with that this it be as by on at from your you not can what which when how why does do an its if so than then into only any all each more most".split(" "));
+describe("quiz coverage", () => {
+  it("each quiz answer's key words appear in its lesson text (rough heuristic; a few misses are tolerated)", () => {
+    const weak: string[] = [];
+    for (const l of LESSONS) {
+      if (l.lab.kind !== "quiz") continue;
+      const md = fs.readFileSync(`content/lessons/${l.id}.md`, "utf8").toLowerCase();
+      for (const q of l.lab.questions) {
+        const uniq = [...new Set((q.options[q.answer] + " " + q.why).toLowerCase().match(/[a-z0-9]{4,}/g)?.filter((w) => !STOP.has(w)) ?? [])];
+        const hit = uniq.filter((w) => md.includes(w.slice(0, Math.max(4, w.length - 2)))).length;
+        if (uniq.length && hit / uniq.length < 0.5) weak.push(`${l.id}: ${q.q.slice(0, 60)}`);
+      }
+    }
+    expect(weak.length, weak.join("\n")).toBeLessThanOrEqual(3);
+  });
+});

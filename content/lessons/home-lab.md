@@ -34,3 +34,7 @@ A home lab is where you break things safely. You don't need much: a laptop with 
 ## Check yourself
 
 Finish with the short quiz.
+
+## Key facts this lesson's quiz checks
+
+- **Snapshots.** A **snapshot** saves the exact state of a virtual machine at one moment: its disk, settings and optionally memory. If an experiment goes wrong (malware, a broken configuration, a deleted system file) you **roll back** to the snapshot in seconds. That makes destructive learning cheap and repeatable. Take a snapshot of a clean machine before every risky experiment, and revert afterwards.

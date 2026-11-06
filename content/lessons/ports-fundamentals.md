@@ -46,3 +46,9 @@ The **Tools → Ports reference** page has a searchable table (with security not
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **The big three to memorize first:** **SSH is 22, HTTP is 80, HTTPS is 443.** They appear in almost every scan.
+- **DNS is port 53.** It uses UDP for most queries and TCP for large replies and zone transfers.
+- **Databases must not face the internet.** MySQL (3306), PostgreSQL (5432), SQL Server (1433), MongoDB (27017) and Redis (6379) should **never** be exposed to the internet. They should be reachable only from the application servers that need them (use firewall rules and private networks).

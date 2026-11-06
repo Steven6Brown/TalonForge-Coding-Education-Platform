@@ -34,3 +34,7 @@ Frameworks like **NIST CSF** and **ISO 27001** organize this work: identify, pro
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Simple risk score = Likelihood x Impact.** Rate each from, say, 1 to 5 and multiply. A very likely but trivial event (a typo in a log, 5 x 1 = 5) and a rare catastrophic one (a data center fire, 1 x 5 = 5) can score the same. Both still deserve a decision: accept, reduce, transfer (insurance) or avoid.

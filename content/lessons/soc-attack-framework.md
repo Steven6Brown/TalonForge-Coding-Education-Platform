@@ -21,3 +21,7 @@ SOCs use it to label alerts, find gaps in detection and write clearer reports.
 Timeline, indicators (IPs, domains, hashes, accounts), the queries you ran, actions with times, who was notified, and the final classification. If someone else can pick it up without asking you anything, it is a good ticket.
 
 Now try the **Simulators** page to practice these decisions.
+
+## Key facts this lesson's quiz checks
+
+- **A good incident ticket** contains the **timeline**, the **indicators** (IPs, domains, hashes, accounts), the **actions taken** and **who was notified**. The test: could someone else reproduce and continue your work without asking you anything?

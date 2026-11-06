@@ -28,3 +28,9 @@ On the **Tools** page, try each: encode text to Base64 and back, hash `password`
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **One-way means hashing.** A hash function turns any input into a fixed-size fingerprint, and you **cannot recover the input** from it. You can only guess inputs and compare their hashes. That is why passwords are stored as (salted) hashes.
+- **Checking a download.** To confirm a downloaded file was not modified, **compare its hash with a trusted published hash**. A match shows integrity, but only if the published hash itself comes from a trustworthy place.
+- **Classical ciphers today.** Caesar and Vigenere are fine for puzzles and learning. They are **not** for **protecting real secrets**, because they are trivially breakable. Use **AES-256-GCM** or **ChaCha20-Poly1305** through a vetted library.

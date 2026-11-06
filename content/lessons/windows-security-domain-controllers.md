@@ -18,3 +18,8 @@ Enable auditing for logons, account changes and privileged group changes. Useful
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Admin account hygiene.** Use **separate administrator accounts only for admin tasks**, and give them **least privilege**. Do your email and browsing with a normal account. If the everyday account is phished, the damage ("blast radius") stays small.
+- **Why patch?** **Known vulnerabilities** are one of the leading ways attackers get in: they use public exploits against software that was never updated. **Patch management** and **vulnerability scanning** reduce that exposure.

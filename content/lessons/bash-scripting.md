@@ -47,3 +47,8 @@ Fields: minute, hour, day of month, month, day of week. This runs daily at 02:30
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Always quote variables: `"$file"`.** Without quotes the shell splits the value at spaces (**word splitting**) and expands characters like `*` into file names (**globbing**). A file called `my report.txt` would be treated as two files. If the value comes from an attacker it can even inject extra options or commands. Quote it: `rm "$file"`.
+- **`set -euo pipefail`** at the top of a script makes it **fail fast**: `-e` stops at the first command that fails, `-u` treats use of an unset variable as an error, and `-o pipefail` makes a pipeline fail if any stage in it fails (not just the last). Without these, a script can silently keep going after something went wrong and do damage.

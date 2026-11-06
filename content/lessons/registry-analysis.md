@@ -30,3 +30,7 @@ Registry data is stored in **hive** files:
 ## Check yourself
 
 Take the quiz below.
+
+## Key facts this lesson's quiz checks
+
+- **Work on a copy.** Opening or booting the original system changes timestamps and data, which destroys the **original evidence** and weakens its value in court. Examiners **image first** (make an exact copy, then verify it with a hash) and analyze the copy of the registry hives.

@@ -19,3 +19,7 @@ Well-known products: Splunk, Microsoft Sentinel, Elastic Security, IBM QRadar. T
 ## Why this matters for jobs
 
 SOC analyst postings ask for log analysis, alert triage, ticket writing and knowledge of frameworks like MITRE ATT&CK. The next lessons let you practice searching, and the **Simulators** page lets you practice the full workflow.
+
+## Key facts this lesson's quiz checks
+
+- **Failures then a success.** Many failed logins from one IP followed by a **success** suggests a **brute-force attack that worked**. The success is the moment the attacker gains access, which is why that pattern is treated as serious even though each failure alone looks harmless.
