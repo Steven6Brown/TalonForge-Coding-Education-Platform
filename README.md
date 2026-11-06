@@ -8,10 +8,10 @@ A free, local-first learning platform for coding, scripting, servers and ethical
 
 | Area | What it does |
 | --- | --- |
-| **11 tracks / 57 lessons** | Linux & Shell, Python, Web & JS, Automation, Building AI, Networking, Systems, Ethical Hacking, Kali Pentest Lab (simulated), Security Foundations, Math for Security |
+| **14 tracks / 90 lessons** | Linux & Shell, Python, Web & JS, Automation, Building AI, Networking, Systems, Ethical Hacking, Kali Pentest Lab (simulated), Security Foundations, Math for Security, Cyber Range Labs, Digital Forensics, Databases & SQL |
 | **Labs** | Simulated Linux shell (flag hunting), Python (Pyodide/WASM), JavaScript (Web Worker, network blocked), quizzes |
 | **Language Atlas** | Pick a goal, see which language fits, when to avoid it, and its security angle |
-| **Playground** | JS, Python, shell (with a nano-style editor) and a simulated Kali toolset |
+| **Playground** | JS, Python, real in-browser SQLite, shell (with a nano-style editor), a simulated Kali toolset |
 | **Share** | LinkedIn share link, copyable post text and GitHub README badge (user-initiated, aggregate stats only) |
 | **Resources** | Curated links to well-known free practice platforms |
 | **Progress** | XP, ranks, streaks, export/import backup, all stored locally (no PII) |

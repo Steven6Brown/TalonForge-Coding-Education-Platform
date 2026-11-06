@@ -3,7 +3,9 @@ import { useState } from "react";
 import { runCode, type RunResult, type RunStatus } from "@/lib/runner";
 
 type Props = {
-  language: "javascript" | "python";
+  language: "javascript" | "python" | "sql";
+  /** Hidden setup (SQL schema/data) passed to the runner. */
+  setup?: string;
   starter: string;
   /** Hidden code appended after the learner's code (used for tests). */
   harness?: string;
@@ -12,7 +14,7 @@ type Props = {
 };
 
 /** Code editor + Run button + output panel. Execution happens in an isolated Web Worker. */
-export function CodeRunner({ language, starter, harness, onResult, label }: Props) {
+export function CodeRunner({ language, starter, harness, setup, onResult, label }: Props) {
   const [code, setCode] = useState(starter);
   const [out, setOut] = useState<RunResult | null>(null);
   const [status, setStatus] = useState<RunStatus | "idle">("idle");
@@ -20,7 +22,7 @@ export function CodeRunner({ language, starter, harness, onResult, label }: Prop
   async function run() {
     setStatus("running");
     setOut(null);
-    const res = await runCode(language, harness ? `${code}\n${harness}` : code, (s) => setStatus(s));
+    const res = await runCode(language, harness ? `${code}\n${harness}` : code, (s) => setStatus(s), setup);
     setOut(res);
     setStatus("idle");
     onResult?.(res);
@@ -47,7 +49,7 @@ export function CodeRunner({ language, starter, harness, onResult, label }: Prop
   return (
     <div className="runner">
       <label className="editor-label" htmlFor={`ed-${label ?? language}`}>
-        {language === "python" ? "Python" : "JavaScript"} editor
+        {language === "python" ? "Python" : language === "sql" ? "SQL" : "JavaScript"} editor
       </label>
       <textarea
         id={`ed-${label ?? language}`}
@@ -67,14 +69,14 @@ export function CodeRunner({ language, starter, harness, onResult, label }: Prop
       </p>
       <div className="row">
         <button className="btn primary" onClick={run} disabled={busy}>
-          {status === "loading" ? "Loading Python engine…" : status === "running" ? "Running…" : "▶ Run"}
+          {status === "loading" ? "Loading engine…" : status === "running" ? "Running…" : "▶ Run"}
         </button>
         <button className="btn" onClick={() => setCode(starter)} disabled={busy}>
           Reset code
         </button>
       </div>
-      {language === "python" && status === "idle" && !out && (
-        <p className="muted small">The first Python run downloads the engine (~10 MB) once, then it is cached.</p>
+      {language !== "javascript" && status === "idle" && !out && (
+        <p className="muted small">The first run downloads the engine once (Python is ~10 MB, SQL is ~1 MB), then it is cached.</p>
       )}
       <div className="output" role="status" aria-live="polite" aria-label="Program output">
         {out ? (

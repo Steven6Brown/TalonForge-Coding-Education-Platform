@@ -27,6 +27,10 @@ const jsWorkerCsp =
 const pyWorkerCsp =
   "default-src 'none'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-eval' 'wasm-unsafe-eval'; connect-src https://cdn.jsdelivr.net";
 
+// The SQL worker (sql.js WebAssembly) has the same CDN-only policy as the Python worker.
+const sqlWorkerCsp =
+  "default-src 'none'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-eval' 'wasm-unsafe-eval'; connect-src https://cdn.jsdelivr.net";
+
 const baseHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -58,6 +62,10 @@ const nextConfig = {
       {
         source: "/workers/js-runner.js",
         headers: [...baseHeaders, { key: "Content-Security-Policy", value: jsWorkerCsp }],
+      },
+      {
+        source: "/workers/sql-runner.js",
+        headers: [...baseHeaders, { key: "Content-Security-Policy", value: sqlWorkerCsp }],
       },
       {
         source: "/workers/py-runner.js",

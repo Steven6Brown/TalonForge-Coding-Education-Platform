@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Shell } from "@/lib/shell/shell";
-import { makeKaliCommands } from "@/lib/shell/kali";
 import { FILESYSTEMS } from "@/lib/content/filesystems";
-import { PROFILES } from "@/lib/content/filesystems-kali";
+import { PROFILES } from "@/lib/content/profiles";
 
 type Line = { kind: "cmd" | "out"; text: string };
 type Editing = { path: string; display: string; text: string };
@@ -11,29 +10,27 @@ type Editing = { path: string; display: string; text: string };
 function createShell(fs: string): Shell {
   const def = FILESYSTEMS[fs] ?? FILESYSTEMS.sandbox;
   const profile = PROFILES[fs];
-  if (profile?.net) {
-    const k = makeKaliCommands(profile.net);
-    return new Shell(def, { extra: k.commands, extraHelp: k.help, host: profile.host });
-  }
-  return new Shell(def, { host: profile?.host });
+  if (!profile) return new Shell(def);
+  const built = profile.build();
+  return new Shell(def, { extra: built.commands, extraHelp: built.help, host: profile.host });
 }
 
 /** Accessible in-browser terminal backed by the Shell simulator (no real command execution). */
 export function Terminal({ fs }: { fs: string }) {
   // Lazy init keeps one Shell per mounted terminal; remounting (key change) resets the lab.
   const [shell] = useState(() => createShell(fs));
-  const isKali = !!PROFILES[fs]?.net;
   const [lines, setLines] = useState<Line[]>([
     {
       kind: "out",
-      text: isKali
-        ? "TalonForge Kali-style lab (SIMULATED tools, fictional network 10.10.10.0/29). Type 'help' to see tools.\nNot real Kali: install Kali in an isolated VM for real practice.\n"
-        : "TalonForge training shell (simulated). Type 'help' to see commands.\nTip: 'touch f' makes an EMPTY file. Use 'nano f' to edit it, or: echo hello > f\n",
+      text:
+        PROFILES[fs]?.intro ??
+        "TalonForge training shell (simulated). Type 'help' to see commands.\nTip: 'touch f' makes an EMPTY file. Use 'nano f' to edit it, or: echo hello > f\n",
     },
   ]);
   const [value, setValue] = useState("");
   const [prompt, setPrompt] = useState(shell.prompt());
   const [editing, setEditing] = useState<Editing | null>(null);
+  const [secret, setSecret] = useState<string | null>(null); // label of a pending hidden-input prompt
   const histIdx = useRef<number | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +45,15 @@ export function Terminal({ fs }: { fs: string }) {
   }
 
   function submit() {
+    if (secret !== null) {
+      // Hidden input (e.g. ssh password): never echo the value or store it in history.
+      const out = shell.answerPrompt(value);
+      setLines((prev) => [...prev, { kind: "cmd" as const, text: secret }, ...(out ? [{ kind: "out" as const, text: out }] : [])].slice(-300));
+      setSecret(null);
+      setValue("");
+      setPrompt(shell.prompt());
+      return;
+    }
     const cmd = value;
     const res = shell.run(cmd);
     setLines((prev) => {
@@ -59,6 +65,7 @@ export function Terminal({ fs }: { fs: string }) {
     setPrompt(shell.prompt());
     histIdx.current = null;
     if (res.edit) setEditing({ path: res.edit.path, display: res.edit.display, text: res.edit.content });
+    if (res.prompt) setSecret(res.prompt.label);
   }
 
   function closeEditor(message: string) {
@@ -82,6 +89,8 @@ export function Terminal({ fs }: { fs: string }) {
     if (e.key === "Enter") {
       e.preventDefault();
       submit();
+    } else if (secret !== null) {
+      return; // no history/completion while typing a password
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       const h = shell.history;
@@ -147,11 +156,12 @@ export function Terminal({ fs }: { fs: string }) {
       )}
       <label className="term-input">
         <span className="term-prompt" aria-hidden="true">
-          {prompt}
+          {secret ?? prompt}
         </span>
-        <span className="sr-only">Terminal command input</span>
+        <span className="sr-only">{secret ? `${secret} (hidden input)` : "Terminal command input"}</span>
         <input
           ref={inputRef}
+          type={secret !== null ? "password" : "text"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}

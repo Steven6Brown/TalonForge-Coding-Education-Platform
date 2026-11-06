@@ -63,6 +63,7 @@ function CodeLab({ lab, done, onPass }: { lab: Extract<Lab, { kind: "code" }>; d
         language={lab.language}
         starter={lab.starter}
         harness={lab.harness}
+        setup={lab.setup}
         onResult={(res) => {
           if (res.ok && checkOutput(res.stdout, lab.expected)) {
             setMsg(null);

@@ -1,3 +1,4 @@
+import { sha256Hex } from "./hash";
 import { VFS, ShellError, normalize, baseName, parentOf, HOME, USER, type FsDef, type VNode } from "./vfs";
 
 /* A small bash-like shell simulator. It supports quoting, $VAR expansion, globs, pipes (|),
@@ -406,6 +407,36 @@ const commands: Record<string, Cmd> = {
     );
   },
   which: (c, a) => a.map((n) => (commands[n] || c.shell.extra[n] ? `/usr/bin/${n}\n` : "")).join(""),
+  sha256sum: (c, a) => {
+    const { flags, rest } = parseOpts(a);
+    if (flags.has("c")) {
+      // verify mode: each line of the given file is "<hash>  <filename>"
+      const lines = rest.flatMap((f) => c.vfs.readFile(normalize(f, c.shell.cwd), "sha256sum").split("\n").filter(Boolean));
+      const results = lines.map((line) => {
+        const [hash, ...nameParts] = line.split(/\s+/);
+        const name = nameParts.join(" ");
+        try {
+          const ok = sha256Hex(c.vfs.readFile(normalize(name, c.shell.cwd), "sha256sum")) === hash;
+          return `${name}: ${ok ? "OK" : "FAILED"}`;
+        } catch {
+          return `${name}: FAILED open or read`;
+        }
+      });
+      return results.join("\n") + "\n";
+    }
+    if (rest.length === 0) return sha256Hex(c.stdin ?? "") + "  -\n";
+    return rest
+      .map((f) => {
+        try {
+          return sha256Hex(c.vfs.readFile(normalize(f, c.shell.cwd), "sha256sum")) + "  " + f + "\n";
+        } catch (e) {
+          if (e instanceof ShellError) c.err(e.message);
+          else throw e;
+          return "";
+        }
+      })
+      .join("");
+  },
   base64: (c, a) => {
     const { flags, rest } = parseOpts(a, []);
     const text = inputs(c, rest, "base64").map((i) => i.text).join("");
@@ -592,12 +623,33 @@ export class Shell {
   host: string;
   /** Set by `nano`/`vi`; the Terminal UI opens its editor panel when this is present after a run. */
   pendingEdit: { path: string; display: string; content: string } | null = null;
+  /** Set by commands that need hidden input (e.g. ssh password). The Terminal asks, then calls answerPrompt. */
+  pendingPrompt: { label: string; onAnswer: (answer: string) => string } | null = null;
 
   constructor(def: FsDef, opts: { extra?: Record<string, Cmd>; extraHelp?: Record<string, string>; host?: string } = {}) {
     this.vfs = new VFS(def);
     this.extra = opts.extra ?? {};
     this.extraHelp = opts.extraHelp ?? {};
     this.host = opts.host ?? "forge";
+  }
+
+  /** Stack of previous machines while logged in over ssh (multi-machine range labs). */
+  contextStack: { vfs: VFS; cwd: string; host: string }[] = [];
+
+  pushContext(vfs: VFS, host: string) {
+    this.contextStack.push({ vfs: this.vfs, cwd: this.cwd, host: this.host });
+    this.vfs = vfs;
+    this.cwd = HOME;
+    this.host = host;
+  }
+
+  popContext(): boolean {
+    const prev = this.contextStack.pop();
+    if (!prev) return false;
+    this.vfs = prev.vfs;
+    this.cwd = prev.cwd;
+    this.host = prev.host;
+    return true;
   }
 
   /** Saves text from the editor panel into the virtual filesystem. Returns an error message or null. */
@@ -730,10 +782,25 @@ export class Shell {
     return m.length ? m : [word];
   }
 
-  run(line: string): { output: string; clear: boolean; edit: { path: string; display: string; content: string } | null } {
+  run(line: string): {
+    output: string;
+    clear: boolean;
+    edit: { path: string; display: string; content: string } | null;
+    prompt: { label: string } | null;
+  } {
     this.pendingEdit = null;
+    this.pendingPrompt = null;
     const res = this.runInner(line);
-    return { ...res, edit: this.pendingEdit };
+    // Commands may have set these during runInner (TS can't see that through the method call).
+    const pp = this.pendingPrompt as { label: string } | null;
+    return { ...res, edit: this.pendingEdit, prompt: pp ? { label: pp.label } : null };
+  }
+
+  /** Delivers hidden input to the command that asked for it. */
+  answerPrompt(answer: string): string {
+    const p = this.pendingPrompt;
+    this.pendingPrompt = null;
+    return p ? p.onAnswer(answer) : "";
   }
 
   private runInner(line: string): { output: string; clear: boolean } {

@@ -11,3 +11,4 @@
 - New tracks: Kali Pentest Lab (intro + reporting), Security Foundations (risk, crypto, OSINT, AD, forensics); wargame-style shell lesson.
 - Share card (LinkedIn/clipboard/GitHub badge) and Resources page. Verification builds can use NEXT_DIST_DIR.
 - Math for Security track and Naive Bayes spam classifier lab, plus malware landscape, security governance and tech-law lessons, written from the owner's own Penn State notes (IST 230, Cyber 362, IST 456, IST 432).
+- Cyber Range Labs (host account audit, server hardening with simulated ufw/systemctl/chage, multi-machine ssh/scp range with hidden password prompt, Snort-style rules, log analytics), Digital Forensics (hash verification, registry, data carving, memory, reporting, ransomware), Databases & SQL (real SQLite via sql.js in a sandboxed worker), plus extra lessons for networking, web, AI, automation, ethical hacking and security foundations. Topics follow the owner's Penn State coursework; all text is original.

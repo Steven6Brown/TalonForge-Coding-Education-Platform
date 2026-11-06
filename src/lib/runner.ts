@@ -5,13 +5,14 @@
 export type RunResult = { ok: boolean; stdout: string; error?: string; timedOut?: boolean };
 export type RunStatus = "loading" | "running";
 
-const TIMEOUT_MS = { javascript: 5000, python: 30000 } as const;
-const WORKER_URL = { javascript: "/workers/js-runner.js", python: "/workers/py-runner.js" } as const;
+const TIMEOUT_MS = { javascript: 5000, python: 30000, sql: 30000 } as const;
+const WORKER_URL = { javascript: "/workers/js-runner.js", python: "/workers/py-runner.js", sql: "/workers/sql-runner.js" } as const;
 
 export function runCode(
-  language: "javascript" | "python",
+  language: "javascript" | "python" | "sql",
   code: string,
   onStatus?: (s: RunStatus) => void,
+  setup?: string,
 ): Promise<RunResult> {
   return new Promise((resolve) => {
     let worker: Worker;
@@ -34,7 +35,7 @@ export function runCode(
         // Once Python is loaded, restart the clock for the actual user code (10s).
         if (d.status === "running") {
           clearTimeout(timer);
-          timer = setTimeout(finishTimeout, language === "python" ? 10000 : TIMEOUT_MS.javascript);
+          timer = setTimeout(finishTimeout, language === "javascript" ? TIMEOUT_MS.javascript : 10000);
         }
         return;
       }
@@ -49,12 +50,12 @@ export function runCode(
         ok: false,
         stdout: "",
         error:
-          language === "python"
-            ? "The Python engine failed to load. Check your internet connection and try again."
+          language !== "javascript"
+            ? "The Python/SQL engine failed to load. Check your internet connection and try again."
             : "The sandbox crashed.",
       });
     };
-    worker.postMessage({ code });
+    worker.postMessage({ code, setup });
   });
 }
 

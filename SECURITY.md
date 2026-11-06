@@ -27,3 +27,6 @@ CSP, HSTS (prod), `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy, Permissio
 ## Reporting
 
 Email the Aquila Digital owner. Do not open public issues for vulnerabilities.
+
+## Addendum: SQL worker
+The SQL sandbox loads sql.js 1.8.0 (SQLite WebAssembly) from cdn.jsdelivr.net inside a Worker with a CDN-only network policy. Each run uses a fresh in-memory database. Self-host the files to remove the CDN dependency.

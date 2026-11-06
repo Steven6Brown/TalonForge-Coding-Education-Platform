@@ -4,6 +4,8 @@ import { EXTRA_LESSONS } from "./lessons-extra";
 import { BATCH3_LESSONS } from "./lessons-batch3";
 import { BATCH4_LESSONS } from "./lessons-batch4";
 import { BATCH5_LESSONS } from "./lessons-batch5";
+import { BATCH6A_LESSONS } from "./lessons-batch6a";
+import { BATCH6B_LESSONS } from "./lessons-batch6b";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -20,7 +22,7 @@ export const TRACKS: Track[] = [
     icon: ">_",
     description:
       "Every server, every pentest box, every incident response starts in a terminal. Learn to navigate, search, filter and secure a Linux system.",
-    lessons: ["shell-navigation", "shell-pipes", "shell-permissions", "bash-scripting", "wargame-find-files"],
+    lessons: ["shell-navigation", "shell-pipes", "shell-permissions", "bash-scripting", "wargame-find-files", "text-processing-awk-sed"],
   },
   {
     id: "python-security",
@@ -29,7 +31,7 @@ export const TRACKS: Track[] = [
     icon: "py",
     description:
       "Python is the security professional's duct tape. Parse logs, decode data, break toy ciphers and write real tooling.",
-    lessons: ["py-basics", "py-bytes", "py-log-analysis", "py-caesar", "py-hashing", "py-regex-iocs"],
+    lessons: ["py-basics", "py-bytes", "py-log-analysis", "py-caesar", "py-hashing", "py-regex-iocs", "py-json-feeds"],
   },
   {
     id: "web-js",
@@ -38,7 +40,34 @@ export const TRACKS: Track[] = [
     icon: "js",
     description:
       "Understand HTTP, the browser, and the classic web bugs. Write JavaScript that defends instead of exposes.",
-    lessons: ["js-basics", "http-anatomy", "xss-escape", "sql-injection"],
+    lessons: ["js-basics", "http-anatomy", "xss-escape", "sql-injection", "web-security-headers", "csrf-cookies-sessions"],
+  },
+  {
+    id: "cyber-range",
+    title: "Cyber Range Labs",
+    tagline: "Administer, harden and monitor simulated servers",
+    icon: "range",
+    description:
+      "Cloud-lab style practice: audit Linux accounts, harden a server (firewall, services, password aging), administer machines over SSH, write detection rules and analyze logs.",
+    lessons: ["host-accounts-audit", "linux-host-hardening", "ssh-remote-admin", "snort-rules", "log-analytics-regex"],
+  },
+  {
+    id: "digital-forensics",
+    title: "Digital Forensics",
+    tagline: "Preserve, analyze and report",
+    icon: "dfir",
+    description:
+      "Evidence integrity, Windows registry artifacts, data carving, memory analysis, forensic reports and ransomware response, using fictional evidence.",
+    lessons: ["forensic-imaging-hashing", "registry-analysis", "data-carving", "memory-analysis", "forensic-report-writing", "ransomware-response"],
+  },
+  {
+    id: "databases-sql",
+    title: "Databases & SQL",
+    tagline: "Query real SQLite in your browser",
+    icon: "sql",
+    description:
+      "Database design, then hands-on SQL against a real in-browser database: SELECT, joins, aggregates, subqueries, GROUP BY / HAVING, and creating and updating data.",
+    lessons: ["database-design-basics", "sql-select", "sql-joins-aggregates", "sql-subqueries", "sql-group-having", "sql-ddl-dml"],
   },
   {
     id: "math-crypto",
@@ -65,7 +94,7 @@ export const TRACKS: Track[] = [
     icon: "sec",
     description:
       "Risk assessment, cryptography, OSINT, Windows and Active Directory, and digital forensics: the knowledge that turns tool users into analysts.",
-    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics", "malware-landscape", "security-governance", "tech-law-basics"],
+    lessons: ["risk-assessment", "crypto-fundamentals", "osint-basics", "windows-ad-basics", "digital-forensics-basics", "malware-landscape", "security-governance", "tech-law-basics", "ach-analysis", "threat-vulnerability-analysis", "stats-for-security"],
   },
   {
     id: "automation",
@@ -74,7 +103,7 @@ export const TRACKS: Track[] = [
     icon: "auto",
     description:
       "Turn repetitive tasks into reliable scripts: organize files, build reports, call APIs, retry safely and schedule jobs.",
-    lessons: ["automation-mindset", "py-file-organizer", "py-csv-json", "js-api-pagination", "py-retry-logging", "cron-scheduling"],
+    lessons: ["automation-mindset", "py-file-organizer", "py-csv-json", "js-api-pagination", "py-retry-logging", "cron-scheduling", "ci-cd-github-actions"],
   },
   {
     id: "ai-engineering",
@@ -83,16 +112,14 @@ export const TRACKS: Track[] = [
     icon: "ai",
     description:
       "Understand how machine learning and LLMs work, then build with them safely: embeddings, retrieval, validated outputs and AI security.",
-    lessons: [
-      "ai-fundamentals",
+    lessons: ["ai-fundamentals",
       "ml-from-scratch",
       "embeddings-similarity",
       "prompt-engineering",
       "llm-output-validation",
       "rag-basics",
       "ml-spam-classifier",
-      "ai-security",
-    ],
+      "ai-security", "model-evaluation-metrics"],
   },
   {
     id: "networking",
@@ -101,7 +128,7 @@ export const TRACKS: Track[] = [
     icon: "net",
     description:
       "IPs, ports, DNS, subnets and packet captures: the language every attacker, defender and sysadmin must speak.",
-    lessons: ["net-fundamentals", "subnetting", "packet-reading"],
+    lessons: ["net-fundamentals", "subnetting", "packet-reading", "service-identification", "vpn-firewall-concepts", "wireless-bluetooth-security"],
   },
   {
     id: "systems-servers",
@@ -110,7 +137,7 @@ export const TRACKS: Track[] = [
     icon: "sys",
     description:
       "Flash a USB, install an OS, stand up a server, lock down SSH and the firewall, and build a safe home lab to practice in.",
-    lessons: ["imaging-and-install", "server-setup-ssh", "firewalls-services", "home-lab", "powershell-basics"],
+    lessons: ["imaging-and-install", "server-setup-ssh", "firewalls-services", "home-lab", "powershell-basics", "windows-security-domain-controllers"],
   },
   {
     id: "ethical-hacking",
@@ -119,7 +146,7 @@ export const TRACKS: Track[] = [
     icon: "hk",
     description:
       "Rules of engagement, recon, password attacks and capture-the-flag practice, always inside authorized, legal boundaries.",
-    lessons: ["hacking-ethics", "recon-basics", "owasp-top10", "incident-response", "ctf-warmup"],
+    lessons: ["hacking-ethics", "recon-basics", "owasp-top10", "incident-response", "ctf-warmup", "web-app-scanning-zap", "malware-analysis-methods"],
   },
 ];
 
@@ -706,7 +733,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);

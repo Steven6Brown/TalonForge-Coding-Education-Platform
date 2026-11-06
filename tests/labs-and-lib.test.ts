@@ -89,3 +89,11 @@ describe("helpers", () => {
     expect(rankLanguages("windows-admin")[0].id).toBe("powershell");
   });
 });
+
+import { sha256Hex } from "@/lib/shell/hash";
+describe("sha256", () => {
+  it("matches known test vectors", () => {
+    expect(sha256Hex("abc")).toBe("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
+    expect(sha256Hex("")).toBe("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+  });
+});

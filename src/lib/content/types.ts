@@ -10,9 +10,11 @@ export type QuizQuestion = {
 export type Lab =
   | {
       kind: "code";
-      language: "javascript" | "python";
+      language: "javascript" | "python" | "sql";
       prompt: string;
       starter: string;
+      /** Hidden setup run before the learner's code (SQL schema/data). */
+      setup?: string;
       /** Appended after learner code (hidden tests). */
       harness?: string;
       /** The LAST non-empty line of stdout must equal this to pass. */

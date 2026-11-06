@@ -61,11 +61,6 @@ export const KALI_NET: KaliNet = {
   ],
 };
 
-/** Terminals that use the simulated Kali toolset + a different prompt host name. */
-export const PROFILES: Record<string, { host: string; net?: KaliNet }> = {
-  kali: { host: "kali", net: KALI_NET },
-};
-
 export const kali: FsDef = {
   "/home/student/notes.txt":
     "RULES OF ENGAGEMENT (lab)\nAuthorized scope: 10.10.10.0/29 ONLY.\nNo real systems. Everything here is a simulation.\nTry: nmap -sV 10.10.10.0/29\n",
