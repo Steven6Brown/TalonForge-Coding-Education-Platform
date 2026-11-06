@@ -236,3 +236,14 @@ body::before {
 .scaffold .plan { padding-left: 22px; }
 .scaffold .plan li { margin: 6px 0; }
 .explain { background: color-mix(in srgb, var(--accent2) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent2) 40%, transparent); border-radius: 10px; padding: 10px 14px; margin-top: 10px; }
+
+/* Tools */
+.tbl { width: 100%; border-collapse: collapse; font-size: .92rem; margin: 8px 0; }
+.tbl th, .tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.tbl thead th { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+.mono { font-family: ui-monospace, Consolas, monospace; }
+textarea.mono, .field textarea { width: 100%; min-height: 44px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font: inherit; }
+textarea.mono { font-family: ui-monospace, Consolas, monospace; }
+.out-box { background: #070a10; border: 1px solid var(--border); border-radius: 10px; padding: 12px; white-space: pre-wrap; word-break: break-all; margin: 0; }
+code.wrap { word-break: break-all; }
+select { width: auto; }

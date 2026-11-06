@@ -14,6 +14,7 @@ import { NS2_LESSONS } from "./lessons-ns2";
 import { NS3_LESSONS } from "./lessons-ns3";
 import { JSF_LESSONS } from "./lessons-jsf";
 import { PYF_LESSONS } from "./lessons-pyf";
+import { CRYPTO_LESSONS } from "./lessons-crypto";
 import { SCAFFOLDS } from "./lab-scaffolds";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
@@ -41,6 +42,15 @@ export const TRACKS: Track[] = [
     description:
       "A ground-up Python course with the same guided labs: concepts first, then a plan, an example and friendly error explanations.",
     lessons: ["py-first-program", "py-lists-loops-dicts", "py-strings-functions"],
+  },
+  {
+    id: "crypto-hands-on",
+    title: "Binary, Encryption, Hashing & Ports",
+    tagline: "Hands-on fundamentals, with tools to check your work",
+    icon: "01",
+    description:
+      "Translate text to binary and back, convert IP addresses, hash and check passwords, encrypt and decrypt messages with classical ciphers and real AES-GCM, and learn what each common network port does. Pair every lesson with the Tools page.",
+    lessons: ["bin-text-to-binary", "bin-binary-to-decimal", "bin-ip-to-binary", "crypto-encoding-vs-encryption", "crypto-hash-dictionary-check", "crypto-vigenere-by-hand", "crypto-aes-encrypt-decrypt", "ports-fundamentals", "ports-insecure-audit"],
   },
   {
     id: "linux-shell",
@@ -778,7 +788,7 @@ function parseHeaders(raw) {
   },
 ];
 
-const ALL_LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS, ...NS1_LESSONS, ...NS2_LESSONS, ...NS3_LESSONS, ...JSF_LESSONS, ...PYF_LESSONS];
+const ALL_LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS, ...NS1_LESSONS, ...NS2_LESSONS, ...NS3_LESSONS, ...JSF_LESSONS, ...PYF_LESSONS, ...CRYPTO_LESSONS];
 
 /** Applies extra beginner scaffolding (concepts, plan, example) to existing code labs by lesson id. */
 export const LESSONS: Lesson[] = ALL_LESSONS.map((l) =>
