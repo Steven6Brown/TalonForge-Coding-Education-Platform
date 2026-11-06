@@ -17,6 +17,7 @@ import { PYF_LESSONS } from "./lessons-pyf";
 import { CRYPTO_LESSONS } from "./lessons-crypto";
 import { SIEM_LESSONS } from "./lessons-siem";
 import { SCAFFOLDS } from "./lab-scaffolds";
+import { SCAFFOLDS_B } from "./lab-scaffolds-b";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -802,7 +803,7 @@ const ALL_LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESS
 
 /** Applies extra beginner scaffolding (concepts, plan, example) to existing code labs by lesson id. */
 export const LESSONS: Lesson[] = ALL_LESSONS.map((l) =>
-  l.lab.kind === "code" && SCAFFOLDS[l.id] ? { ...l, lab: { ...l.lab, ...SCAFFOLDS[l.id] } } : l,
+  l.lab.kind === "code" && (SCAFFOLDS[l.id] ?? SCAFFOLDS_B[l.id]) ? { ...l, lab: { ...l.lab, ...(SCAFFOLDS[l.id] ?? SCAFFOLDS_B[l.id]) } } : l,
 );
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);

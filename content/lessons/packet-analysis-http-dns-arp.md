@@ -35,3 +35,18 @@ A client asks its configured DNS server to resolve a name (query), and the serve
 ## Your task
 
 Use `grep` on the packet list to answer three questions about the DNS server, the HTTP status and the requested page.
+
+## New to the terminal? Commands you will use
+
+The capture is a plain text file. You will search it with `grep`.
+
+- `cat capture2.txt` prints the whole file (it is long, so searching is better).
+- `grep DNS capture2.txt` shows only the lines that contain the word `DNS`. The first word after `grep` is what you are looking for; the second is the file.
+- `grep -i http capture2.txt` ignores upper and lower case.
+- `grep "GET" capture2.txt` shows web page requests (quotes are needed if the search text has spaces).
+
+## Worked approach
+
+1. DNS: `grep DNS capture2.txt`. A **query** goes from the client **to** the DNS server, so the DNS server's address is the **destination** of the query line.
+2. HTTP status: `grep HTTP capture2.txt`. Find the response line; the three-digit number after `HTTP/1.1` is the status code.
+3. Page requested: find the `GET` line and read the path right after `GET`.

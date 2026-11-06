@@ -1,10 +1,12 @@
-## Automate the checks
+## Start here
 
-**Continuous integration (CI)** runs your build and tests automatically whenever code changes. **Continuous delivery/deployment (CD)** can then release changes automatically.
+When several people change the same project, how do you know a change did not break something? **Continuous Integration (CI)** is the answer: every time someone pushes code, a server automatically **builds the project and runs the tests**, then reports pass or fail. Bugs are caught in minutes instead of weeks.
 
-## GitHub Actions in a nutshell
+**Continuous Delivery/Deployment (CD)** goes one step further: when the checks pass, the new version can be released automatically.
 
-Workflows are YAML files in `.github/workflows/`:
+## What GitHub Actions is
+
+GitHub Actions is GitHub's built-in automation. You describe what to do in a **workflow**: a text file in the **YAML** format (indentation-based settings) saved in the folder `.github/workflows/` of your repository.
 
 ```yaml
 name: ci
@@ -21,14 +23,23 @@ jobs:
       - run: npm test
 ```
 
-- **Triggers:** `push`, `pull_request`, `schedule` (cron syntax), manual runs.
-- **Jobs and steps:** jobs run on runners; steps run commands or reusable actions.
-- **Secrets:** store tokens in repository **secrets** and reference them (`${{ secrets.NAME }}`); never commit them.
+Read it from the top:
 
-## Security in the pipeline
+- `on:` is the **trigger**: when to run (here on every push and pull request; others are `schedule` using cron syntax, or a manual button).
+- `jobs:` are groups of work. Each job runs on a fresh **runner** (a temporary machine, here Ubuntu Linux).
+- `steps:` run in order. `uses:` runs a ready-made **action** (check out the code, install Node). `run:` runs a command like `npm test`.
 
-Run dependency and secret scanning, linting and tests on every pull request; pin action versions; give workflows the minimum permissions they need.
+## Secrets
+
+Workflows sometimes need a password or token. **Never write it in the file.** Add it in the repository settings as an encrypted **secret** and reference it as `${{ secrets.MY_TOKEN }}`. Anything committed to Git history must be treated as stolen.
+
+## Security checks belong in CI
+
+- **Dependency scanning** (npm audit, Dependabot) finds known-vulnerable packages.
+- **Secret scanning** catches keys committed by accident.
+- Linting and tests on every pull request.
+- Pin action versions and give workflows the **minimum permissions** they need.
 
 ## Check yourself
 
-Take the quiz below. This is the same idea as the repo you're building here: tests run on every change before anything ships.
+Take the quiz below.

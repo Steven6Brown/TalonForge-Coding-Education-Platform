@@ -229,7 +229,7 @@ function lcm(a, b) {
   console.log(ok ? "ALL TESTS PASSED" : "TESTS FAILED");
 }`,
       expected: "ALL TESTS PASSED",
-      hints: ["Multiply the first two arguments, then divide by the third."],
+      hints: ["The formula is in the task: P(A|B) = P(B|A) * P(A) / P(B). Your three arguments are the three pieces: pBgivenA, pA and pB.", "Multiply the first two arguments, then divide by the third. Wrap the multiplication in parentheses so it happens first."],
       solution: `function bayes(pBgivenA, pA, pB) {
   return (pBgivenA * pA) / pB;
 }`,

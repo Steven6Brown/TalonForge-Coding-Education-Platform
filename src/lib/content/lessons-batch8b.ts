@@ -72,7 +72,7 @@ export const BATCH8B_LESSONS: Lesson[] = [
   console.log(ok ? "ALL TESTS PASSED" : "TESTS FAILED");
 }`,
       expected: "ALL TESTS PASSED",
-      hints: ["Compare `virtualSize > rawSize * 2`."],
+      hints: ["You need one comparison: is the in-memory size more than double the on-disk size? Work out 'double the raw size' first.", "Compare `virtualSize > rawSize * 2`. The comparison itself is already true or false, so you can `return` it directly."],
       solution: `function isLikelyPacked(rawSize, virtualSize) {
   return virtualSize > rawSize * 2;
 }`,

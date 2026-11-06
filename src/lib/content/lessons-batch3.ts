@@ -102,7 +102,7 @@ top = max(totals, key=totals.get)
 print(f"{top} {totals[top]:.2f}")
 `,
       expected: "hosting 40.00",
-      hints: ['`totals[cat] = totals.get(cat, 0) + float(row["amount"])`'],
+      hints: ["Each `row` is a dictionary: `row[\"category\"]` and `row[\"amount\"]` give the two values. Put the category in a variable first.", "`totals.get(cat, 0)` is the running total so far (0 if this category is new). CSV numbers are text, so convert with `float(...)` before adding.", '`totals[cat] = totals.get(cat, 0) + float(row["amount"])`'],
       solution: String.raw`for row in csv.DictReader(io.StringIO(DATA)):
     cat = row["category"]
     totals[cat] = totals.get(cat, 0) + float(row["amount"])

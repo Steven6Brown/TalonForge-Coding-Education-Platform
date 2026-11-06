@@ -1,24 +1,54 @@
-## Spam filtering as machine learning
+## Start here
 
-Early spam filters used word lists and hand-written rules. Modern filters learn from labeled examples. One classic approach is **Naive Bayes**: it estimates how often each word appears in spam versus legitimate mail (ham), then applies Bayes' theorem to a new message.
+This lab builds a real (small) machine-learning model: a **spam classifier** using an algorithm called **Naive Bayes**. It is the same family of method that early email spam filters used.
 
-## The recipe
+**What you need first:** Python loops, dictionaries and functions (Python Foundations). The Machine Learning From Scratch lesson shows the learning mindset.
 
-1. **Train:** count word occurrences in spam and in ham.
-2. **Score** a message for each class: start with the prior (`log(0.5)` for equal classes) and add `log P(word | class)` for each known word.
-3. **Classify** as the higher-scoring class.
+## The idea in plain words
 
-## Two practical tricks
+You have example messages already labeled **spam** or **ham** (ham means normal mail). Count how often each word appears in each group. "free" and "prize" appear often in spam; "meeting" and "noon" appear in ham.
 
-- **Laplace smoothing:** use `(count + 1) / (total_words + vocabulary_size)` so a word never seen in a class doesn't force the probability to zero.
-- **Log probabilities:** multiplying many small numbers underflows; adding their logs is stable and gives the same ordering.
+To classify a new message, ask: *which group makes these words more likely?* Whichever group wins is the label.
 
-It's "naive" because it assumes words are independent given the class, which is false but works surprisingly well.
+## Step 1: count words
 
-## Evaluating a classifier
+```python
+counts = {}
+total = 0
+for m in messages:
+    for w in m.split():
+        counts[w] = counts.get(w, 0) + 1
+        total += 1
+```
 
-Accuracy alone can mislead. Track **false positives** (good mail marked spam) and **false negatives** (spam let through), and use separate data for testing. Attackers adapt, so filters need retraining.
+`m.split()` breaks a message into words. `counts.get(w, 0) + 1` adds one to the word's count (starting from 0 if new). `total` is the number of words seen. `word_counts` must return `counts, total`.
 
-## Your task
+## Step 2: score a message
 
-Complete `word_counts` and `score`. The tiny dataset is made up for the lab; real filters train on thousands of messages.
+The probability of a word in a class is roughly `count / total`. Two fixes:
+
+- **Smoothing:** a word never seen in spam would give probability 0 and wipe out everything else. Add 1 to each count: `(count + 1) / (total + len(vocab))`. This is **Laplace smoothing**.
+- **Logarithms:** multiplying many small probabilities gets too tiny for a computer. Taking the **log** turns multiplication into addition: add `math.log(probability)` for each word. Start from `math.log(0.5)` because spam and ham are assumed equally likely at first.
+
+```python
+s = math.log(0.5)
+for w in message.split():
+    if w in vocab:
+        s += math.log((counts.get(w, 0) + 1) / (total + len(vocab)))
+```
+
+Words not in `vocab` (never seen at all) are skipped.
+
+## Step 3: compare
+
+`classify` already compares the spam score with the ham score. The bigger score wins.
+
+## Your plan
+
+1. Write `word_counts` and return `(counts, total)`.
+2. Write `score` as above.
+3. Run: four labels print, comma-separated.
+
+## Limits to know
+
+The model only knows the words in its tiny training set, and it ignores word order. Real filters use far more data and more features. Judge classifiers with precision and recall, which is the next lesson.
