@@ -49,4 +49,7 @@ export const GUIDES: Record<string, Guide> = {
   "soc-impossible-travel": { objective: "Respond to a likely account takeover using identity evidence.", primer: [T.mfa, T.triage, T.contain, { term: "Impossible travel", def: "Sign-ins from places too far apart for one person to travel between in that time." }, { term: "Session revocation", def: "Forcing all of an account's signed-in sessions to end, so a stolen session stops working." }], coach: { s1: "Two innocent explanations exist: a VPN or a phone carrier. What evidence would tell the difference?" } },
 };
 
+import { GUIDES3 } from "./helpdesk3";
+Object.assign(GUIDES, GUIDES3);
+
 export const guideFor = (id: string): Guide | undefined => GUIDES[id];

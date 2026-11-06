@@ -275,3 +275,18 @@ select { width: auto; }
 .badge.lvl-advanced { color: #ff7a7a; border-color: #ff7a7a; }
 a.sim-card { text-decoration: none; }
 .scaffold dl { margin: 8px 0 0; } .scaffold dd { margin: 0 0 8px; }
+
+/* Back link and detail chips */
+.back-link { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px 7px 10px; border: 1px solid var(--border); border-radius: 99px; background: var(--surface); color: var(--text); font: inherit; font-size: .9rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: border-color .15s, transform .15s; }
+.back-link span { font-size: 1.15rem; line-height: 1; color: var(--accent2); transition: transform .15s; }
+.back-link:hover { border-color: var(--accent2); }
+.back-link:hover span { transform: translateX(-3px); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 5px 13px; border-radius: 99px; font-size: .82rem; font-weight: 700; letter-spacing: .02em; text-transform: capitalize; border: 1px solid transparent; }
+.chip.lvl-beginner { color: #4ade80; background: color-mix(in srgb, #4ade80 16%, transparent); border-color: color-mix(in srgb, #4ade80 55%, transparent); }
+.chip.lvl-intermediate { color: #fbbf24; background: color-mix(in srgb, #fbbf24 16%, transparent); border-color: color-mix(in srgb, #fbbf24 55%, transparent); }
+.chip.lvl-advanced { color: #fb7185; background: color-mix(in srgb, #fb7185 16%, transparent); border-color: color-mix(in srgb, #fb7185 55%, transparent); }
+.chip.time { color: #38bdf8; background: color-mix(in srgb, #38bdf8 15%, transparent); border-color: color-mix(in srgb, #38bdf8 50%, transparent); }
+.chip.xp { color: #c084fc; background: color-mix(in srgb, #c084fc 16%, transparent); border-color: color-mix(in srgb, #c084fc 55%, transparent); }
+.chip.prio { color: #fb923c; background: color-mix(in srgb, #fb923c 15%, transparent); border-color: color-mix(in srgb, #fb923c 50%, transparent); text-transform: uppercase; }
+.chip.done { color: #052e16; background: #4ade80; }

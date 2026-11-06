@@ -1,5 +1,6 @@
 import { HELPDESK } from "./helpdesk";
 import { HELPDESK2 } from "./helpdesk2";
+import { HELPDESK3 } from "./helpdesk3";
 import { SOC } from "./soc";
 import type { Scenario } from "./types";
 
@@ -23,7 +24,7 @@ export const ROLES: Role[] = [
     title: "IT Help Desk",
     blurb: "Tier 1 and 2 support: accounts, devices, networks, printers and people.",
     about: "Help desk technicians are the first point of contact when technology breaks. You answer calls, chats and tickets, verify who you are helping, diagnose problems step by step, fix what you can, escalate what you can't, and document everything.",
-    scenarios: byLevel([...HELPDESK, ...HELPDESK2]),
+    scenarios: byLevel([...HELPDESK, ...HELPDESK2, ...HELPDESK3]),
   },
   {
     id: "soc-analyst",

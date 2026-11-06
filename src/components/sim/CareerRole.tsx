@@ -57,7 +57,7 @@ export function CareerRole({ role }: { role: Role }) {
             const d = progress.completed["sim:" + s.id];
             return (
               <button key={s.id} className="card sim-card" onClick={() => setActive(s)}>
-                <span><span className={"badge lvl-" + s.difficulty}>{s.difficulty}</span> <span className="muted small">{s.ticket.id} · {s.priority}</span></span>
+                <span className="chips"><span className={"chip lvl-" + s.difficulty}>{s.difficulty}</span><span className="chip prio">{s.priority}</span><span className="chip xp">+{simXp(s)} XP</span></span>
                 <strong>{s.title}</strong>
                 <span>{s.summary}</span>
                 <span className="muted small">Skills: {s.skills.join(", ")}</span>
@@ -113,9 +113,9 @@ function Runner({ scenario, onExit }: { scenario: Scenario; onExit: () => void }
 
   return (
     <section className="sim-run" aria-live="polite">
-      <button className="btn small" onClick={onExit}>← All scenarios</button>
+      <button className="back-link" onClick={onExit}><span aria-hidden="true">←</span> All scenarios</button>
       <h2>{scenario.title}</h2>
-      <p className="muted small"><span className={"badge lvl-" + scenario.difficulty}>{scenario.difficulty}</span> {scenario.ticket.id} · {scenario.priority} · {scenario.ticket.requester} via {scenario.ticket.channel}</p>
+      <div className="chips"><span className={"chip lvl-" + scenario.difficulty}>{scenario.difficulty}</span><span className="chip prio">{scenario.priority}</span><span className="chip xp">+{simXp(scenario)} XP</span></div><p className="muted small">{scenario.ticket.id} · {scenario.ticket.requester} via {scenario.ticket.channel}</p>
 
       {guide && (
         <details className="scaffold" open={scenario.difficulty === "beginner" && stepId === scenario.start}>

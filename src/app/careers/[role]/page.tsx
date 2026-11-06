@@ -19,7 +19,7 @@ export default async function RolePage({ params }: { params: Promise<{ role: str
   if (!role || role.planned) notFound();
   return (
     <>
-      <p className="muted small"><Link href="/careers">← Careers</Link></p>
+      <Link href="/careers" className="back-link"><span aria-hidden="true">←</span> Careers</Link>
       <h1>{role.title}</h1>
       <p className="muted lead">{role.blurb}</p>
       <CareerRole role={role} />

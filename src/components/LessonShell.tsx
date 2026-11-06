@@ -20,14 +20,17 @@ export function LessonShell({ lesson, trackTitle, prevId, nextId, children }: Pr
 
   return (
     <article>
-      <nav aria-label="Breadcrumb" className="crumbs">
-        <Link href="/">Home</Link> / <Link href={`/tracks/${lesson.track}`}>{trackTitle}</Link>
-      </nav>
+      <Link href={`/tracks/${lesson.track}`} className="back-link" aria-label={`Back to ${trackTitle}`}>
+        <span aria-hidden="true">←</span> {trackTitle}
+      </Link>
       <header className="lesson-head">
         <h1>{lesson.title}</h1>
-        <p className="muted">
-          {lesson.level} · ~{lesson.minutes} min · +{lesson.xp} XP {done && <span className="badge ok">Completed</span>}
-        </p>
+        <div className="chips" aria-label="Lesson details">
+          <span className={`chip lvl-${lesson.level}`}>{lesson.level}</span>
+          <span className="chip time">⏱ ~{lesson.minutes} min</span>
+          <span className="chip xp">+{lesson.xp} XP</span>
+          {done && <span className="chip done">✓ Completed</span>}
+        </div>
       </header>
       {children}
       <LabPanel lab={lesson.lab} lessonId={lesson.id} done={done} onPass={() => completeLesson(lesson.id, lesson.xp)} />
