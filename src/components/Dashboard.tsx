@@ -51,9 +51,10 @@ export function LessonList({ trackId, lessons }: { trackId: string; lessons: { i
             <span>
               <strong>{i + 1}. {l.title}</strong>
               <br />
-              <span className="muted small">{l.summary} · {l.level} · ~{l.minutes} min · +{l.xp} XP</span>
+              <span className="muted small">{l.summary}</span>
+              <span className="chips"><span className={`chip lvl-${l.level}`}>{l.level}</span><span className="chip time">⏱ ~{l.minutes} min</span><span className="chip xp">+{l.xp} XP</span></span>
             </span>
-            {p.completed[l.id] ? <span className="badge ok">Done</span> : <span className="badge">Start</span>}
+            {p.completed[l.id] ? <span className="chip done">✓ Done</span> : <span className="badge go">Start →</span>}
           </Link>
         </li>
       ))}

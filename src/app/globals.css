@@ -290,3 +290,5 @@ a.sim-card { text-decoration: none; }
 .chip.xp { color: #c084fc; background: color-mix(in srgb, #c084fc 16%, transparent); border-color: color-mix(in srgb, #c084fc 55%, transparent); }
 .chip.prio { color: #fb923c; background: color-mix(in srgb, #fb923c 15%, transparent); border-color: color-mix(in srgb, #fb923c 50%, transparent); text-transform: uppercase; }
 .chip.done { color: #052e16; background: #4ade80; }
+.badge.go { color: var(--accent2); border-color: var(--accent2); font-weight: 700; padding: 5px 14px; }
+.lesson-list a:hover .badge.go { background: var(--accent2); color: #000; }
