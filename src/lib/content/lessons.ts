@@ -9,6 +9,8 @@ import { BATCH6B_LESSONS } from "./lessons-batch6b";
 import { BATCH7_LESSONS } from "./lessons-batch7";
 import { BATCH8_LESSONS } from "./lessons-batch8";
 import { BATCH8B_LESSONS } from "./lessons-batch8b";
+import { NS1_LESSONS } from "./lessons-ns1";
+import { NS2_LESSONS } from "./lessons-ns2";
 
 const hex = (s: string) => [...s].map((c) => c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
 const caesar = (s: string, k: number) =>
@@ -80,6 +82,15 @@ export const TRACKS: Track[] = [
     description:
       "A defender's view of malware: the families and their countermeasures, hashing, reading a program's imports, monitoring behavior in an isolated lab and turning findings into indicators of compromise.",
     lessons: ["malware-types-taxonomy", "hashing-and-malware-identification", "pe-imports-static-triage", "dynamic-analysis-filters", "strings-and-initial-analysis", "pe-sections-and-packing", "malware-triage-workflow"],
+  },
+  {
+    id: "network-security",
+    title: "Network Security",
+    tagline: "Cryptography, protocols and defenses in depth",
+    icon: "ns",
+    description:
+      "A thorough, textbook-style path through network security: objectives and attacks, attack trees, symmetric and public-key cryptography, certificates and PKI, and (as the series grows) authentication, access control, TLS, IPsec, firewalls, intrusion detection and wireless security.",
+    lessons: ["ns-security-objectives", "ns-threats-attacks", "ns-attack-trees", "ns-symmetric-encryption-modes", "ns-asymmetric-signatures-pki", "ns-ipsec-vpn", "ns-tls-https", "ns-tls-handshake", "ns-authentication", "ns-password-policy", "ns-password-storage-attacks", "ns-otp-hotp"],
   },
   {
     id: "math-crypto",
@@ -745,7 +756,7 @@ function parseHeaders(raw) {
   },
 ];
 
-export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS];
+export const LESSONS: Lesson[] = [...CORE_LESSONS, ...EXTRA_LESSONS, ...BATCH3_LESSONS, ...BATCH4_LESSONS, ...BATCH5_LESSONS, ...BATCH6A_LESSONS, ...BATCH6B_LESSONS, ...BATCH7_LESSONS, ...BATCH8_LESSONS, ...BATCH8B_LESSONS, ...NS1_LESSONS, ...NS2_LESSONS];
 
 export const lessonById = (id: string) => LESSONS.find((l) => l.id === id);
 export const trackById = (id: string) => TRACKS.find((t) => t.id === id);
