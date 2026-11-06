@@ -4,7 +4,7 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT
 
 ## Automated (verified 2026-11-06)
 
-- **184 Vitest tests pass** across 11 files. They cover:
+- **185 Vitest tests pass** across 11 files. They cover:
   - Shell engine (quoting, pipes, redirects, permissions, VFS isolation) and every shell lab being solvable; host-hardening, ssh range, forensics and wargame labs.
   - Every JS lab: the solution passes and the starter fails. SQL and Python labs are *not* run by Vitest (see Manual).
   - Mini-SIEM engine, deterministic log data and the SIEM lab answers; helper glossary and local answering; number, hash and cipher tools.
@@ -30,7 +30,7 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT
 - Real mobile devices; cross-browser (only a Chromium-based pane tested); automated accessibility audit (axe), screen-reader and keyboard-only passes.
 - All auth flows (needs a live Supabase project), RLS policies, recovery-code actions.
 - Playwright end-to-end suite (not written); Lighthouse / Core Web Vitals.
-- Any deployment (Vercel). See [docs/DEPLOY.md](docs/DEPLOY.md).
+- Any deployment (Vercel). See [docs/DEPLOY.md](DEPLOY.md).
 
 ## Deliberately not written
 

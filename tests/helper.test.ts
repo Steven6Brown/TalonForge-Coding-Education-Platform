@@ -20,3 +20,11 @@ describe("built-in helper", () => {
     expect(localAnswer({ question: "zzzzqqq" }).text).toMatch(/rephras/i);
   });
 });
+
+describe("helper relevance", () => {
+  it("does not match glossary titles by substring ('port' must not return the 'import' entry)", () => {
+    const titles = searchGlossary("What is port 443?").map((e) => e.title);
+    expect(titles).toContain("Ports");
+    expect(titles).not.toContain("import");
+  });
+});

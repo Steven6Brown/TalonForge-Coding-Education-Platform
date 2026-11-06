@@ -19,7 +19,9 @@ export function searchGlossary(question: string, max = 3): Entry[] {
       if (q.includes(k) && (k.length > 2 || toks.includes(k))) score += k.length > 4 ? 3 : 2;
       else if (toks.includes(k)) score += 2;
     }
-    if (toks.some((t) => e.title.toLowerCase().includes(t) && t.length > 2)) score += 1;
+    // Match whole words in the title, not substrings ("port" must not match "import").
+    const titleWords = e.title.toLowerCase().split(/[^a-z0-9]+/);
+    if (toks.some((t) => t.length > 2 && titleWords.includes(t))) score += 1;
     return { e, score };
   })
     .filter((x) => x.score > 0)

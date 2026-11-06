@@ -20,7 +20,7 @@ CSP, HSTS (prod), `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy, Permissio
 - The model's reply is treated as untrusted text and rendered by the safe Markdown renderer. Learner code and output are wrapped in tags and the system prompt tells the model to treat them as data (a mitigation, not a guarantee against prompt injection).
 - The system prompt asks the model not to hand over full lab solutions and to decline offensive help outside authorized, defensive use. This is best-effort.
 
-Limits: the rate limiter is an in-memory map **per server instance**, so on serverless hosting (Vercel) it is a speed bump only. Use a shared store (for example Upstash Redis or Vercel KV) or edge rate limiting before enabling AI for the public. The route has not been tested against the live API (see TESTING.md).
+Limits: the rate limiter is an in-memory map **per server instance**, so on serverless hosting (Vercel) it is a speed bump only. Use a shared store (for example Upstash Redis or Vercel KV) or edge rate limiting before enabling AI for the public. The route has not been tested against the live API (see docs/TESTING.md).
 
 ## Known issues / limitations
 

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 380" width="1280" height="380" role="img" aria-labelledby="t d">
+  <title id="t">TalonForge</title>
+  <desc id="d">TalonForge: a free, hands-on academy for coding, security and IT careers, by Aquila Digital.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0e14"/>
+      <stop offset="0.6" stop-color="#101826"/>
+      <stop offset="1" stop-color="#14202f"/>
+    </linearGradient>
+    <linearGradient id="e" x1="6" y1="2" x2="34" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff8a3d"/>
+      <stop offset="1" stop-color="#3dd6f5"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff8a3d"/>
+      <stop offset="1" stop-color="#3dd6f5"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.12" cy="0.1" r="0.6">
+      <stop offset="0" stop-color="#ff8a3d" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.95" cy="0.95" r="0.6">
+      <stop offset="0" stop-color="#3dd6f5" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3dd6f5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="380" rx="18" fill="url(#bg)"/>
+  <rect width="1280" height="380" rx="18" fill="url(#glowA)"/>
+  <rect width="1280" height="380" rx="18" fill="url(#glowB)"/>
+  <rect x="1" y="1" width="1278" height="378" rx="17" fill="none" stroke="#26344a" stroke-width="2"/>
+
+  <!-- shield mark -->
+  <g transform="translate(70 70) scale(5.2)">
+    <path d="M20 2.5 34.5 8.5v12.2c0 8.3-5.9 13.9-14.5 17-8.6-3.1-14.5-8.7-14.5-17V8.5L20 2.5Z" fill="#0f1620" stroke="url(#e)" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M10.5 12.5h19.2l-3.9 5.6H10.5v-5.6Z" fill="url(#e)"/>
+    <path d="M16.6 18.1h6.8v10.6L20 33l-3.4-4.3V18.1Z" fill="url(#e)"/>
+    <path d="M20 21.6l1.5 2.3-1.5 2.3-1.5-2.3 1.5-2.3Z" fill="#0f1620"/>
+  </g>
+
+  <g font-family="'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+    <text x="305" y="148" font-size="86" font-weight="800" fill="#e6edf5">Talon<tspan fill="url(#word)">Forge</tspan></text>
+    <text x="308" y="196" font-size="30" font-weight="500" fill="#9db0c7">Forge your skills. Sharpen your talons.</text>
+    <text x="308" y="240" font-size="22" fill="#e6edf5">A free, hands-on academy for coding, security and IT careers.</text>
+
+    <!-- stat pills -->
+    <g font-size="20" font-weight="700">
+      <rect x="308" y="270" width="176" height="46" rx="23" fill="#17212f" stroke="#ff8a3d" stroke-opacity="0.7"/>
+      <text x="396" y="300" text-anchor="middle" fill="#ff8a3d">20 tracks</text>
+      <rect x="496" y="270" width="196" height="46" rx="23" fill="#17212f" stroke="#3dd6f5" stroke-opacity="0.7"/>
+      <text x="594" y="300" text-anchor="middle" fill="#3dd6f5">151 lessons</text>
+      <rect x="704" y="270" width="252" height="46" rx="23" fill="#17212f" stroke="#c084fc" stroke-opacity="0.7"/>
+      <text x="830" y="300" text-anchor="middle" fill="#c084fc">40 job scenarios</text>
+      <rect x="968" y="270" width="252" height="46" rx="23" fill="#17212f" stroke="#4ade80" stroke-opacity="0.7"/>
+      <text x="1094" y="300" text-anchor="middle" fill="#4ade80">runs in your browser</text>
+    </g>
+
+    <text x="308" y="352" font-size="16" fill="#9db0c7" letter-spacing="1.5">BY AQUILA DIGITAL  ·  PER ASPERA AD ASTRA</text>
+  </g>
+</svg>

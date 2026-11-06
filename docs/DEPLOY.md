@@ -5,7 +5,7 @@ Status: **not deployed.** This is a checklist for the first deployment. Nothing 
 ## Before you deploy
 
 1. `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` all pass locally (they did on 2026-11-06).
-2. Decide the public URL and domain. Check the **TalonForge** name for trademark and domain conflicts first (see README).
+2. Decide the public URL and domain. Check the **TalonForge** name for trademark and domain conflicts first (see the README).
 4. Accounts stay **off** (`NEXT_PUBLIC_AUTH_ENABLED=false`) until the Supabase setup in `docs/AUTH.md` is done and tested.
 
 ## Vercel project settings

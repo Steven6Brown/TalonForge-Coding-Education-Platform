@@ -3,6 +3,7 @@
 ## Unreleased (2026-11-06)
 
 ### Added
+- **Repository presentation:** new README with banner, screenshots, learning-path diagram and track tables; ARCHITECTURE, TESTING and PRIVACY moved into `docs/` with an index in the README.
 - **Careers section** (`/careers`, replaces `/simulators`, which redirects): IT Help Desk (30 scenarios) and SOC Analyst (10) at beginner, intermediate and advanced levels, graded by security procedure, customer service, technical accuracy and documentation. Beginner scenarios open with a primer of key terms and offer hints; advanced ones have no hints.
 - **Hands-on scenario steps:** simulated Windows/Linux terminal (output changes after a fix), mock admin console, write-the-ticket scored against a checklist, and SIEM evidence searches. 11 hands-on scenarios.
 - **Mini-SIEM** search engine and deterministic fictional logs; `SIEM & SOC Analyst` track (6 lessons).
@@ -15,6 +16,7 @@
 - Tests: scenario integrity, hands-on task shape, beginner audit (scaffolds, hints, prerequisites, track order, quiz coverage), Markdown tables, SIEM engine, helper, tools.
 
 ### Fixed
+- Helper matched glossary titles by substring, so "What is port 443?" also returned the unrelated `import` entry; titles now match whole words (with a test).
 - **Markdown tables never rendered** (showed raw `|` text) in every lesson; the renderer now supports them.
 - `next build` failed on lint errors (unescaped apostrophes, `prefer-const`); fixed, and lint warnings for unused code and ARIA attributes on tabs cleaned up.
 - Several simulated-shell command examples in lessons corrected after checking them against the simulator (`grep -B` is not supported; capture line format; file locations).
