@@ -26,3 +26,56 @@ If keys come from untrusted input (like a request), be careful: special keys suc
 ## Your task
 
 Turn `"key=value"` texts into an object.
+
+## Walk-through: try these in the editor
+
+**1. Create and read an object**
+
+```js
+const user = { name: "Ana", role: "admin" };
+console.log(user.name);
+console.log(user["role"]);
+```
+
+Output: `Ana` then `admin`. The braces hold `key: value` pairs separated by commas. Dot and bracket reads are two ways to say the same thing.
+
+**2. Add and change values**
+
+```js
+user.team = "blue";
+user.role = "analyst";
+console.log(user);
+```
+
+Output: `{ name: 'Ana', role: 'analyst', team: 'blue' }`. Assigning to a key that exists changes it; assigning to a new key adds it.
+
+**3. Use a variable as the key (brackets needed)**
+
+```js
+const key = "role";
+console.log(user.key);
+console.log(user[key]);
+```
+
+Output: `undefined` then `analyst`. `user.key` looks for a key literally named "key". `user[key]` uses the **value** of the variable `key`, which is `"role"`.
+
+**4. Turn `key=value` text into an object**
+
+```js
+const obj = {};
+const pair = "host=example.com";
+const eq = pair.indexOf("=");
+obj[pair.slice(0, eq)] = pair.slice(eq + 1);
+console.log(obj);
+```
+
+Output: `{ host: 'example.com' }`. Find the `=`, take what is before it as the key and after it as the value. Do this for every pair in a loop and you have the lab.
+
+## If something goes wrong
+
+- `undefined` when you read a key: it does not exist (check spelling and capitals) or you used dot notation with a variable name.
+- `TypeError: Cannot read properties of undefined`: you tried `a.b` when `a` itself is undefined.
+
+## Check yourself
+
+With `const o = { a: 1 }`, what does `o.b` give? (`undefined`, because there is no such key.)

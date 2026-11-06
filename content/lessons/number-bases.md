@@ -33,3 +33,33 @@ Group bits in fours from the right: `1011101` becomes `0101 1101` = `5d`.
 ## Your task
 
 Implement `toBase(n, base)` using the divide-and-collect-remainders method.
+
+## Walk-through: three ways to write the same number
+
+The number "twenty-six" can be written as:
+
+- **Decimal** (base 10, digits 0-9): `26`
+- **Binary** (base 2, digits 0-1): `11010`
+- **Hexadecimal** (base 16, digits 0-9 and a-f): `1a`
+
+In hex, a = 10, b = 11, c = 12, d = 13, e = 14, f = 15.
+
+**Hex to decimal.** Each place is worth 16 times the one to its right. For `1a`: 1 x 16 + 10 = **26**. For `ff`: 15 x 16 + 15 = **255** (the biggest value of one byte).
+
+**Why hex exists.** One byte (8 bits) is always exactly two hex digits: `11111111` is `ff`, `00001010` is `0a`. It is a compact way to read binary. That is why colors (`#ff0000`), MAC addresses and hashes are written in hex.
+
+**Binary to hex in your head.** Split the bits into groups of four from the right and convert each group: `1010 1111` is `a` and `f`, so `af`.
+
+## Using JavaScript to check yourself
+
+```js
+console.log(parseInt("1a", 16));     // 26   (text in base 16 -> number)
+console.log((26).toString(2));        // "11010"
+console.log((255).toString(16));      // "ff"
+```
+
+`parseInt(text, base)` reads text in the base you give. `number.toString(base)` writes a number in that base.
+
+## Check yourself
+
+What is `0x10` in decimal? (16.) What is 100 in hex? (`64`: 6 x 16 + 4.)
