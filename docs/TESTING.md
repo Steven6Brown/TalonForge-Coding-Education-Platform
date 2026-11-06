@@ -1,7 +1,5 @@
 # Testing
 
-Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT_DIST_DIR=.next-verify` so a verification build does not overwrite a running `next dev`).
-
 ## Automated (verified 2026-11-06)
 
 - **185 Vitest tests pass** across 11 files. They cover:
@@ -11,7 +9,7 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT
   - **Career scenarios (40):** every step links to a real step, no cycles, a best path earns points, every scenario has a first-timer guide, hands-on task shape (terminal command patterns match their examples, required ids exist, console selects contain their correct option, ticket and SIEM tasks are well formed).
   - **Beginner audit:** every code lab has concepts and a plan, at least two hints, valid prerequisite links that come earlier in the curriculum; every track has a recommended path with no circular dependencies; quiz answers' key words appear in their lesson text (rough word-match heuristic, up to 3 misses tolerated).
   - **Markdown:** tables parse, pipes inside inline code are kept, and every table in every lesson has consistent columns and none is left as raw text.
-- `tsc --noEmit` passes. `next lint` passes with **0 errors and 0 warnings**. `next build` passes (verified 2026-11-06 with `NEXT_DIST_DIR=.next-verify`).
+- `tsc --noEmit` passes. `next lint` passes with **0 errors and 0 warnings**. `next build` passes (verified 2026-11-06).
 - History: `next build` was *failing* on lint errors (unescaped apostrophes, `prefer-const`) until this date. They were fixed; the build now succeeds.
 
 ## Manual (in-app browser, dev server)
@@ -30,7 +28,6 @@ Run: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build` (use `NEXT
 - Real mobile devices; cross-browser (only a Chromium-based pane tested); automated accessibility audit (axe), screen-reader and keyboard-only passes.
 - All auth flows (needs a live Supabase project), RLS policies, recovery-code actions.
 - Playwright end-to-end suite (not written); Lighthouse / Core Web Vitals.
-- Any deployment (Vercel). See [docs/DEPLOY.md](DEPLOY.md).
 
 ## Deliberately not written
 

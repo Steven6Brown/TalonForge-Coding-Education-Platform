@@ -81,24 +81,6 @@ Each track page shows a **"Do these first"** box so subjects build on each other
 
 Scenarios are graded on **security procedure, customer service, technical accuracy and documentation**. Beginner scenarios explain every term and offer hints; advanced ones don't. Everything is fictional, and completing a scenario is practice, **not** a credential or work experience.
 
-## Quick start
-
-```bash
-git clone https://github.com/Steven6Brown/TalonForge-Coding-Education-Platform.git
-cd TalonForge-Coding-Education-Platform
-npm install
-npm run dev          # http://localhost:3000
-```
-
-```bash
-npm test             # 185 tests
-npm run typecheck
-npm run lint
-npm run build && npm start
-```
-
-Requires Node 20+. Accounts are **off by default**; no environment variables are needed to run. See [`.env.example`](.env.example) for the optional ones.
-
 ## How it is built
 
 - **Next.js 15 (App Router) + React 19 + TypeScript.** Lessons are Markdown files rendered by a small safe renderer (never raw HTML).
@@ -114,7 +96,7 @@ src/lib/siem/           Search engine and fictional log data
 src/lib/sim/            Career scenarios and hands-on tasks
 src/components/         UI (labs, careers, tools, helper)
 src/brands/             White-label brand configs
-docs/                   Guides (authoring, deploy, architecture, testing, privacy, auth)
+docs/                   Guides (authoring, architecture, testing, privacy, auth)
 ```
 
 ## Documentation
@@ -127,7 +109,6 @@ docs/                   Guides (authoring, deploy, architecture, testing, privac
 | [Security model](SECURITY.md) | Sandboxing, hardening, known limitations |
 | [Privacy](docs/PRIVACY.md) | What is stored, what is sent, and when |
 | [Testing and status](docs/TESTING.md) | What is verified and, just as important, what is **not** |
-| [Deploying to Vercel](docs/DEPLOY.md) | First-deploy checklist |
 | [Accounts (Supabase)](docs/AUTH.md) | Auth feature map and setup |
 | [Changelog](CHANGELOG.md) | What changed and when |
 
@@ -137,9 +118,9 @@ TalonForge is **pre-launch**. It has not been deployed yet, and some things are 
 
 **Roadmap:** more advanced scenarios, Sysadmin / Network Technician / GRC roles, an "experience log" you can share, self-hosted Python and SQL engines, and nonce-based CSP.
 
-## White-labeling
+## White-label ready
 
-Copy `src/brands/talonforge.ts`, change the name, colors and ranks, register it in `src/brands/index.ts`, and build with `NEXT_PUBLIC_BRAND=<id>`. One deployment per tenant for now.
+A single brand configuration controls the name, colors, ranks and footer, so the platform can be re-skinned for other organizations.
 
 ## Responsible use
 

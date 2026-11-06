@@ -20,19 +20,6 @@ The code is complete and **switched off** via `NEXT_PUBLIC_AUTH_ENABLED=false`. 
 | Open-redirect protection | `lib/auth/redirect.ts` | Tested |
 | Passkeys | **Not implemented** | `passkeysSupported=false`; seam in `AuthProvider`. Button is disabled |
 
-## Turn it on (checklist)
-
-1. Create a Supabase project. Run `supabase/migrations/0001_init.sql` in the SQL editor.
-2. Copy URL + anon key + service-role key into `.env.local` (never commit). Set `NEXT_PUBLIC_AUTH_ENABLED=true`.
-3. Auth > URL Configuration: Site URL = your domain; add redirect URLs `<site>/auth/callback` and `<site>/auth/confirm`.
-4. Auth > Email Templates: change links to token-hash form so server verification works:
-   - Confirm signup: `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=signup`
-   - Reset password: `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next=/reset-password`
-5. Auth > Providers: enable Email (confirm email ON), GitHub, Google (needs OAuth apps). Enable **MFA (TOTP)**.
-6. Auth > Settings: password min length 12, leaked-password protection (Pro plan), tune rate limits, set up a custom SMTP sender for production email.
-7. Make yourself admin (SQL at bottom of the migration).
-8. Test: signup, verify, login, reset, MFA enroll + recovery code, logout, admin page, RLS (a second user must not see your data).
-
 ## Known gaps / decisions
 
 - **Lockout:** brute-force protection relies on Supabase's server rate limits; the client back-off is UX only. A custom per-account lockout would need a server login proxy (deferred).
